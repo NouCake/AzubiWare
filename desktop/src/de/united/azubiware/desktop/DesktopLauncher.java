@@ -2,7 +2,7 @@ package de.united.azubiware.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import de.united.azubiware.AzubiWareMain;
+import de.united.azubiware.AzubiWareGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -10,6 +10,6 @@ public class DesktopLauncher {
 
 		config.title = "AzubiWare";
 
-		new LwjglApplication(new AzubiWareMain(), config);
+		new LwjglApplication(new AzubiWareGame(), config);
 	}
 }
