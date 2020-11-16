@@ -7,6 +7,9 @@ import de.united.azubiware.AzubiWareMain;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+
+		config.title = "AzubiWare";
+
 		new LwjglApplication(new AzubiWareMain(), config);
 	}
 }
