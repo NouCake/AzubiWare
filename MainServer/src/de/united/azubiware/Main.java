@@ -14,6 +14,7 @@ public class Main{
             @Override
             public void onOpen(WebSocket conn, ClientHandshake handshake) {
                 System.out.println("Connected");
+                conn.send("30");
             }
 
             @Override
