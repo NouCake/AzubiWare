@@ -1,3 +1,2 @@
-include 'desktop', 'android', 'html', 'core'
-include 'MainServer'
+include 'MainServer', 'desktop', 'android', 'html', 'core'
 
