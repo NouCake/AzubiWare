@@ -26,7 +26,6 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
         super(new InetSocketAddress(PORT));
 
         connectedSockets = new LinkedList<>();
-        start();
     }
 
     private WebSocketConnection getConnectionFromSocket(WebSocket socket){
@@ -64,16 +63,14 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
     @Override
     public void onMessage(WebSocket socket, String message) {
-        System.out.println("Got Message " + message);
+        System.out.println("Got Message: " + message);
         WebSocketConnection connection = getConnectionFromSocket(socket);
 
         IPacket packet = PacketParser.createPacketFromJson(message);
         if(packet == null){
-            System.out.println("Error with message: " + message);
             connection.send(new ErrorResponsePacket("Error while parsing the Package"));
             return;
         }
-        System.out.println("MessageType: " + packet.getClass().getSimpleName());
 
         if(listener != null) this.listener.onMessage(connection, packet);
     }

@@ -1,6 +1,7 @@
 package de.united.azubiware.Packets.Handler;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import de.united.azubiware.Packets.IPacket;
 import org.reflections.Reflections;
@@ -9,12 +10,12 @@ import java.util.HashMap;
 
 public class PacketParser {
 
-    private final static Gson gson = new Gson();
     private static HashMap<Integer, Class<?>> packetClasses = new HashMap<>();
-
+    private final static Gson gson = new Gson();
     static {
         collectTypeClasses();
     }
+
     public static int getTypeFromPacketClass(Class<?> c){
         try {
             return  c.getField("type").getInt(null);
@@ -35,8 +36,8 @@ public class PacketParser {
     public static IPacket createPacketFromJson(String jsonString){
         try{
             JsonElement json = gson.fromJson(jsonString, JsonElement.class).getAsJsonObject();
-            int packetType = json.getAsJsonObject().get("type").getAsInt();
 
+            int packetType = json.getAsJsonObject().get("type").getAsInt();
             if(!packetClasses.containsKey(packetType)) return null;
 
             Class<?> packetClass = packetClasses.get(packetType);

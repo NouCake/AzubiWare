@@ -9,20 +9,20 @@ import de.united.azubiware.Packets.LoginPacket;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserConnectionListener implements IConnectionListener{
+public class UserConnectionManager implements IConnectionListener{
 
     private List<IUser> connectedUsers;
     private final IUserListener listener;
     private final IUserDatabase manager;
 
-    public UserConnectionListener(IUserListener listener, IUserDatabase manager) {
+    public UserConnectionManager(IUserListener listener, IUserDatabase manager) {
         this.listener = listener;
         this.manager = manager;
 
         connectedUsers = new LinkedList<>();
     }
 
-    private IUser getUserFromConnection(IConnection connection){
+    public IUser getUserFromConnection(IConnection connection){
         for(IUser user : connectedUsers){
             if(user.getConnection() == connection) return user;
         }

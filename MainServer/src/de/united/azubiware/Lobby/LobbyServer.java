@@ -2,14 +2,15 @@ package de.united.azubiware.Lobby;
 
 import de.united.azubiware.Connection.IConnectionListener;
 import de.united.azubiware.Connection.IConnectionManager;
-import de.united.azubiware.Connection.UserConnectionListener;
+import de.united.azubiware.Connection.UserConnectionManager;
 import de.united.azubiware.Connection.WebSocket.IUserListener;
 import de.united.azubiware.Connection.WebSocket.WebSocketConnectionManager;
 import de.united.azubiware.Matches.IMatch;
 import de.united.azubiware.Matches.TTTMatch;
+import de.united.azubiware.Packets.Handler.IPacketHandler;
 import de.united.azubiware.Packets.IPacket;
-import de.united.azubiware.Packets.Handler.IUserPacketHandler;
 import de.united.azubiware.Packets.MatchInfoPacket;
+import de.united.azubiware.Packets.WelcomePacket;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.User.IUserDatabase;
 import de.united.azubiware.User.SimpleUserDatabase;
@@ -21,20 +22,21 @@ public class LobbyServer implements ILobby, IUserListener {
 
     private List<IUser> queue;
 
-    private final IUserPacketHandler packetHandler;
+    private final IPacketHandler packetHandler;
     private final IUserDatabase userDB;
     private final IConnectionManager connectionManager;
 
     public LobbyServer(){
         queue = new LinkedList<>();
 
-        packetHandler = new LobbyPacketHandler(this);
         userDB = new SimpleUserDatabase();
-
-        IConnectionListener connectionListener = new UserConnectionListener(this, userDB);
+        UserConnectionManager connectionListener = new UserConnectionManager(this, userDB);
+        packetHandler = new LobbyPacketHandler(this, connectionListener);
 
         connectionManager = new WebSocketConnectionManager();
         connectionManager.setConnectionListener(connectionListener);
+
+        connectionManager.start();
     }
 
     private void tryMatchmaking(){
@@ -55,13 +57,13 @@ public class LobbyServer implements ILobby, IUserListener {
     @Override
     public void onPacket(IUser user, IPacket packet) {
         System.out.println("Got Packet " + packet.getClass().getSimpleName());
-        packetHandler.onPacket(user, packet);
+        packetHandler.onPacket(user.getConnection(), packet);
     }
 
     @Override
     public void onLogin(IUser user) {
-        //Send Welcome
         System.out.println("User logged in " + user.getName());
+        user.send(new WelcomePacket(user.getName()));
     }
 
     @Override
