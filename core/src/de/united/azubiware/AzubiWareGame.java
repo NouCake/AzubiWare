@@ -1,26 +1,30 @@
 package de.united.azubiware;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import de.united.azubiware.screens.MainMenu;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import de.united.azubiware.login.ActionResolver;
+import de.united.azubiware.screens.SplashScreen;
 
 public class AzubiWareGame extends Game {
 
-	public Stage stage;
-	public BitmapFont font;
+	ActionResolver resolver;
+	boolean initiatedSignIn = false;
+	BitmapFont font;
 
-	public int width;
-	public int height;
+	public AzubiWareGame(ActionResolver resolver){
+		this.resolver = resolver;
+	}
 
 	@Override
 	public void create() {
-		stage = new Stage(new ScreenViewport());
-		font = new BitmapFont();
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/8-bitArcadeIn.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 32;
+		font = generator.generateFont(parameter);
 
-		this.setScreen(new MainMenu(this));
+		this.setScreen(new SplashScreen(this));
 	}
 
 	public void render() {
@@ -28,6 +32,18 @@ public class AzubiWareGame extends Game {
 	}
 
 	public void dispose() {
-		stage.dispose();
+	}
+
+	public void initateSignIn(){
+		initiatedSignIn = true;
+		resolver.signIn();
+	}
+
+	public boolean isInitiatedSignIn() {
+		return initiatedSignIn;
+	}
+
+	public BitmapFont getFont() {
+		return font;
 	}
 }
