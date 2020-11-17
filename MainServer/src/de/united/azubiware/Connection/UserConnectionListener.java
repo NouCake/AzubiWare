@@ -1,20 +1,25 @@
 package de.united.azubiware.Connection;
 
 import de.united.azubiware.Connection.WebSocket.IUserListener;
-import de.united.azubiware.IUser;
-import de.united.azubiware.Packets.Handler.IPacket;
+import de.united.azubiware.User.IUser;
+import de.united.azubiware.User.IUserDatabase;
+import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.LoginPacket;
-import de.united.azubiware.User;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class UserConnectionListener implements IConnectionListener{
 
     private List<IUser> connectedUsers;
     private final IUserListener listener;
+    private final IUserDatabase manager;
 
-    public UserConnectionListener(IUserListener listener) {
+    public UserConnectionListener(IUserListener listener, IUserDatabase manager) {
         this.listener = listener;
+        this.manager = manager;
+
+        connectedUsers = new LinkedList<>();
     }
 
     private IUser getUserFromConnection(IConnection connection){
@@ -27,7 +32,11 @@ public class UserConnectionListener implements IConnectionListener{
         if(!(packet instanceof LoginPacket)) return null;
         LoginPacket loginPacket = (LoginPacket) packet;
 
-        IUser user = new User(loginPacket.getUsername(), connection);
+        IUser user = manager.getUserFromLoginPacket(loginPacket, connection);
+        if(user == null) {
+            return null;
+        }
+
         connectedUsers.add(user);
         listener.onLogin(user);
         return user;
@@ -39,7 +48,7 @@ public class UserConnectionListener implements IConnectionListener{
 
         if(user == null) { // => User is not logged in
             user = tryLogin(connection, packet);
-            if(user == null) return;
+            return;
         }
 
         listener.onPacket(user, packet);

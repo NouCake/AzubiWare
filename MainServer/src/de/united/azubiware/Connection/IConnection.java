@@ -1,6 +1,6 @@
 package de.united.azubiware.Connection;
 
-import de.united.azubiware.Packets.Handler.IPacket;
+import de.united.azubiware.Packets.IPacket;
 
 public interface IConnection {
 

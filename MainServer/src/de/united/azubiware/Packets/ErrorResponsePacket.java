@@ -1,18 +1,12 @@
 package de.united.azubiware.Packets;
 
-import de.united.azubiware.Packets.Handler.IPacket;
-
 public class ErrorResponsePacket implements IPacket {
-    public static final int typeID = 5;
 
-    private String errorMessage;
+    public static final int type = 3;
+    private String error;
 
-    public ErrorResponsePacket(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public ErrorResponsePacket(String error) {
+        this.error = error;
     }
 
-    @Override
-    public Object getData() {
-        return errorMessage;
-    }
 }

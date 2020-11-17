@@ -4,7 +4,7 @@ import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionListener;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Packets.ErrorResponsePacket;
-import de.united.azubiware.Packets.Handler.IPacket;
+import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.Handler.PacketParser;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -43,9 +43,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     @Override
     public void sendMessage(IConnection connection, IPacket packet) {
         WebSocketConnection websocket = (WebSocketConnection) connection;
-
-        //TODO
-        websocket.getSocket().send(packet.getData().toString());
+        websocket.getSocket().send(packet.toJsonString());
     }
 
     // WebSocketServer
@@ -66,13 +64,16 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
     @Override
     public void onMessage(WebSocket socket, String message) {
+        System.out.println("Got Message " + message);
         WebSocketConnection connection = getConnectionFromSocket(socket);
 
         IPacket packet = PacketParser.createPacketFromJson(message);
         if(packet == null){
+            System.out.println("Error with message: " + message);
             connection.send(new ErrorResponsePacket("Error while parsing the Package"));
             return;
         }
+        System.out.println("MessageType: " + packet.getClass().getSimpleName());
 
         if(listener != null) this.listener.onMessage(connection, packet);
     }

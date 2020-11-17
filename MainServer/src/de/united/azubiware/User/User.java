@@ -1,6 +1,7 @@
-package de.united.azubiware;
+package de.united.azubiware.User;
 
 import de.united.azubiware.Connection.IConnection;
+import de.united.azubiware.Packets.IPacket;
 
 import java.util.UUID;
 
@@ -30,4 +31,10 @@ public class User implements IUser {
     public IConnection getConnection() {
         return connection;
     }
+
+    @Override
+    public void send(IPacket packet){
+        connection.send(packet);
+    }
+
 }

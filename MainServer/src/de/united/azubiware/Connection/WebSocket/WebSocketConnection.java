@@ -1,7 +1,7 @@
 package de.united.azubiware.Connection.WebSocket;
 
 import de.united.azubiware.Connection.IConnection;
-import de.united.azubiware.Packets.Handler.IPacket;
+import de.united.azubiware.Packets.IPacket;
 import org.java_websocket.WebSocket;
 
 public class WebSocketConnection implements IConnection {

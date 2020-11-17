@@ -1,7 +1,8 @@
-package de.united.azubiware;
+package de.united.azubiware.Lobby;
 
 
 import de.united.azubiware.Packets.Handler.IUserPacketHandler;
+import de.united.azubiware.User.IUser;
 
 public interface ILobby extends IUserPacketHandler {
 

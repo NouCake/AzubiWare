@@ -1,7 +1,7 @@
 package de.united.azubiware.Matches;
 
-import de.united.azubiware.IUser;
 import de.united.azubiware.Packets.MatchInfoPacket;
+import de.united.azubiware.User.IUser;
 
 import java.util.LinkedList;
 import java.util.List;
