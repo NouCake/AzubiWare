@@ -2,9 +2,8 @@ package de.united.azubiware.Connection;
 
 import de.united.azubiware.Connection.WebSocket.IUserListener;
 import de.united.azubiware.IUser;
-import de.united.azubiware.Packets.ILoginPacket;
-import de.united.azubiware.Packets.IPacket;
-import de.united.azubiware.Packets.PacketParser;
+import de.united.azubiware.Packets.Handler.IPacket;
+import de.united.azubiware.Packets.LoginPacket;
 import de.united.azubiware.User;
 
 import java.util.List;
@@ -25,8 +24,8 @@ public class UserConnectionListener implements IConnectionListener{
         return null;
     }
     private IUser tryLogin(IConnection connection, IPacket packet){
-        if(!(packet instanceof ILoginPacket)) return null;
-        ILoginPacket loginPacket = (ILoginPacket) packet;
+        if(!(packet instanceof LoginPacket)) return null;
+        LoginPacket loginPacket = (LoginPacket) packet;
 
         IUser user = new User(loginPacket.getUsername(), connection);
         connectedUsers.add(user);

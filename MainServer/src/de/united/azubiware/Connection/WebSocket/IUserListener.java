@@ -1,7 +1,7 @@
 package de.united.azubiware.Connection.WebSocket;
 
 import de.united.azubiware.IUser;
-import de.united.azubiware.Packets.IPacket;
+import de.united.azubiware.Packets.Handler.IPacket;
 
 public interface IUserListener {
 

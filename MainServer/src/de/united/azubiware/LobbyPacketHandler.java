@@ -1,7 +1,7 @@
-package de.united.azubiware.Packets;
+package de.united.azubiware;
 
-import de.united.azubiware.ILobby;
-import de.united.azubiware.IUser;
+import de.united.azubiware.Packets.Handler.IPacket;
+import de.united.azubiware.Packets.Handler.IUserPacketHandler;
 
 public class LobbyPacketHandler implements IUserPacketHandler {
 
@@ -11,8 +11,8 @@ public class LobbyPacketHandler implements IUserPacketHandler {
         this.lobby = lobby;
     }
 
-    private void onQueueStartPacket(IUser user, IQueueStartPacket packet){
-        lobby.startQueueing(user, packet);
+    private void onQueueStartPacket(IUser user){
+        lobby.startQueueing(user);
     }
 
     @Override

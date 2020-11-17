@@ -4,8 +4,8 @@ import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionListener;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Packets.ErrorResponsePacket;
-import de.united.azubiware.Packets.IPacket;
-import de.united.azubiware.Packets.PacketParser;
+import de.united.azubiware.Packets.Handler.IPacket;
+import de.united.azubiware.Packets.Handler.PacketParser;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -68,12 +68,9 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     public void onMessage(WebSocket socket, String message) {
         WebSocketConnection connection = getConnectionFromSocket(socket);
 
-        IPacket packet;
-        try {
-            packet = PacketParser.createPacketFromString(message);
-        } catch (Exception e) {
+        IPacket packet = PacketParser.createPacketFromJson(message);
+        if(packet == null){
             connection.send(new ErrorResponsePacket("Error while parsing the Package"));
-            e.printStackTrace();
             return;
         }
 

@@ -1,6 +1,7 @@
 package de.united.azubiware.Matches;
 
 import de.united.azubiware.IUser;
+import de.united.azubiware.Packets.MatchInfoPacket;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +34,8 @@ public class TTTMatch implements IMatch {
     }
 
     @Override
-    public void abortMatch() {
-
+    public MatchInfoPacket getMatchInfoPacket() {
+        return null;
     }
+
 }
