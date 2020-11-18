@@ -1,18 +1,18 @@
 package de.united.azubiware.desktop;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.desktop.login.ActionResolverDesktop;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		ActionResolverDesktop actionResolverDesktop = new ActionResolverDesktop();
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-		config.title = "AzubiWare";
-		config.resizable = false;
+		config.setTitle("AzubiWare");
+		config.setResizable(false);
 
-		new LwjglApplication(new AzubiWareGame(actionResolverDesktop), config);
+		new Lwjgl3Application(new AzubiWareGame(actionResolverDesktop), config);
 	}
 }
