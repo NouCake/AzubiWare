@@ -1,4 +1,4 @@
-package de.united.azubiware.screens;
+package de.united.azubiware.screens.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,29 +7,25 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.screens.minigames.TicTacToeScreen;
+import de.united.azubiware.utility.Clouds;
 import de.united.azubiware.utility.MiniGamePaginator;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MainMenuScreen implements Screen {
 
     final AzubiWareGame game;
+    private Clouds clouds;
 
     Button playButton;
     Button quitButton;
@@ -54,8 +50,10 @@ public class MainMenuScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundForest.png"));
         backgroundSprite = new Sprite(backgroundTexture);
 
-        this.playButton = new Button(createPlayButtonStyle());
-        this.quitButton = new Button(createQuitButtonStyle());
+        MenuButtonStyler buttonStyler = new MenuButtonStyler();
+
+        this.playButton = new Button(buttonStyler.createButtonStyle("play"));
+        this.quitButton = new Button(buttonStyler.createButtonStyle("quit"));
 
         playButton.setPosition((stage.getWidth()/2f)-95, stage.getHeight()/4.5f);
 
@@ -73,14 +71,14 @@ public class MainMenuScreen implements Screen {
         label.setPosition(stage.getWidth()/2f-150, playButton.getY() - playButton.getHeight()/2 - 30);
         label.setVisible(false);
 
-        leftButton = new Button(createArrowStyle("Left"));
+        leftButton = new Button(buttonStyler.createArrowStyle("Left"));
         leftButton.setPosition(playButton.getX()-(playButton.getWidth()/2), stage.getHeight()/4.5f);
         leftButton.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/click2.ogg"));
-                sound.play();
                 if(!leftButton.isDisabled()){
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/click2.ogg"));
+                    sound.play();
                     if(paginator.hasPrev()) {
                         paginator.prev();
                     }else{
@@ -91,14 +89,14 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        rightButton = new Button(createArrowStyle("Right"));
+        rightButton = new Button(buttonStyler.createArrowStyle("Right"));
         rightButton.setPosition(playButton.getX()+(playButton.getWidth()/2)+rightButton.getWidth()*2, stage.getHeight()/4.5f);
         rightButton.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/click2.ogg"));
-                sound.play();
                 if(!rightButton.isDisabled()){
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/click2.ogg"));
+                    sound.play();
                     if(paginator.hasNext()) {
                         paginator.next();
                     }else{
@@ -162,8 +160,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(rightButton);
 
         paginator = new MiniGamePaginator(stage);
-
-        createClouds();
+        clouds = new Clouds(stage);
     }
 
     public void drawBackground(){
@@ -191,7 +188,7 @@ public class MainMenuScreen implements Screen {
         stage.act();
         drawBackground();
         stage.draw();
-        moveClouds();
+        clouds.moveClouds();
 
         paginator.paginate();
     }
@@ -235,85 +232,6 @@ public class MainMenuScreen implements Screen {
                     dispose();
                     game.setScreen(new TicTacToeScreen(game));
                 }
-            }
-        }
-    }
-
-    public Button.ButtonStyle createPlayButtonStyle(){
-        Texture playTextureUp = new Texture(Gdx.files.internal("buttons/play/button_play.png"));
-        Drawable playDrawableUp = new TextureRegionDrawable(new TextureRegion(playTextureUp));
-
-        Texture playTextureDown = new Texture(Gdx.files.internal("buttons/play/button_play_down.png"));
-        Drawable playDrawableDown = new TextureRegionDrawable(new TextureRegion(playTextureDown));
-
-        Button.ButtonStyle playStyle = new Button.ButtonStyle();
-
-        playStyle.up = playDrawableUp;
-        playStyle.down = playDrawableDown;
-        playStyle.over = playDrawableDown;
-
-        return playStyle;
-    }
-
-    public Button.ButtonStyle createQuitButtonStyle(){
-        Texture quitTextureUp = new Texture(Gdx.files.internal("buttons/quit/button_quit.png"));
-        Drawable quitDrawableUp = new TextureRegionDrawable(new TextureRegion(quitTextureUp));
-
-        Texture quitTextureDown = new Texture(Gdx.files.internal("buttons/quit/button_quit_down.png"));
-        Drawable quitDrawableDown = new TextureRegionDrawable(new TextureRegion(quitTextureDown));
-
-        Button.ButtonStyle quitStyle = new Button.ButtonStyle();
-
-        quitStyle.up = quitDrawableUp;
-        quitStyle.down = quitDrawableDown;
-        quitStyle.over = quitDrawableDown;
-
-        return quitStyle;
-    }
-
-    public Button.ButtonStyle createArrowStyle(String direction){
-        Texture blueTexture = new Texture(Gdx.files.internal("buttons/arrows/blue_slider" + direction + ".png"));
-        Texture yellowTexture = new Texture(Gdx.files.internal("buttons/arrows/yellow_slider" + direction + ".png"));
-
-        Drawable blueDrawable = new TextureRegionDrawable(new TextureRegion(blueTexture));
-        Drawable yellowDrawable = new TextureRegionDrawable(new TextureRegion(yellowTexture));
-
-        Button.ButtonStyle arrowStyle = new Button.ButtonStyle();
-
-        arrowStyle.up = blueDrawable;
-        arrowStyle.disabled = yellowDrawable;
-        arrowStyle.over = yellowDrawable;
-        arrowStyle.down = yellowDrawable;
-
-        return arrowStyle;
-    }
-
-    List<Image> clouds;
-
-    public void createClouds(){
-        clouds = new ArrayList<>();
-        int cloudAmount = 4+new Random().nextInt(4);
-        for(int i = 0; i < cloudAmount; i++){
-            Texture texture = new Texture(Gdx.files.internal("backgrounds/clouds/cloud" + (new Random().nextInt(8)+1) + ".png"));
-            Image image = new Image(texture);
-            image.setSize(90f, 90f);
-            image.setPosition(stage.getWidth()/2f, stage.getHeight()/2f);
-            if(new Random().nextInt(30) >= 14){
-                image.setPosition(stage.getWidth()/2f-(new Random().nextInt((int) (stage.getWidth()/2))+2), stage.getHeight()-(100+(new Random().nextInt(10))));
-            }else{
-                image.setPosition(stage.getWidth()/2f+(new Random().nextInt((int) (stage.getWidth()/2))+2), stage.getHeight()-(100+(new Random().nextInt(10))));
-            }
-            clouds.add(image);
-            stage.addActor(image);
-        }
-    }
-
-    public void moveClouds(){
-        for(Image cloud : clouds){
-            if(cloud.getX() < stage.getWidth()+95) {
-                cloud.setX(cloud.getX() + 0.15f);
-            }else{
-                cloud.setX(-100);
             }
         }
     }

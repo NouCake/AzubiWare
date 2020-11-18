@@ -4,16 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -21,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.screens.menu.MainMenuScreen;
 
 public class LoginScreen implements Screen {
 
@@ -77,7 +75,7 @@ public class LoginScreen implements Screen {
                 if(playButton.isVisible() && !playButton.isDisabled()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/click2.ogg"));
                     sound.play();
-                    if(usernameField.getText().length() > 5 && usernameField.getText().length() < usernameField.getMaxLength()){
+                    if(usernameField.getText().length() >= 5 && usernameField.getText().length() < usernameField.getMaxLength()){
                         /*
                         LOGIN
                          */

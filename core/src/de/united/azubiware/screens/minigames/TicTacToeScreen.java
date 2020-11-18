@@ -27,24 +27,33 @@ public class TicTacToeScreen implements Screen {
 
         backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundCastles.png"));
         backgroundSprite = new Sprite(backgroundTexture);
-
-        createButtons();
     }
 
     public void drawBackground(){
         stage.getBatch().begin();
         stage.getBatch().draw(backgroundSprite, 0, 0, stage.getWidth(), stage.getHeight());
+        drawLines();
+        stage.getBatch().end();
+    }
 
+
+
+    public void drawLines(){
         float centerX = stage.getWidth()/2;
         float centerY = stage.getHeight()/2;
 
-        float lineLength = stage.getWidth()*0.8f;
+        float lineLength = stage.getWidth()*0.5f;
         float lineThickness = 5f;
 
-        Texture texture = new Texture(Gdx.files.internal("line.png"));
-        stage.getBatch().draw(texture, centerX-lineLength/2, centerY, lineLength, lineThickness);
+        float fieldSize = ((stage.getWidth()*0.5f)-10f)/3;
 
-        stage.getBatch().end();
+        Texture texture = new Texture(Gdx.files.internal("line.png"));
+
+        stage.getBatch().draw(texture, centerX-lineLength/2, centerY-(fieldSize/2+5f), lineLength, lineThickness);
+        stage.getBatch().draw(texture, centerX-lineLength/2, centerY+(fieldSize/2+5f), lineLength, lineThickness);
+
+        stage.getBatch().draw(texture, centerX-(fieldSize/2+5f), centerY-lineLength/2, lineThickness, lineLength);
+        stage.getBatch().draw(texture, centerX+(fieldSize/2+5f), centerY-lineLength/2, lineThickness, lineLength);
     }
 
     public void createButtons(){
