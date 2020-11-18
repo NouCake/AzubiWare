@@ -48,6 +48,7 @@ public class PortManager {
 
         private Port(int port) {
             this.port = port;
+            free = new AtomicBoolean();
         }
 
         public boolean use(){

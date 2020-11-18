@@ -3,13 +3,14 @@ package de.united.azubiware.Matches;
 import de.united.azubiware.Packets.MatchConnectionInfoPacket;
 import de.united.azubiware.User.IUser;
 
-import java.util.List;
+import java.util.UUID;
 
 public interface IMatch {
 
     int getMatchType();
-    List<IUser> getUserList();
-    MatchConnectionInfoPacket getMatchInfoPacket();
+    IUser[] getUserList();
     void setMatchListener(IMatchListener listener);
+    void start();
+    MatchConnectionInfoPacket getMatchInfoPacket(UUID user);
 
 }

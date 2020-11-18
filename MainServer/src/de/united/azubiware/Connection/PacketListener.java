@@ -5,15 +5,17 @@ import de.united.azubiware.Packets.IPacket;
 
 public class PacketListener implements IConnectionListener{
 
-    private final IPacketHandler handler;
+    private final IPacketHandler[] handlers;
 
-    public PacketListener(IPacketHandler handler) {
-        this.handler = handler;
+    public PacketListener(IPacketHandler ...handlers) {
+        this.handlers = handlers;
     }
 
     @Override
     public void onMessage(IConnection connection, IPacket packet) {
-        handler.onPacket(connection, packet);
+        for(IPacketHandler handler : handlers){
+            handler.onPacket(connection, packet);
+        }
     }
 
     @Override

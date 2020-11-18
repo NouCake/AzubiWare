@@ -9,23 +9,23 @@ import java.util.UUID;
 
 public class SimpleUserDatabase implements IUserDatabase {
 
-    private List<IUser> users;
+    private List<IUserConnection> users;
 
     public SimpleUserDatabase(){
         users = new LinkedList<>();
     }
 
     @Override
-    public IUser getUserFromUUID(UUID id) {
-        for(IUser user : users){
+    public IUserConnection getUserFromUUID(UUID id) {
+        for(IUserConnection user : users){
             if(user.getId().equals(id)) return user;
         }
         return null;
     }
 
     @Override
-    public IUser getUserFromLoginPacket(LoginPacket packet, IConnection connection) {
-        IUser user = new User(packet.getUsername(), connection);
+    public IUserConnection getUserFromLoginPacket(LoginPacket packet, IConnection connection) {
+        IUserConnection user = new User(packet.getUsername(), connection);
         users.add(user);
         return user;
     }

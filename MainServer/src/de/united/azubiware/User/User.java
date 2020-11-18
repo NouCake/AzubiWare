@@ -5,7 +5,7 @@ import de.united.azubiware.Packets.IPacket;
 
 import java.util.UUID;
 
-public class User implements IUser {
+public class User implements IUserConnection {
 
     private final UUID id;
     private final String name;
