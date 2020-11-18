@@ -30,9 +30,6 @@ public class MainMenuScreen extends ScreenAdapter {
     private Clouds clouds;
     private MenuButtonManager buttonManager;
 
-    Button leftButton;
-    Button rightButton;
-
     Label label;
 
     Texture backgroundTexture;
@@ -111,14 +108,12 @@ public class MainMenuScreen extends ScreenAdapter {
                 waiting = new Random().nextInt(10)+1;
             label.setText(waiting + " in queue");
             lastUpdated = TimeUtils.millis();
-            /*
             if(new Random().nextBoolean() && new Random().nextBoolean()){
                 if(paginator.getCurrent() == 0) {
                     dispose();
                     game.setScreen(new TicTacToeScreen(game));
                 }
             }
-             */
         }
     }
 

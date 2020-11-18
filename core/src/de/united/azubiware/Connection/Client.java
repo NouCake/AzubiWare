@@ -1,6 +1,5 @@
 package de.united.azubiware.Connection;
 
-import de.united.azubiware.Connection.*;
 import de.united.azubiware.Packets.LoginPacket;
 import de.united.azubiware.Packets.QueueStartPacket;
 import de.united.azubiware.Packets.QueueStopPacket;
@@ -24,7 +23,7 @@ public class Client {
         client.start();
     }
 
-    void sendLogin(String username){
+    public void sendLogin(String username){
         if(isConnected()){
             System.out.println("Client is not connected");
         }

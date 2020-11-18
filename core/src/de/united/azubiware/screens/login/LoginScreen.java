@@ -79,9 +79,7 @@ public class LoginScreen implements Screen {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/click2.ogg"));
                     sound.play();
                     if(usernameField.getText().length() >= minUsernameLength && usernameField.getText().length() < usernameField.getMaxLength()){
-                        /*
-                        LOGIN
-                         */
+                        //game.getClient().sendLogin(usernameField.getText());
                         dispose();
                         game.setScreen(new MainMenuScreen(game));
                     }

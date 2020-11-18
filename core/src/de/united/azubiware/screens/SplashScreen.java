@@ -31,7 +31,7 @@ public class SplashScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundForest.png"));
         backgroundSprite = new Sprite(backgroundTexture);
 
-        Texture texture = new Texture("Logo.jpg");
+        Texture texture = new Texture("splash.png");
         Image image = new Image(texture);
         image.setPosition(stage.getWidth()/2f-image.getWidth()/2,stage.getHeight()/2f-image.getHeight()/2);
 
