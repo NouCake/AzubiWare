@@ -16,15 +16,15 @@ import java.util.List;
 
 public class WebSocketConnectionManager extends WebSocketServer implements IConnectionManager {
 
-    private final static int PORT = 13000;
+    private final int port;
 
     private IConnectionListener listener;
 
     private List<WebSocketConnection> connectedSockets;
 
-    public WebSocketConnectionManager() {
-        super(new InetSocketAddress(PORT));
-
+    public WebSocketConnectionManager(int port) {
+        super(new InetSocketAddress(port));
+        this.port = port;
         connectedSockets = new LinkedList<>();
     }
 
@@ -43,6 +43,11 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     public void sendMessage(IConnection connection, IPacket packet) {
         WebSocketConnection websocket = (WebSocketConnection) connection;
         websocket.getSocket().send(packet.toJsonString());
+    }
+
+    @Override
+    public String getConnectionAdress() {
+        return "ws://localhost:"+port;
     }
 
     // WebSocketServer
@@ -81,7 +86,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
     @Override
     public void onStart() {
-        System.out.println("Started WebSocket Server on Port: " + PORT);
+        System.out.println("Started WebSocket Server on Port: " + port);
     }
 
 }

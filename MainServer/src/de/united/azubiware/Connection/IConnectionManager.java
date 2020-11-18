@@ -8,4 +8,6 @@ public interface IConnectionManager {
     void sendMessage(IConnection connection, IPacket packet);
     void start();
 
+    String getConnectionAdress();
+
 }

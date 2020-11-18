@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import de.united.azubiware.Connection.Client;
 import de.united.azubiware.login.ActionResolver;
 import de.united.azubiware.screens.SplashScreen;
 
@@ -19,6 +20,7 @@ public class AzubiWareGame extends Game {
 
 	@Override
 	public void create() {
+		new Client();
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/8-bitArcadeIn.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = 32;
