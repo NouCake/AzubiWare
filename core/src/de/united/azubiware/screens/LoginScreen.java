@@ -77,7 +77,7 @@ public class LoginScreen implements Screen {
                 if(playButton.isVisible() && !playButton.isDisabled()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/click2.ogg"));
                     sound.play();
-                    if(usernameField.getText().length() > 5 && usernameField.getText().length() < usernameField.getMaxLength()){
+                    if(usernameField.getText().length() > 3 && usernameField.getText().length() < usernameField.getMaxLength()){
                         /*
                         LOGIN
                          */
