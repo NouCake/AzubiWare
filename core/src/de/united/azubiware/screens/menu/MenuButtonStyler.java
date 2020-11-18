@@ -9,18 +9,27 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MenuButtonStyler {
 
-    public Button.ButtonStyle createButtonStyle(String type){
-        Texture playTextureUp = new Texture(Gdx.files.internal("buttons/" + type + "/button_" + type + ".png"));
-        Drawable playDrawableUp = new TextureRegionDrawable(new TextureRegion(playTextureUp));
-
-        Texture playTextureDown = new Texture(Gdx.files.internal("buttons/" + type + "/button_" + type + "_down.png"));
-        Drawable playDrawableDown = new TextureRegionDrawable(new TextureRegion(playTextureDown));
-
+    public Button.ButtonStyle createPlayButtonStyle(){
         Button.ButtonStyle playStyle = new Button.ButtonStyle();
 
-        playStyle.up = playDrawableUp;
+        Texture playTextureUp = new Texture(Gdx.files.internal("buttons/play/button_play.png"));
+        playStyle.up = new TextureRegionDrawable(new TextureRegion(playTextureUp));
+
+        Texture playTextureDown = new Texture(Gdx.files.internal("buttons/play/button_play_down.png"));
+        Drawable playDrawableDown = new TextureRegionDrawable(new TextureRegion(playTextureDown));
+
         playStyle.down = playDrawableDown;
         playStyle.over = playDrawableDown;
+
+        Texture quitTextureUp = new Texture(Gdx.files.internal("buttons/quit/button_quit.png"));
+        playStyle.checked = new TextureRegionDrawable(new TextureRegion(quitTextureUp));
+
+        Texture quitTextureDown = new Texture(Gdx.files.internal("buttons/quit/button_quit_down.png"));
+        Drawable quitDrawableDown = new TextureRegionDrawable(new TextureRegion(quitTextureDown));
+
+        playStyle.checkedDown = quitDrawableDown;
+        playStyle.checkedOver = quitDrawableDown;
+
 
         return playStyle;
     }
