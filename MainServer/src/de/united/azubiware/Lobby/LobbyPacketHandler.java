@@ -25,4 +25,5 @@ public class LobbyPacketHandler extends APacketHandler {
         System.out.println("Queue Stop");
         lobby.stopQueueing(connectionManager.getUserFromConnection(connection));
     }
+
 }

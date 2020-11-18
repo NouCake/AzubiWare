@@ -41,6 +41,13 @@ public abstract class AMatch implements IMatch {
         return null;
     }
 
+    protected MatchUser getUserFromMatchConnection(IConnection connection){
+        for(MatchUser user : users){
+            if(user.getConnection().equals(connection)) return user;
+        }
+        return null;
+    }
+
     private MatchUser getUserFromUUID(UUID uuid){
         for(MatchUser user : users){
             if(user.getId().equals(uuid)) return user;

@@ -29,6 +29,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
 
     private WebSocketConnection getConnectionFromSocket(WebSocket socket){
+        System.out.println("God, pls help" + connectedSockets);
         for(WebSocketConnection connection : connectedSockets)
             if(connection.getSocket() == socket) return connection;
         return null;
@@ -68,7 +69,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
     @Override
     public void onMessage(WebSocket socket, String message) {
-        System.out.println("Got Message: " + message);
+        System.out.println(getClass().getSimpleName() + " Got Message: " + message);
         WebSocketConnection connection = getConnectionFromSocket(socket);
 
         IPacket packet = PacketParser.createPacketFromJson(message);

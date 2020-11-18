@@ -1,13 +1,16 @@
+package de.united.azubiware.Matches.TTT;
+
 public class TicTacToe {
 
-    private static int height = 3;
-    private static int width = 3;
+    private int height = 3;
+    private int width = 3;
 
-    private static int[][] field = new int[height][width];
-    private static boolean player = false;
+    private int[][] field = new int[height][width];
+    private boolean player = false;
 
+    private int lastPlayer = 0;
 
-    public static void draw() {
+    public void draw() {
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
                 System.out.print(field[j][i]);
@@ -16,7 +19,7 @@ public class TicTacToe {
         }
     }
 
-    public static void checkPlayerWin() {
+    public int checkPlayerWin() {
         int win = 0;
 
         for (int winCondition = 1; winCondition <= 2; winCondition++) {
@@ -46,17 +49,21 @@ public class TicTacToe {
             System.out.println("Player "+ win +" won!");
         }
 
+        return win;
     }
 
+    public void setField(int player, int x, int y){
+        if(player != 1 && player != 2) throw new RuntimeException("Bad Player");
+        if(x < 0 || x >= 3) throw  new RuntimeException("Bad X");
+        if(y < 0 || y >= 3) throw  new RuntimeException("Bad Y");
+        if(field[y][x] != 0) throw new RuntimeException("Field already taken!");
+        if(lastPlayer == player) throw new RuntimeException("Player have to alternate");
 
-    public static void main(String[] args) {
+        field[y][x] = player;
+    }
 
-        field[0][0] = 1;    field[0][1] = 1;    field[0][2] = 2;
-        field[1][0] = 0;    field[1][1] = 1;    field[1][2] = 2;
-        field[2][0] = 1;    field[2][1] = 0;    field[2][2] = 2;
-
+    public TicTacToe() {
         draw();
         checkPlayerWin();
-
     }
 }

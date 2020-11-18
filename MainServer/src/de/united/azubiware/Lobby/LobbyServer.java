@@ -59,6 +59,7 @@ public class LobbyServer implements ILobby, IUserListener {
 
         IMatch match = new TTTMatch(port, users[0], users[1]);
         for(IUserConnection connection : users){
+            System.out.println("Starting match with: " + connection);
             connection.send(match.getMatchInfoPacket(connection.getId()));
         }
         match.start();
