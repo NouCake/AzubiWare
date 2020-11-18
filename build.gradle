@@ -41,6 +41,16 @@ allprojects {
     }
 }
 
+project(":MainServer"){
+    apply plugin: "java-library"
+
+    dependencies {
+        implementation "org.java-websocket:Java-WebSocket:1.5.1"
+        implementation 'com.google.code.gson:gson:2.8.6'
+        implementation group: 'org.reflections', name: 'reflections', version: '0.9.10'
+    }
+}
+
 project(":desktop") {
     apply plugin: "java-library"
 
@@ -48,7 +58,7 @@ project(":desktop") {
     dependencies {
         implementation project(":core")
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core-gamejolt:1.0.2"
 
@@ -101,8 +111,12 @@ project(":core") {
 
 
     dependencies {
+        implementation project(":MainServer")
+        implementation "org.java-websocket:Java-WebSocket:1.5.1"
+
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:1.0.2"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
 }
+
