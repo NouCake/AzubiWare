@@ -135,4 +135,8 @@ public class MiniGamePaginator {
         Image image = miniGames.get(current);
         image.setY(stage.getHeight()/2f-50);
     }
+
+    public int getCurrent() {
+        return current;
+    }
 }

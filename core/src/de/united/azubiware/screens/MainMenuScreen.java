@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -21,6 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.screens.minigames.TicTacToeScreen;
 import de.united.azubiware.utility.MiniGamePaginator;
 
 import java.util.ArrayList;
@@ -70,11 +70,11 @@ public class MainMenuScreen implements Screen {
         label.setAlignment(Align.center);
         label.setWidth(300);
         label.setHeight(40);
-        label.setPosition(stage.getWidth()/2f-150, stage.getHeight()/4f-50);
+        label.setPosition(stage.getWidth()/2f-150, playButton.getY() - playButton.getHeight()/2 - 30);
         label.setVisible(false);
 
         leftButton = new Button(createArrowStyle("Left"));
-        leftButton.setPosition(playButton.getX()-playButton.getWidth()/2+15, stage.getHeight()/4.5f);
+        leftButton.setPosition(playButton.getX()-(playButton.getWidth()/2), stage.getHeight()/4.5f);
         leftButton.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -92,7 +92,7 @@ public class MainMenuScreen implements Screen {
         });
 
         rightButton = new Button(createArrowStyle("Right"));
-        rightButton.setPosition(playButton.getX()+playButton.getWidth()/2+15, stage.getHeight()/4.5f);
+        rightButton.setPosition(playButton.getX()+(playButton.getWidth()/2)+rightButton.getWidth()*2, stage.getHeight()/4.5f);
         rightButton.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -230,6 +230,12 @@ public class MainMenuScreen implements Screen {
                 waiting = new Random().nextInt(10)+1;
             label.setText(waiting + " in queue");
             lastUpdated = TimeUtils.millis();
+            if(new Random().nextBoolean() && new Random().nextBoolean()){
+                if(paginator.getCurrent() == 0) {
+                    dispose();
+                    game.setScreen(new TicTacToeScreen(game));
+                }
+            }
         }
     }
 
