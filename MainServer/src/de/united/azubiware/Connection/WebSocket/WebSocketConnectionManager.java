@@ -29,9 +29,13 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
 
     private WebSocketConnection getConnectionFromSocket(WebSocket socket){
-        System.out.println("God, pls help" + connectedSockets);
-        for(WebSocketConnection connection : connectedSockets)
-            if(connection.getSocket() == socket) return connection;
+        String out = "\n";
+        for(int i = 0; i < connectedSockets.size(); i++) {
+            WebSocketConnection connection = connectedSockets.get(i);
+            if (connection.getSocket() == socket) return connection;
+            out += connection + " | " + socket + " [" + i + "] " + connection.getSocket() + "\n";
+        }
+        System.err.println("Couldn't find Socket: " + socket + out);
         return null;
     }
 
@@ -55,7 +59,10 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     @Override
     public void onOpen(WebSocket socket, ClientHandshake handshake) {
         WebSocketConnection connection = new WebSocketConnection(this, socket);
-        connectedSockets.add(connection);
+        synchronized (connectedSockets){
+            connectedSockets.add(connection);
+        }
+        System.out.println("Connecting socket: " + socket + " | " + connection);
 
         if(listener != null) listener.onConnected(connection);
         System.out.println("Connected");
@@ -63,7 +70,9 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     @Override
     public void onClose(WebSocket socket, int code, String reason, boolean remote) {
         WebSocketConnection connection = getConnectionFromSocket(socket);
-        connectedSockets.remove(connection);
+        synchronized (connectedSockets){
+            connectedSockets.remove(connection);
+        }
         if(listener != null) listener.onClosed(connection);
         System.out.println("Closed");
     }
