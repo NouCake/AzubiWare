@@ -1,4 +1,4 @@
-package de.united.azubiware.screens;
+package de.united.azubiware.screens.login;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -23,6 +23,9 @@ import de.united.azubiware.screens.menu.MainMenuScreen;
 public class LoginScreen implements Screen {
 
     final AzubiWareGame game;
+
+    private int minUsernameLength = 5;
+    private int maxUsernameLength = 15;
 
     TextField usernameField;
     Button playButton;
@@ -49,7 +52,7 @@ public class LoginScreen implements Screen {
 
         this.usernameField = new TextField("", textStyle);
         usernameField.setMessageText("username");
-        usernameField.setMaxLength(15);
+        usernameField.setMaxLength(maxUsernameLength);
         usernameField.setAlignment(Align.center);
         usernameField.setHeight(50);
         usernameField.setWidth(250);
@@ -75,7 +78,7 @@ public class LoginScreen implements Screen {
                 if(playButton.isVisible() && !playButton.isDisabled()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/click2.ogg"));
                     sound.play();
-                    if(usernameField.getText().length() >= 5 && usernameField.getText().length() < usernameField.getMaxLength()){
+                    if(usernameField.getText().length() >= minUsernameLength && usernameField.getText().length() < usernameField.getMaxLength()){
                         /*
                         LOGIN
                          */
