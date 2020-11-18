@@ -30,11 +30,9 @@ public class SplashScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundForest.png"));
         backgroundSprite = new Sprite(backgroundTexture);
 
-        Texture texture = new Texture("badlogic.jpg");
-        Image image = new Image(texture);
-        image.setPosition(stage.getWidth()/2f-128,stage.getHeight()/2f-128);
-
-        stage.addActor(image);
+        Image splash = new Image(new Texture(Gdx.files.internal("splash.png")));
+        splash.setPosition(stage.getWidth()*0.5f - splash.getWidth()*0.5f, stage.getHeight()*0.5f - splash.getHeight()*0.5f);
+        stage.addActor(splash);
     }
 
     @Override
