@@ -16,6 +16,7 @@ public interface IClient {
     void sendQueuePoll(int matchType);
 
     void setMatchListener(IMatchListener listener);
+    IMatchListener getMatchListener();
     void sendMatchPacket(IPacket packet);
 
 }

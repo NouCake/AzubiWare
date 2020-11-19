@@ -60,8 +60,14 @@ public class Client implements IClient {
             System.out.println("Match is not set!");
             return;
         }
+
         currentMatchClient.setMatchListener(listener);
         currentMatchClient.start();
+    }
+
+    @Override
+    public IMatchListener getMatchListener() {
+        return currentMatchClient.getMatchListener();
     }
 
     @Override
