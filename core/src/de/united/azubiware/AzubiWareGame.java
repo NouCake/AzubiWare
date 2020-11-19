@@ -3,6 +3,7 @@ package de.united.azubiware;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import de.united.azubiware.Connection.Client;
+import de.united.azubiware.Connection.IClient;
 import de.united.azubiware.login.ActionResolver;
 import de.united.azubiware.screens.SplashScreen;
 import de.united.azubiware.utility.FontLoader;
@@ -13,7 +14,7 @@ public class AzubiWareGame extends Game {
 	boolean initiatedSignIn = false;
 	boolean isHTML = false;
 	BitmapFont font;
-	Client client;
+	IClient client;
 
 	public AzubiWareGame(ActionResolver resolver){
 		this.resolver = resolver;
@@ -59,7 +60,7 @@ public class AzubiWareGame extends Game {
 		return font;
 	}
 
-	public Client getClient() {
+	public IClient getClient() {
 		return client;
 	}
 }

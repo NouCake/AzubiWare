@@ -1,6 +1,5 @@
 package de.united.azubiware.screens.menu;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -64,14 +63,14 @@ public class MenuButtonManager {
     }
 
     public void queueUp(){
-        game.getClient().sendStartQueue(paginator.getCurrent());
+        game.getClient().sendQueueStart(paginator.getCurrent());
 
         rightButton.setDisabled(true);
         leftButton.setDisabled(true);
     }
 
     public void quitQueue(){
-        game.getClient().sendStopQueue();
+        game.getClient().sendQueueStop();
 
         rightButton.setDisabled(false);
         leftButton.setDisabled(false);
