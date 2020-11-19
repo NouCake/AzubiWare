@@ -34,7 +34,7 @@ public class MenuPacketListener implements IClientListener {
     }
 
     @Override
-    public void onMatchStart(int matchType, IUser... oponents) {
+    public void onMatchFound(int matchType, IUser... oponents) {
         if(matchType == menuScreen.paginator.getCurrentMatchType()){
             if(matchType == TTTMatch.MATCH_TYPE){
                 menuScreen.startMatch();
