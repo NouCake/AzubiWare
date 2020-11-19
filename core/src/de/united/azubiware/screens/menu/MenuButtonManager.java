@@ -63,7 +63,7 @@ public class MenuButtonManager {
     }
 
     public void queueUp(){
-        game.getClient().sendQueueStart(paginator.getCurrent());
+        game.getClient().sendQueueStart(paginator.getCurrentMatchType());
 
         rightButton.setDisabled(true);
         leftButton.setDisabled(true);

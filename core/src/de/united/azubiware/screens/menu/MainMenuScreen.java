@@ -83,6 +83,7 @@ public class MainMenuScreen extends ScreenAdapter {
             }
         });
 
+        game.getClient().setClientLister(new MenuPacketListener(this));
     }
 
     public void drawBackground(){
@@ -121,7 +122,11 @@ public class MainMenuScreen extends ScreenAdapter {
     }
 
     long lastUpdated = TimeUtils.millis();
-    int waiting = 6;
+    int waiting = 0;
+
+    public void setWaiting(int waiting) {
+        this.waiting = waiting;
+    }
 
     public void updateWaiting(){
         if(TimeUtils.millis()-lastUpdated >= 1000){
@@ -129,12 +134,14 @@ public class MainMenuScreen extends ScreenAdapter {
                 waiting = new Random().nextInt(10)+1;
             label.setText(waiting + " in queue");
             lastUpdated = TimeUtils.millis();
+            /*
             if(new Random().nextBoolean() && new Random().nextBoolean()){
                 if(paginator.getCurrent() == 0) {
                     dispose();
                     game.setScreen(new TicTacToeScreen(game));
                 }
             }
+             */
         }
     }
 

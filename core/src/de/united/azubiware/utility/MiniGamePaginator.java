@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.TimeUtils;
+import de.united.azubiware.Matches.TTT.TTTMatch;
 
 import java.util.HashMap;
 
@@ -23,6 +24,7 @@ public class MiniGamePaginator {
     private boolean isPaginating = false;
 
     private HashMap<Integer, Image> miniGames = new HashMap<>();
+    private HashMap<Integer, Integer> matchTypes = new HashMap<>();
 
     public MiniGamePaginator(Stage stage){
         this.stage = stage;
@@ -36,6 +38,7 @@ public class MiniGamePaginator {
         Image tttImage = new Image(tttTexture);
         tttImage.setPosition(stage.getWidth()/2f-150, stage.getHeight()/2f-50);
         miniGames.put(0, tttImage);
+        matchTypes.put(0, TTTMatch.MATCH_TYPE);
 
         Texture sspTexture = new Texture("games/SchereSteinPapier.png");
         Image sspImage = new Image(sspTexture);
@@ -138,5 +141,9 @@ public class MiniGamePaginator {
 
     public int getCurrent() {
         return current;
+    }
+
+    public int getCurrentMatchType(){
+        return matchTypes.getOrDefault(current, 0);
     }
 }

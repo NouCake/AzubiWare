@@ -38,7 +38,7 @@ public class ClosePopUp {
 
         background = new Image(new Texture(Gdx.files.internal("popup_background.png")));
         background.setWidth(stage.getWidth()/2);
-        background.setHeight((stage.getWidth()/2)*0.6f);
+        background.setHeight((stage.getWidth()/2)*0.8f);
         background.setPosition(stage.getWidth()/2-background.getWidth()/2, stage.getHeight()/2-background.getHeight()/2);
         background.setVisible(false);
         stage.addActor(background);
@@ -49,6 +49,7 @@ public class ClosePopUp {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(!isHidden()){
+                    game.getClient().stop();
                     Gdx.app.exit();
                 }
                 return super.touchDown(event, x, y, pointer, button);

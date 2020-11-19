@@ -7,6 +7,7 @@ import de.united.azubiware.Packets.IPacket;
 import org.reflections.Reflections;
 
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 public class PacketParser {
 
@@ -25,11 +26,14 @@ public class PacketParser {
     }
     private static void collectTypeClasses(){
         Reflections r = new Reflections("de.united.azubiware.Packets");
-        r.getSubTypesOf(IPacket.class).forEach(c -> {
-            int packetTypeID = getTypeFromPacketClass(c);
-            if(packetClasses.containsKey(packetTypeID))
-                throw new RuntimeException("Multiple Packets with same TypeID: " + c.getSimpleName());
-            packetClasses.put(packetTypeID, c);
+        r.getSubTypesOf(IPacket.class).forEach(new Consumer<Class<? extends IPacket>>() {
+            @Override
+            public void accept(Class<? extends IPacket> c) {
+                int packetTypeID = getTypeFromPacketClass(c);
+                if(packetClasses.containsKey(packetTypeID))
+                    throw new RuntimeException("Multiple Packets with same TypeID: " + c.getSimpleName());
+                packetClasses.put(packetTypeID, c);
+            }
         });
     }
 
