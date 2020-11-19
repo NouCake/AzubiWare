@@ -1,5 +1,9 @@
-package de.united.azubiware.Connection;
+package de.united.azubiware.Connection.Client;
 
+import de.united.azubiware.Connection.*;
+import de.united.azubiware.Connection.Match.IMatchListener;
+import de.united.azubiware.Connection.Match.MatchClient;
+import de.united.azubiware.Connection.Match.TTTClient;
 import de.united.azubiware.Matches.TTT.TTTMatch;
 import de.united.azubiware.Packets.*;
 import de.united.azubiware.User.IUser;
@@ -7,7 +11,7 @@ import de.united.azubiware.User.IUser;
 import java.net.URI;
 import java.util.UUID;
 
-public class Client implements IClient{
+public class Client implements IClient {
 
     private IConnection connection;
     private IClientListener listener;

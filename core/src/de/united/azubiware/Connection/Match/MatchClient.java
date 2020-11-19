@@ -1,5 +1,10 @@
-package de.united.azubiware.Connection;
+package de.united.azubiware.Connection.Match;
 
+import de.united.azubiware.Connection.Client.Client;
+import de.united.azubiware.Connection.IConnection;
+import de.united.azubiware.Connection.IConnectionManager;
+import de.united.azubiware.Connection.PacketListener;
+import de.united.azubiware.Connection.WebSocketClient;
 import de.united.azubiware.Packets.Handler.IPacketHandler;
 import de.united.azubiware.Packets.MatchLoginPacket;
 
