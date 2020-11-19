@@ -2,24 +2,23 @@ package de.united.azubiware.screens.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
-import de.united.azubiware.screens.minigames.TicTacToePostition;
-import de.united.azubiware.screens.minigames.TicTacToeScreen;
+import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.minigames.TicTacToe;
+import de.united.azubiware.screens.minigames.WaitingScreen;
+import de.united.azubiware.screens.minigames.ttt.TicTacToeScreen;
 import de.united.azubiware.utility.ClosePopUp;
 import de.united.azubiware.utility.Clouds;
 import de.united.azubiware.utility.MiniGamePaginator;
@@ -60,7 +59,7 @@ public class MainMenuScreen extends ScreenAdapter {
         label.setAlignment(Align.center);
         label.setWidth(300);
         label.setHeight(40);
-        label.setPosition(stage.getWidth()/2f-150, stage.getHeight()/4.5f-55);
+        label.setPosition(stage.getWidth()/2f-label.getWidth()/2, stage.getHeight()/4.5f-55);
         label.setVisible(false);
 
         stage.addActor(label);
@@ -113,6 +112,13 @@ public class MainMenuScreen extends ScreenAdapter {
         clouds.moveClouds();
 
         paginator.paginate();
+
+        if(foundMatch) {
+            if (paginator.getCurrentMatchType() == TTTMatch.MATCH_TYPE) {
+                dispose();
+                game.setScreen(new WaitingScreen(game, new TicTacToe()));
+            }
+        }
     }
 
 
@@ -124,14 +130,15 @@ public class MainMenuScreen extends ScreenAdapter {
     long lastUpdated = TimeUtils.millis();
     int waiting = 0;
 
+    boolean foundMatch = false;
+
     public void setWaiting(int waiting) {
         this.waiting = waiting;
     }
 
     public void updateWaiting(){
         if(TimeUtils.millis()-lastUpdated >= 1000){
-            if(new Random().nextBoolean())
-                waiting = new Random().nextInt(10)+1;
+            game.getClient().sendQueuePoll(paginator.getCurrentMatchType());
             label.setText(waiting + " in queue");
             lastUpdated = TimeUtils.millis();
             /*
@@ -143,6 +150,10 @@ public class MainMenuScreen extends ScreenAdapter {
             }
              */
         }
+    }
+
+    public void startMatch(){
+        foundMatch = true;
     }
 
 }

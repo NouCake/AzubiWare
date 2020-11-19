@@ -1,4 +1,4 @@
-package de.united.azubiware.screens.minigames;
+package de.united.azubiware.screens.minigames.ttt;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

@@ -1,4 +1,4 @@
-package de.united.azubiware.screens.minigames;
+package de.united.azubiware.screens.minigames.ttt;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -70,9 +69,6 @@ public class TicTacToeField {
                 Vector2 min = new Vector2(posX - fieldSize / 2, posY - fieldSize / 2);
 
                 TicTacToePostition ticTacToePostition = new TicTacToePostition(min, max, center);
-                if(new Random().nextBoolean()){
-                    ticTacToePostition.setState(2);
-                }
                 postitions.put(new Integer[]{x, y}, ticTacToePostition);
             }
         }

@@ -12,7 +12,7 @@ public class DesktopLauncher {
 
 		config.setTitle("AzubiWare");
 		config.setResizable(false);
-		config.setWindowedMode(720, 500);
+		config.setWindowedMode(800, 720);
 
 		new Lwjgl3Application(new AzubiWareGame(actionResolverDesktop), config);
 	}

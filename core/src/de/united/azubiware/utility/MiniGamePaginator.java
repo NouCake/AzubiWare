@@ -1,10 +1,8 @@
 package de.united.azubiware.utility;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.TimeUtils;
 import de.united.azubiware.Matches.TTT.TTTMatch;
 
 import java.util.HashMap;
@@ -34,13 +32,13 @@ public class MiniGamePaginator {
     }
 
     public void create(){
-        Texture tttTexture = new Texture("games/TicTacToe.png");
+        Texture tttTexture = new Texture("games/ttt/splash.png");
         Image tttImage = new Image(tttTexture);
         tttImage.setPosition(stage.getWidth()/2f-150, stage.getHeight()/2f-50);
         miniGames.put(0, tttImage);
         matchTypes.put(0, TTTMatch.MATCH_TYPE);
 
-        Texture sspTexture = new Texture("games/SchereSteinPapier.png");
+        Texture sspTexture = new Texture("games/ssp/splash.png");
         Image sspImage = new Image(sspTexture);
         sspImage.setPosition(-300, stage.getHeight()/2f-50);
         miniGames.put(-1, sspImage);
