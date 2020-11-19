@@ -1,9 +1,9 @@
 package de.united.azubiware.Matches.TTT;
 
-import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.ErrorResponsePacket;
+import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.Packets.TTTNextTurnPacket;
 import de.united.azubiware.Packets.TTTPacket;
 import de.united.azubiware.User.IUser;
@@ -46,15 +46,13 @@ public class TTTMatch extends AMatch {
 
         if(!checkMatchOver())
             sendNextTurnPackets();
-        else {
-            onMatchOver();
-        }
     }
 
     private boolean checkMatchOver(){
         int playerWon = tttGame.checkPlayerWin();
         if(playerWon != 0){
-            onMatchOver();
+            setPlayerWon(playerWon);
+            onMatchOver(MatchOverPacket.REASONS.GAME_DONE.ordinal());
             return true;
         }
         return tttGame.isMatchOver();

@@ -2,6 +2,7 @@ package de.united.azubiware.connection.match;
 
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Packets.Handler.APacketHandler;
+import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.Packets.MatchReadyPacket;
 
 public class MatchPacketHandler extends APacketHandler {
@@ -14,6 +15,10 @@ public class MatchPacketHandler extends APacketHandler {
 
     public void onMatchReadyPacket(IConnection c, MatchReadyPacket p){
         matchClient.onReady();
+    }
+
+    public void onMatchOver(IConnection c, MatchOverPacket packet){
+        matchClient.onMatchOver(packet.getReason());
     }
 
 }

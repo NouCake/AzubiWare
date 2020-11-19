@@ -54,6 +54,13 @@ public class Client implements IClient {
         listener.onMatchFound(matchType, opponents);
     }
 
+    public void doMatchOver(){
+        if(currentMatchClient != null){
+            currentMatchClient.stop();
+            currentMatchClient = null;
+        }
+    }
+
     @Override
     public void setMatchListener(IMatchListener listener) {
         if(currentMatchClient == null){
@@ -98,6 +105,7 @@ public class Client implements IClient {
     public void stop() {
         client.stop();
         connection = null;
+        currentMatchClient.stop();
     }
 
     @Override
