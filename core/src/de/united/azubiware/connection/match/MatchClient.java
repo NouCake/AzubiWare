@@ -65,4 +65,8 @@ public class MatchClient{
         if(matchListener == null) return;
         matchListener.onMatchReady();
     }
+
+    public IMatchListener getMatchListener() {
+        return matchListener;
+    }
 }

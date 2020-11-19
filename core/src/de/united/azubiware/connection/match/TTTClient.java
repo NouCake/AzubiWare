@@ -1,6 +1,6 @@
 package de.united.azubiware.connection.match;
 
-import de.united.azubiware.connection.Client.Client;
+import de.united.azubiware.connection.client.Client;
 
 import java.util.UUID;
 

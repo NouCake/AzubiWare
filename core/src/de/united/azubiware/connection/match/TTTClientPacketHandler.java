@@ -1,10 +1,11 @@
-package de.united.azubiware.Connection.Match;
+package de.united.azubiware.connection.match;
 
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Packets.Handler.APacketHandler;
 import de.united.azubiware.Packets.TTTIllegalTurnPacket;
 import de.united.azubiware.Packets.TTTNextTurnPacket;
 import de.united.azubiware.Packets.TTTPacket;
+import de.united.azubiware.connection.match.ITTTListener;
 
 public class TTTClientPacketHandler extends APacketHandler {
 
