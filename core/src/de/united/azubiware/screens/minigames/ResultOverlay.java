@@ -45,7 +45,7 @@ public class ResultOverlay {
         dark.setVisible(true);
         showResult = true;
         if(result == 1){
-            winImage.setVisible(false);
+            winImage.setVisible(true);
         }else{
             loseImage.setVisible(true);
         }
