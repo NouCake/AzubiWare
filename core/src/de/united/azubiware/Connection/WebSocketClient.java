@@ -13,8 +13,11 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     private IConnectionListener listener;
     private WebSocketConnection connection;
 
+    private final String adress;
+
     public WebSocketClient(URI serverUri) {
         super(serverUri);
+        adress = serverUri.toString();
     }
 
     @Override
@@ -61,5 +64,15 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     @Override
     public void start() {
         connect();
+    }
+
+    @Override
+    public void stop() {
+        close();
+    }
+
+    @Override
+    public String getConnectionAdress() {
+        return adress;
     }
 }

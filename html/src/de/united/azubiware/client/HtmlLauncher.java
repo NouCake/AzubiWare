@@ -3,7 +3,8 @@ package de.united.azubiware.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import de.united.azubiware.AzubiWareMain;
+import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.client.login.ActionResolverHtml;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -17,6 +18,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new AzubiWareMain();
+                return new AzubiWareGame(new ActionResolverHtml());
         }
 }

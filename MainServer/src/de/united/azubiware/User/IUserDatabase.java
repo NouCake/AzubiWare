@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface IUserDatabase {
 
-    IUser getUserFromUUID(UUID id);
-    IUser getUserFromLoginPacket(LoginPacket packet, IConnection connection);
+    IUserConnection getUserFromUUID(UUID id);
+    IUserConnection getUserFromLoginPacket(LoginPacket packet, IConnection connection);
 
 }

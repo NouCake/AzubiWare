@@ -10,27 +10,33 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.LinkedList;
 import java.util.List;
 
 public class WebSocketConnectionManager extends WebSocketServer implements IConnectionManager {
 
-    private final static int PORT = 13000;
+    private final int port;
 
     private IConnectionListener listener;
 
     private List<WebSocketConnection> connectedSockets;
 
-    public WebSocketConnectionManager() {
-        super(new InetSocketAddress(PORT));
-
+    public WebSocketConnectionManager(int port) {
+        super(new InetSocketAddress(port));
+        this.port = port;
         connectedSockets = new LinkedList<>();
     }
 
     private WebSocketConnection getConnectionFromSocket(WebSocket socket){
-        for(WebSocketConnection connection : connectedSockets)
-            if(connection.getSocket() == socket) return connection;
+        String out = "\n";
+        for(int i = 0; i < connectedSockets.size(); i++) {
+            WebSocketConnection connection = connectedSockets.get(i);
+            if (connection.getSocket() == socket) return connection;
+            out += connection + " | " + socket + " [" + i + "] " + connection.getSocket() + "\n";
+        }
+        System.err.println("Couldn't find Socket: " + socket + out);
         return null;
     }
 
@@ -45,11 +51,18 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
         websocket.getSocket().send(packet.toJsonString());
     }
 
+    @Override
+    public String getConnectionAdress() {
+        return "ws://localhost:"+port;
+    }
+
     // WebSocketServer
     @Override
     public void onOpen(WebSocket socket, ClientHandshake handshake) {
         WebSocketConnection connection = new WebSocketConnection(this, socket);
-        connectedSockets.add(connection);
+        synchronized (connectedSockets){
+            connectedSockets.add(connection);
+        }
 
         if(listener != null) listener.onConnected(connection);
         System.out.println("Connected");
@@ -57,7 +70,9 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     @Override
     public void onClose(WebSocket socket, int code, String reason, boolean remote) {
         WebSocketConnection connection = getConnectionFromSocket(socket);
-        connectedSockets.remove(connection);
+        synchronized (connectedSockets){
+            connectedSockets.remove(connection);
+        }
         if(listener != null) listener.onClosed(connection);
         System.out.println("Closed");
     }
@@ -81,7 +96,16 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
     @Override
     public void onStart() {
-        System.out.println("Started WebSocket Server on Port: " + PORT);
+        System.out.println("Started WebSocket Server on Port: " + port);
+    }
+
+    @Override
+    public void stop(){
+        try {
+            super.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

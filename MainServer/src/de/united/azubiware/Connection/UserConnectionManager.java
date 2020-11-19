@@ -1,7 +1,7 @@
 package de.united.azubiware.Connection;
 
 import de.united.azubiware.Connection.WebSocket.IUserListener;
-import de.united.azubiware.User.IUser;
+import de.united.azubiware.User.IUserConnection;
 import de.united.azubiware.User.IUserDatabase;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.LoginPacket;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserConnectionManager implements IConnectionListener{
 
-    private List<IUser> connectedUsers;
+    private List<IUserConnection> connectedUsers;
     private final IUserListener listener;
     private final IUserDatabase manager;
 
@@ -22,17 +22,17 @@ public class UserConnectionManager implements IConnectionListener{
         connectedUsers = new LinkedList<>();
     }
 
-    public IUser getUserFromConnection(IConnection connection){
-        for(IUser user : connectedUsers){
+    public IUserConnection getUserFromConnection(IConnection connection){
+        for(IUserConnection user : connectedUsers){
             if(user.getConnection() == connection) return user;
         }
         return null;
     }
-    private IUser tryLogin(IConnection connection, IPacket packet){
+    private IUserConnection tryLogin(IConnection connection, IPacket packet){
         if(!(packet instanceof LoginPacket)) return null;
         LoginPacket loginPacket = (LoginPacket) packet;
 
-        IUser user = manager.getUserFromLoginPacket(loginPacket, connection);
+        IUserConnection user = manager.getUserFromLoginPacket(loginPacket, connection);
         if(user == null) {
             return null;
         }
@@ -44,7 +44,7 @@ public class UserConnectionManager implements IConnectionListener{
 
     @Override
     public void onMessage(IConnection connection, IPacket packet) {
-        IUser user = getUserFromConnection(connection);
+        IUserConnection user = getUserFromConnection(connection);
 
         if(user == null) { // => User is not logged in
             user = tryLogin(connection, packet);
@@ -58,7 +58,7 @@ public class UserConnectionManager implements IConnectionListener{
     }
     @Override
     public void onClosed(IConnection connection) {
-        IUser user = getUserFromConnection(connection);
+        IUserConnection user = getUserFromConnection(connection);
         if(user == null) return;
 
         connectedUsers.remove(user);

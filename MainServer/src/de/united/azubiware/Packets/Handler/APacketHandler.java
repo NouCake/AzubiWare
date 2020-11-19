@@ -40,7 +40,7 @@ public abstract class APacketHandler implements IPacketHandler {
     public void onPacket(IConnection user, IPacket packet) {
         int packetType = PacketParser.getTypeFromPacketClass(packet.getClass());
 
-        if(!packetHandleMethods.containsKey(packetType)) throw new RuntimeException("No Handler with given Packet Type");
+        if(!packetHandleMethods.containsKey(packetType)) return;
         Method handler = packetHandleMethods.get(packetType);
         try {
             handler.invoke(this, user, packet);
