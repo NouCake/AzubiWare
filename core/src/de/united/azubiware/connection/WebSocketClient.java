@@ -27,7 +27,6 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     public void onOpen(ServerHandshake handshakedata) {
         WebSocket socket = getConnection();
         connection = new WebSocketConnection(this, socket);
-        System.out.println("Conncted? OPEN! FEHIFIUFDJISF " + listener);
 
         if(listener != null) listener.onConnected(connection);
     }
@@ -48,7 +47,8 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
 
     @Override
     public void onError(Exception ex) {
-        System.out.println("Error");
+        ex.printStackTrace();
+        //System.out.println("Error");
     }
 
     @Override

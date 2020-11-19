@@ -1,7 +1,7 @@
 package de.united.azubiware.connection.client;
 
-import de.united.azubiware.Connection.Match.IMatchListener;
 import de.united.azubiware.Packets.IPacket;
+import de.united.azubiware.connection.match.IMatchListener;
 
 public interface IClient {
 
