@@ -2,7 +2,7 @@ package de.united.azubiware.Packets;
 
 public class TTTNextTurnPacket implements IPacket{
 
-    public static final int type = 11;
+    public static final int type = 13;
 
     private final boolean yourTurn;
 
