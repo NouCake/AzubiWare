@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PortManager {
 
-    public static final PortManager ports = new PortManager(13001, 14000);
+    public static final PortManager ports = new PortManager(12001, 12255);
 
     private final int minPort;
     private final int maxPort;
@@ -48,6 +48,7 @@ public class PortManager {
 
         private Port(int port) {
             this.port = port;
+            free = new AtomicBoolean();
         }
 
         public boolean use(){

@@ -67,6 +67,11 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     }
 
     @Override
+    public void stop() {
+        close();
+    }
+
+    @Override
     public String getConnectionAdress() {
         return adress;
     }

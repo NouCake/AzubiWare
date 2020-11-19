@@ -1,11 +1,10 @@
 package de.united.azubiware.Lobby;
 
-import de.united.azubiware.Packets.Handler.IPacketHandler;
-import de.united.azubiware.User.IUser;
+import de.united.azubiware.User.IUserConnection;
 
 public interface ILobby {
 
-    void startQueueing(IUser user);
-    void stopQueueing(IUser user);
+    void startQueueing(IUserConnection user);
+    void stopQueueing(IUserConnection user);
 
 }

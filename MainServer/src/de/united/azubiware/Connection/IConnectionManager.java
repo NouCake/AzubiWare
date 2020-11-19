@@ -7,6 +7,7 @@ public interface IConnectionManager {
     void setConnectionListener(IConnectionListener listener);
     void sendMessage(IConnection connection, IPacket packet);
     void start();
+    void stop();
 
     String getConnectionAdress();
 
