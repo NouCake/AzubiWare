@@ -1,5 +1,6 @@
 package de.united.azubiware.screens.minigames.ttt;
 
+import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.connection.match.ITTTListener;
 import de.united.azubiware.screens.minigames.WaitingScreen;
 
@@ -45,5 +46,16 @@ public class TTTMatchListener implements ITTTListener {
     public void onMatchReady() {
         if(waitingScreen != null)
             waitingScreen.setSwitchToMatch(true);
+    }
+
+    @Override
+    public void onMatchOver(int reason) {
+        if(ticTacToeScreen != null) {
+            if (MatchOverPacket.REASONS.ABORTED.ordinal() == reason || MatchOverPacket.REASONS.YOU_WON.ordinal() == reason) {
+                ticTacToeScreen.getResultOverlay().setResult(1);
+            } else {
+                ticTacToeScreen.getResultOverlay().setResult(-1);
+            }
+        }
     }
 }
