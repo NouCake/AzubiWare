@@ -67,7 +67,7 @@ public class Client implements IClient{
 
     @Override
     public void sendLogin(String username) {
-        if(isConnected()){
+        if(!isConnected()){
             System.out.println("Client is not connected");
             return;
         }
@@ -76,7 +76,7 @@ public class Client implements IClient{
 
     @Override
     public void sendQueueStart(int matchType) {
-        if(isConnected()){
+        if(!isConnected()){
             System.out.println("Client is not connected");
             return;
         }
@@ -85,7 +85,7 @@ public class Client implements IClient{
 
     @Override
     public void sendQueueStop() {
-        if(isConnected()){
+        if(!isConnected()){
             System.out.println("Client is not connected");
             return;
         }
@@ -94,7 +94,7 @@ public class Client implements IClient{
 
     @Override
     public void sendQueuePoll(int matchType) {
-        if(isConnected()){
+        if(!isConnected()){
             System.out.println("Client is not connected");
             return;
         }
