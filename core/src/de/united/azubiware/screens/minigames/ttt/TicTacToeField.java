@@ -68,7 +68,7 @@ public class TicTacToeField {
                 Vector2 max = new Vector2(posX + fieldSize / 2, posY + fieldSize / 2);
                 Vector2 min = new Vector2(posX - fieldSize / 2, posY - fieldSize / 2);
 
-                TicTacToePostition ticTacToePostition = new TicTacToePostition(min, max, center);
+                TicTacToePostition ticTacToePostition = new TicTacToePostition(min, max, center, x, y);
                 postitions.put(new Integer[]{x, y}, ticTacToePostition);
             }
         }

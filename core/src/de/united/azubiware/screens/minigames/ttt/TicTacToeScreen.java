@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -17,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.Packets.TTTPacket;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.utility.ClosePopUp;
 
@@ -78,6 +78,7 @@ public class TicTacToeScreen extends ScreenAdapter {
                 if(closePopUp.isHidden() && yourTurn) {
                     TicTacToePostition postition = ticTacToeField.findPosition(x, y);
                     if (postition != null) {
+                        game.getClient().sendMatchPacket(new TTTPacket(postition.getPosX(), postition.getPosY()));
                         postition.setState(1);
                         return true;
                     }

@@ -8,9 +8,12 @@ public class TicTacToePostition {
     private Vector2 max;
     private Vector2 center;
 
+    private int posX;
+    private int posY;
+
     private int state;
 
-    public TicTacToePostition(Vector2 min, Vector2 max, Vector2 center){
+    public TicTacToePostition(Vector2 min, Vector2 max, Vector2 center, int posX, int posY){
         this.min = min;
         this.max = max;
         this.center = center;
@@ -35,5 +38,13 @@ public class TicTacToePostition {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
     }
 }
