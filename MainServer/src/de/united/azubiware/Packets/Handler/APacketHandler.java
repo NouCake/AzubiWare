@@ -20,7 +20,6 @@ public abstract class APacketHandler implements IPacketHandler {
 
         Method[] methods = getClass().getDeclaredMethods();
         for(Method m : methods){
-            System.out.println(m.getName());
             if(m.getParameterCount() != 2) continue;
 
             Class<?> connectionClass = m.getParameterTypes()[0];
@@ -30,7 +29,7 @@ public abstract class APacketHandler implements IPacketHandler {
             if(packetClass == IPacket.class) continue;
 
             int packetType = PacketParser.getTypeFromPacketClass(packetClass);
-            System.out.println("Adding Handler: " + packetType + " " + m.getName());
+            //System.out.println("Adding Handler: " + packetType + " " + m.getName());
             packetHandleMethods.put(packetType, m);
         }
 

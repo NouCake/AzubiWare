@@ -1,5 +1,6 @@
 package de.united.azubiware.connection.match;
 
+import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
@@ -22,6 +23,8 @@ public class MatchClient{
     private IMatchListener matchListener;
     private final UUID matchToken;
 
+    private boolean matchRunning = true;
+
     public MatchClient(Client client, String adress, UUID matchToken) {
         this.client = client;
         this.matchToken = matchToken;
@@ -32,6 +35,15 @@ public class MatchClient{
                 super.onConnected(c);
                 connection = c;
                 onMatchConnected();
+            }
+
+            @Override
+            public void onClosed(IConnection connection) {
+                super.onClosed(connection);
+                if(matchRunning){
+                    System.out.println("Connection to Server Lost!");
+                    onMatchOver(MatchOverPacket.REASONS.ABORTED.ordinal());
+                }
             }
         };
 
@@ -47,6 +59,11 @@ public class MatchClient{
 
     public void start(){
         matchServer.start();
+        matchRunning = true;
+    }
+
+    public void stop(){
+        matchServer.stop();
     }
 
     private void onMatchConnected(){
@@ -68,5 +85,11 @@ public class MatchClient{
 
     public IMatchListener getMatchListener() {
         return matchListener;
+    }
+
+    public void onMatchOver(int reason) {
+        matchRunning = false;
+        if(matchListener != null) matchListener.onMatchOver(reason);
+        stop();
     }
 }

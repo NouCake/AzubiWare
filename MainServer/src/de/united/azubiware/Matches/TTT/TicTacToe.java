@@ -69,8 +69,17 @@ public class TicTacToe {
         draw();
     }
 
+    public boolean isMatchOver(){
+        for(int x = 0; x < field.length; x++){
+            for(int y = 0; y < field[x].length; y++){
+                if(field[x][y] != 0) return false;
+            }
+        }
+        return true;
+    }
+
     public int getNextPlayer(){
-        return 1 + ((lastPlayer + 1) % 2);
+        return 1 + (lastPlayer % 2);
     }
 
     public class IllegalTurnException extends Exception {

@@ -4,14 +4,10 @@ import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
 import de.united.azubiware.Connection.WebSocket.WebSocketConnectionManager;
-import de.united.azubiware.Packets.ErrorResponsePacket;
+import de.united.azubiware.Packets.*;
 import de.united.azubiware.Packets.Handler.IPacketHandler;
-import de.united.azubiware.Packets.IPacket;
-import de.united.azubiware.Packets.MatchConnectionInfoPacket;
-import de.united.azubiware.Packets.MatchReadyPacket;
 import de.united.azubiware.User.IUser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,13 +20,23 @@ public abstract class AMatch implements IMatch {
     private final MatchUser[] users;
 
     private IMatchListener listener;
-    private IConnectionManager server;
-    private PacketListener packetListener;
+    private final IConnectionManager server;
+    private final PacketListener packetListener;
+    private int playerWon = 0;
 
     public AMatch(int matchType, int port, IUser ...userlist) {
         this.MATCH_ID = matchType;
 
-        this.packetListener = new PacketListener(new MatchPacketHandler(this));
+        this.packetListener = new PacketListener(new MatchPacketHandler(this)){
+            @Override
+            public void onClosed(IConnection connection) {
+                super.onClosed(connection);
+                MatchUser user = getPlayerFromConnection(connection);
+                if(user != null){
+                    onMatchOver(MatchOverPacket.REASONS.ABORTED.ordinal());
+                }
+            }
+        };
 
         AtomicInteger playerIndex = new AtomicInteger();
         users = Arrays.stream(userlist).map(user -> new MatchUser(user, playerIndex.incrementAndGet())).toArray(MatchUser[]::new);
@@ -75,13 +81,29 @@ public abstract class AMatch implements IMatch {
         }
 
         sendAllUsers(new MatchReadyPacket());
-
-        //All connected
         onAllUserConnected();
     }
+    private void onMatchTimedOut(){
+        if(listener != null) listener.onMatchTimedOut();
+        onMatchOver(MatchOverPacket.REASONS.ABORTED.ordinal());
+    }
 
-    protected void onMatchOver(){
+    private void sendMatchOverPackets(int r){
+        for(MatchUser user : users){
+            int reason = r;
+            if(r == MatchOverPacket.REASONS.GAME_DONE.ordinal()){
+                if(playerWon == 0) {
+                    reason = MatchOverPacket.REASONS.DRAW.ordinal();
+                } else {
+                    reason = playerWon == user.getPlayerIndex() ? MatchOverPacket.REASONS.YOU_WON.ordinal() : MatchOverPacket.REASONS.YOU_LOST.ordinal();
+                }
+            }
+        }
+    }
+
+    protected void onMatchOver(int reason){
         if(listener != null) listener.onMatchFinished();
+        sendMatchOverPackets(reason);
         server.stop();
     }
     protected void onUserConnected(IConnection connection, UUID userMatchToken){
@@ -101,6 +123,13 @@ public abstract class AMatch implements IMatch {
         checkIfAllConnected();
     }
     protected abstract void onAllUserConnected();
+
+    public void setPlayerWon(int playerIndex){
+        if(playerWon != 0){
+            throw new RuntimeException("Match is already decided: " + playerWon + " has won!");
+        }
+        this.playerWon = playerIndex;
+    }
 
     protected void sendAllUsers(IPacket packet){
         for(MatchUser user : users){
@@ -131,7 +160,7 @@ public abstract class AMatch implements IMatch {
             }
             for (MatchUser user : users) {
                 if (!user.isConnected()) {
-                    if(listener != null) listener.onMatchTimedOut();
+                    onMatchTimedOut();
                     return;
                 }
             }
