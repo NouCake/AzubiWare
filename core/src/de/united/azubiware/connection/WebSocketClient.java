@@ -72,7 +72,18 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
 
     @Override
     public void stop() {
-        close();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    close();
+                }
+            }
+        }).start();
     }
 
     @Override
