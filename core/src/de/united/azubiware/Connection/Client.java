@@ -12,7 +12,7 @@ public class Client {
     private IConnection connection;
 
     public Client(){
-        IConnectionManager client = new WebSocketClient(URI.create("ws://localhost:13000"));
+        IConnectionManager client = new WebSocketClient(URI.create("ws://two.noucake.de:12000"));
         client.setConnectionListener(new PacketListener(new ClientPacketHandler()){
             @Override
             public void onConnected(IConnection con) {

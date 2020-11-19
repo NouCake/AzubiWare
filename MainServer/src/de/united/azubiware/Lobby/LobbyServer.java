@@ -33,7 +33,7 @@ public class LobbyServer implements ILobby, IUserListener {
         UserConnectionManager connectionListener = new UserConnectionManager(this, userDB);
         packetHandler = new LobbyPacketHandler(this, connectionListener);
 
-        connectionManager = new WebSocketConnectionManager();
+        connectionManager = new WebSocketConnectionManager(12000);
         connectionManager.setConnectionListener(connectionListener);
 
         connectionManager.start();
