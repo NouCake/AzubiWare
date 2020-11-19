@@ -55,7 +55,6 @@ public class TicTacToeScreen extends ScreenAdapter {
 
         Button leave = new Button(createButtonStyle());
         leave.setPosition(stage.getWidth()/2f - leave.getWidth()/2f, leave.getHeight()/4.25f);
-        leave.setDisabled(true);
         leave.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
