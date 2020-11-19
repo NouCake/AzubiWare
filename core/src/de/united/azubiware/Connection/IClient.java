@@ -12,4 +12,6 @@ public interface IClient {
     void sendQueueStop();
     void sendQueuePoll(int matchType);
 
+    void setMatchListener(IMatchListener listener);
+
 }

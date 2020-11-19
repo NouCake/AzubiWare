@@ -6,6 +6,7 @@ import de.united.azubiware.Packets.Handler.QueueResponsePacket;
 import de.united.azubiware.Packets.MatchConnectionInfoPacket;
 import de.united.azubiware.Packets.WelcomePacket;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.User.SimpleUser;
 
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class ClientPacketHandler extends APacketHandler {
 
     public void onWelcomePacket(IConnection c, WelcomePacket packet){
         System.out.println("Got Welcomed!");
-        client.doWelcome(new User(packet.getUuid(), packet.getUsername()));
+        client.doWelcome(new SimpleUser(packet.getUuid(), packet.getUsername()));
     }
 
     public void onMatchInfoPacket(IConnection c, MatchConnectionInfoPacket packet){

@@ -43,6 +43,7 @@ public class PacketParser {
             Class<?> packetClass = packetClasses.get(packetType);
             return (IPacket) gson.fromJson(json, packetClass);
         } catch (Exception e){
+            e.printStackTrace();
             return null;
         }
     }

@@ -10,15 +10,12 @@ import javax.swing.plaf.synth.SynthOptionPaneUI;
 
 public class TTTPacketHandler extends APacketHandler {
 
-    private TTTMatch match;
+    private final TTTMatch match;
 
-    public TTTPacketHandler(){
-
-    }
-
-    public void setMatch(TTTMatch match) {
+    public TTTPacketHandler(TTTMatch match){
         this.match = match;
     }
+
 
     public void onTTTPacket(IConnection connection, TTTPacket packet){
         if(!match.isMatchStarted()){

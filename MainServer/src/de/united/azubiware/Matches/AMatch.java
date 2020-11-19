@@ -8,6 +8,7 @@ import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.Handler.IPacketHandler;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.MatchConnectionInfoPacket;
+import de.united.azubiware.Packets.MatchReadyPacket;
 import de.united.azubiware.User.IUser;
 
 import java.util.ArrayList;
@@ -24,18 +25,23 @@ public abstract class AMatch implements IMatch {
 
     private IMatchListener listener;
     private IConnectionManager server;
+    private PacketListener packetListener;
 
-    public AMatch(int matchType, int port, IPacketHandler packetHandler, IUser ...userlist) {
+    public AMatch(int matchType, int port, IUser ...userlist) {
         this.MATCH_ID = matchType;
 
-        System.out.println("Match " + getClass().getSimpleName() + " was Started");
+        this.packetListener = new PacketListener(new MatchPacketHandler(this));
 
         AtomicInteger playerIndex = new AtomicInteger();
         users = Arrays.stream(userlist).map(user -> new MatchUser(user, playerIndex.incrementAndGet())).toArray(MatchUser[]::new);
 
         server = new WebSocketConnectionManager(port);
-        server.setConnectionListener(new PacketListener(packetHandler, new MatchPacketHandler(this)));
+        server.setConnectionListener(packetListener);
         server.start();
+    }
+
+    protected void addPacketHandler(IPacketHandler packetHandler){
+        this.packetListener.addPacketHandler(packetHandler);
     }
 
     private MatchUser getPlayerFromMatchToken(UUID userMatchToken){
@@ -61,6 +67,9 @@ public abstract class AMatch implements IMatch {
         for(MatchUser user : users){
             if(!user.isConnected()) return;
         }
+
+        sendAllUsers(new MatchReadyPacket());
+
         //All connected
         onAllUserConnected();
     }
@@ -130,7 +139,7 @@ public abstract class AMatch implements IMatch {
                 .filter(mu -> mu.getId().equals(user.getId()))
                 .toArray(IUser[]::new);
 
-        return new MatchConnectionInfoPacket(getMatchType(), server.getConnectionAdress(), user.getMatchToken(), oponents);
+        return new MatchConnectionInfoPacket(getMatchType(), server.getConnectionAdress(), user.getMatchToken(), null);
     }
 
 }

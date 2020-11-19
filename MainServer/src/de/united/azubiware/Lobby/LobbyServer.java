@@ -14,6 +14,7 @@ import de.united.azubiware.User.IUserConnection;
 import de.united.azubiware.User.IUserDatabase;
 import de.united.azubiware.User.SimpleUserDatabase;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,11 +55,12 @@ public class LobbyServer implements ILobby, IUserListener {
         } catch (PortManager.NoFreePortException e) {
             System.out.println("Couldn't start Match: No Free Port");
             return;
+        } finally {
+            stopQueueing(users);
         }
 
         IMatch match = new TTTMatch(port, users[0], users[1]);
         for(IUserConnection connection : users){
-            System.out.println("Starting match with: " + connection);
             connection.send(match.getMatchInfoPacket(connection.getId()));
         }
         match.start();
@@ -87,14 +89,14 @@ public class LobbyServer implements ILobby, IUserListener {
         tryMatchmaking();
     }
     @Override
-    public void stopQueueing(IUserConnection user) {
+    public void stopQueueing(IUserConnection ...user) {
         synchronized (queue){
-            queue.remove(user);
+            queue.removeAll(Arrays.asList(user.clone()));
         }
     }
-
     @Override
     public int getUsersInQueue(int matchType) {
+        //System.out.println(queue + " | " + queue.size());
         return queue.size();
     }
 

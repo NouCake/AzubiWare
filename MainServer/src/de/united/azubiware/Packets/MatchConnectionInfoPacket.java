@@ -1,6 +1,7 @@
 package de.united.azubiware.Packets;
 
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.User.SimpleUser;
 
 import java.util.UUID;
 
