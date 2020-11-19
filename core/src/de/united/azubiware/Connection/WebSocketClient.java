@@ -46,6 +46,7 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     @Override
     public void onError(Exception ex) {
         System.out.println("Error");
+        ex.printStackTrace();
     }
 
     @Override
