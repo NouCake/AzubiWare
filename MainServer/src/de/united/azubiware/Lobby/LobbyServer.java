@@ -72,7 +72,7 @@ public class LobbyServer implements ILobby, IUserListener {
     @Override
     public void onLogin(IUserConnection user) {
         System.out.println("User logged in " + user.getName());
-        user.send(new WelcomePacket(uuid, user.getName()));
+        user.send(new WelcomePacket(user.getId(), user.getName()));
     }
     @Override
     public void onLogout(IUserConnection user) {
@@ -91,6 +91,11 @@ public class LobbyServer implements ILobby, IUserListener {
         synchronized (queue){
             queue.remove(user);
         }
+    }
+
+    @Override
+    public int getUsersInQueue(int matchType) {
+        return queue.size();
     }
 
 }

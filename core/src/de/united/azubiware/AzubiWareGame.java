@@ -20,7 +20,8 @@ public class AzubiWareGame extends Game {
 
 	@Override
 	public void create() {
-		new Client();
+		Client c = new Client();
+		c.start();
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/8-bitArcadeIn.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = 32;
