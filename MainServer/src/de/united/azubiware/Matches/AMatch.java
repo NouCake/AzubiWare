@@ -11,7 +11,6 @@ import de.united.azubiware.Packets.MatchConnectionInfoPacket;
 import de.united.azubiware.Packets.MatchReadyPacket;
 import de.united.azubiware.User.IUser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,13 +23,22 @@ public abstract class AMatch implements IMatch {
     private final MatchUser[] users;
 
     private IMatchListener listener;
-    private IConnectionManager server;
-    private PacketListener packetListener;
+    private final IConnectionManager server;
+    private final PacketListener packetListener;
 
     public AMatch(int matchType, int port, IUser ...userlist) {
         this.MATCH_ID = matchType;
 
-        this.packetListener = new PacketListener(new MatchPacketHandler(this));
+        this.packetListener = new PacketListener(new MatchPacketHandler(this)){
+            @Override
+            public void onClosed(IConnection connection) {
+                super.onClosed(connection);
+                MatchUser user = getPlayerFromConnection(connection);
+                if(user != null){
+                    onMatchOver();
+                }
+            }
+        };
 
         AtomicInteger playerIndex = new AtomicInteger();
         users = Arrays.stream(userlist).map(user -> new MatchUser(user, playerIndex.incrementAndGet())).toArray(MatchUser[]::new);
@@ -75,9 +83,11 @@ public abstract class AMatch implements IMatch {
         }
 
         sendAllUsers(new MatchReadyPacket());
-
-        //All connected
         onAllUserConnected();
+    }
+    private void onMatchTimedOut(){
+        if(listener != null) listener.onMatchTimedOut();
+        onMatchOver();
     }
 
     protected void onMatchOver(){
@@ -131,7 +141,7 @@ public abstract class AMatch implements IMatch {
             }
             for (MatchUser user : users) {
                 if (!user.isConnected()) {
-                    if(listener != null) listener.onMatchTimedOut();
+                    onMatchTimedOut();
                     return;
                 }
             }

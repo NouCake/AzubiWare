@@ -37,13 +37,18 @@ public class TTTMatch extends AMatch {
         }
 
         int otherPlayer = tttGame.getNextPlayer();
+
         MatchUser otherUser = getPlayerFromIndex(otherPlayer);
+        //System.out.println("Current Player: " + user.getPlayerIndex() + " | " + otherUser.getPlayerIndex());
         if(otherUser == null) throw new RuntimeException("Something bad happend :c");
         otherUser.send(new TTTPacket(fieldX, fieldY));
 
 
         if(!checkMatchOver())
             sendNextTurnPackets();
+        else {
+            onMatchOver();
+        }
     }
 
     private boolean checkMatchOver(){
@@ -52,7 +57,7 @@ public class TTTMatch extends AMatch {
             onMatchOver();
             return true;
         }
-        return false;
+        return tttGame.isMatchOver();
     }
 
     private void sendNextTurnPackets(){
