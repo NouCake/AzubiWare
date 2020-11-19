@@ -5,7 +5,7 @@ import de.united.azubiware.User.IUserConnection;
 public interface ILobby {
 
     void startQueueing(IUserConnection user);
-    void stopQueueing(IUserConnection user);
+    void stopQueueing(IUserConnection ...user);
 
     int getUsersInQueue(int matchType);
 }

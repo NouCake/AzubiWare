@@ -9,6 +9,6 @@ public interface IClientListener {
 
     void onWelcome(IUser user);
     void onQueueUpdate(int matchType, int usersInQueue);
-    void onMatchStart(int matchType, IUser ...oponents);
+    void onMatchFound(int matchType, IUser ...oponents);
 
 }

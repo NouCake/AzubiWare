@@ -1,9 +1,7 @@
 package de.united.azubiware.Connection;
 
-import de.united.azubiware.Packets.LoginPacket;
-import de.united.azubiware.Packets.QueuePollPacket;
-import de.united.azubiware.Packets.QueueStartPacket;
-import de.united.azubiware.Packets.QueueStopPacket;
+import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.Packets.*;
 import de.united.azubiware.User.IUser;
 
 import java.net.URI;
@@ -14,6 +12,8 @@ public class Client implements IClient{
     private IConnection connection;
     private IClientListener listener;
     private IConnectionManager client;
+
+    private MatchClient currentMatchClient;
 
     public Client(){
         client = new WebSocketClient(URI.create("ws://two.noucake.de:12000"));
@@ -40,8 +40,21 @@ public class Client implements IClient{
 
     public void startMatch(int matchType, String adress, UUID matchToken, IUser[] opponents){
         if(listener == null) return;
-        listener.onMatchStart(matchType, opponents);
-        //Start Match Client
+        if(matchType == TTTMatch.MATCH_TYPE){
+            currentMatchClient = new TTTClient(this, adress, matchToken);
+        }
+
+        listener.onMatchFound(matchType, opponents);
+    }
+
+    @Override
+    public void setMatchListener(IMatchListener listener) {
+        if(currentMatchClient == null){
+            System.out.println("Match is not set!");
+            return;
+        }
+        currentMatchClient.setMatchListener(listener);
+        currentMatchClient.start();
     }
 
     public void updateQueue(int matchType, int queueLength){

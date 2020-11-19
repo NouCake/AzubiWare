@@ -15,13 +15,8 @@ public class TTTMatch extends AMatch {
     private boolean matchStarted = false;
 
     public TTTMatch(int port, IUser u1, IUser u2) {
-        this(port, new TTTPacketHandler(), u1, u2);
-    }
-
-    private TTTMatch(int port, TTTPacketHandler handler, IUser u1, IUser u2){
-        super(MATCH_TYPE, port, handler, u1, u2);
-        handler.setMatch(this);
-
+        super(MATCH_TYPE, port, u1, u2);
+        addPacketHandler(new TTTPacketHandler(this));
         tttGame = new TicTacToe();
     }
 
