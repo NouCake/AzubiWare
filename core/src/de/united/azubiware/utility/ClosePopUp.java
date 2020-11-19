@@ -43,15 +43,6 @@ public class ClosePopUp {
         background.setVisible(false);
         stage.addActor(background);
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = game.getFont();
-        labelStyle.fontColor = Color.BLACK;
-
-        label = new Label("Are you sure", labelStyle);
-        label.setPosition(stage.getWidth()/2-label.getWidth()/2, stage.getHeight()/2);
-        label.setVisible(false);
-        stage.addActor(label);
-
         exit = new Button(creatButtonStyle("exit"));
         exit.setPosition(stage.getWidth()/2-exit.getWidth()/2, stage.getHeight()/2-exit.getHeight()*1.75f);
         exit.addListener(new ClickListener(){
@@ -99,9 +90,8 @@ public class ClosePopUp {
 
         dark.setVisible(true);
         background.setVisible(true);
-        label.setVisible(true);
 
-        //exit.setVisible(true);
+        exit.setVisible(true);
         stay.setVisible(true);
     }
 
@@ -110,7 +100,6 @@ public class ClosePopUp {
 
         dark.setVisible(false);
         background.setVisible(false);
-        label.setVisible(false);
 
         exit.setVisible(false);
         stay.setVisible(false);

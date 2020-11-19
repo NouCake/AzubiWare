@@ -31,6 +31,8 @@ public class AzubiWareGame extends Game {
 
 	@Override
 	public void create() {
+		client.start();
+
 		if(!isHTML) {
 			font = new FontLoader().loadFont("fonts/8-bitArcadeIn.ttf");
 		}else{
