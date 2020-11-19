@@ -1,14 +1,13 @@
-package de.united.azubiware.Connection;
+package de.united.azubiware.Connection.Client;
 
+import de.united.azubiware.Connection.Client.Client;
+import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.Handler.APacketHandler;
 import de.united.azubiware.Packets.Handler.QueueResponsePacket;
 import de.united.azubiware.Packets.MatchConnectionInfoPacket;
 import de.united.azubiware.Packets.WelcomePacket;
-import de.united.azubiware.User.IUser;
 import de.united.azubiware.User.SimpleUser;
-
-import java.util.UUID;
 
 public class ClientPacketHandler extends APacketHandler {
 

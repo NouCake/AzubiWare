@@ -1,5 +1,7 @@
-package de.united.azubiware.Connection;
+package de.united.azubiware.Connection.Match;
 
+import de.united.azubiware.Connection.Client.Client;
+import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Packets.Handler.APacketHandler;
 import de.united.azubiware.Packets.TTTNextTurnPacket;
 

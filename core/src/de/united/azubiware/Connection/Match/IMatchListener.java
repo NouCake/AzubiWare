@@ -1,4 +1,4 @@
-package de.united.azubiware.Connection;
+package de.united.azubiware.Connection.Match;
 
 public interface IMatchListener {
 

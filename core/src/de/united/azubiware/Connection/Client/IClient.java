@@ -1,4 +1,6 @@
-package de.united.azubiware.Connection;
+package de.united.azubiware.Connection.Client;
+
+import de.united.azubiware.Connection.Match.IMatchListener;
 
 public interface IClient {
 
