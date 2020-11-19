@@ -9,7 +9,7 @@ import de.united.azubiware.User.IUser;
 
 public class TTTMatch extends AMatch {
 
-    private final static int MATCH_TYPE = 1;
+    public final static int MATCH_TYPE = 1;
     private final TicTacToe tttGame;
 
     private boolean matchStarted = false;

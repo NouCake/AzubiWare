@@ -10,7 +10,6 @@ import de.united.azubiware.Matches.TTT.TTTMatch;
 import de.united.azubiware.Packets.Handler.IPacketHandler;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.WelcomePacket;
-import de.united.azubiware.User.IUser;
 import de.united.azubiware.User.IUserConnection;
 import de.united.azubiware.User.IUserDatabase;
 import de.united.azubiware.User.SimpleUserDatabase;
@@ -73,7 +72,7 @@ public class LobbyServer implements ILobby, IUserListener {
     @Override
     public void onLogin(IUserConnection user) {
         System.out.println("User logged in " + user.getName());
-        user.send(new WelcomePacket(user.getName()));
+        user.send(new WelcomePacket(uuid, user.getName()));
     }
     @Override
     public void onLogout(IUserConnection user) {
