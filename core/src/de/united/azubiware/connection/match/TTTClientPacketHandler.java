@@ -15,17 +15,17 @@ public class TTTClientPacketHandler extends APacketHandler {
         this.listener = listener;
     }
 
-    void onNextTurn(IConnection c, TTTNextTurnPacket packet){
+    public void onNextTurn(IConnection c, TTTNextTurnPacket packet){
         listener.onNextTurn(packet.isYourTurn());
     }
 
-    void onIllegalTurn(IConnection c, TTTIllegalTurnPacket packet){
+    public void onIllegalTurn(IConnection c, TTTIllegalTurnPacket packet){
         System.out.println("You did some bad Move :c");
         System.out.println(packet.getMessage());
         listener.onInvalidTurn();
     }
 
-    void onEnemyTurn(IConnection c, TTTPacket packet){
+    public void onEnemyTurn(IConnection c, TTTPacket packet){
         listener.onEnemyTurn(packet.getFieldX(), packet.getFieldY());
     }
 
