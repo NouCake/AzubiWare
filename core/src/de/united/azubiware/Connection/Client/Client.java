@@ -61,6 +61,15 @@ public class Client implements IClient {
         currentMatchClient.start();
     }
 
+    @Override
+    public void sendMatchPacket(IPacket packet) {
+        if(currentMatchClient == null){
+            System.out.println("Match is not set!");
+            return;
+        }
+        currentMatchClient.sendPacket(packet);
+    }
+
     public void updateQueue(int matchType, int queueLength){
         if(listener == null) return;
         listener.onQueueUpdate(matchType, queueLength);
