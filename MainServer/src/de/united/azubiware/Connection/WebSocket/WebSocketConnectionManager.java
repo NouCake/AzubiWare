@@ -53,7 +53,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
 
     @Override
     public String getConnectionAdress() {
-        return "ws://localhost:"+port;
+        return "ws://two.noucake.de:"+port;
     }
 
     // WebSocketServer
