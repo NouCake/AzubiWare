@@ -9,4 +9,7 @@ public class ErrorResponsePacket implements IPacket {
         this.error = error;
     }
 
+    public String getMessage() {
+        return error;
+    }
 }

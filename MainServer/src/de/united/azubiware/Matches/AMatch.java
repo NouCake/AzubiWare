@@ -10,6 +10,7 @@ import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.MatchConnectionInfoPacket;
 import de.united.azubiware.User.IUser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -124,7 +125,12 @@ public abstract class AMatch implements IMatch {
     public MatchConnectionInfoPacket getMatchInfoPacket(UUID userId) {
         MatchUser user = getPlayerFromUUID(userId);
         if(user == null) throw new RuntimeException("This user wasn't there when match was started!");
-        return new MatchConnectionInfoPacket(getMatchType(), server.getConnectionAdress(), user.getMatchToken());
+
+        IUser[] oponents = Arrays.stream(users)
+                .filter(mu -> mu.getId().equals(user.getId()))
+                .toArray(IUser[]::new);
+
+        return new MatchConnectionInfoPacket(getMatchType(), server.getConnectionAdress(), user.getMatchToken(), oponents);
     }
 
 }
