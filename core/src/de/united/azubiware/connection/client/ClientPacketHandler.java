@@ -21,7 +21,6 @@ public class ClientPacketHandler extends APacketHandler {
     }
 
     public void onWelcomePacket(IConnection c, WelcomePacket packet){
-        System.out.println("Got Welcomed!");
         client.doWelcome(new SimpleUser(packet.getUuid(), packet.getUsername()));
     }
 
