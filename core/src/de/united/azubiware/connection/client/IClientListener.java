@@ -1,4 +1,4 @@
-package de.united.azubiware.Connection.Client;
+package de.united.azubiware.connection.client;
 
 import de.united.azubiware.User.IUser;
 

@@ -1,6 +1,5 @@
-package de.united.azubiware.Connection.Client;
+package de.united.azubiware.connection.client;
 
-import de.united.azubiware.Connection.Client.Client;
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.Handler.APacketHandler;

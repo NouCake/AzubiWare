@@ -72,4 +72,8 @@ public class WaitingScreen extends ScreenAdapter {
             game.setScreen(miniGame.createStage(game));
         }
     }
+
+    public void setSwitchToMatch(boolean switchToMatch) {
+        this.switchToMatch = switchToMatch;
+    }
 }

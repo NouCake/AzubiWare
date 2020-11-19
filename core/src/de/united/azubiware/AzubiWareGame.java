@@ -2,8 +2,8 @@ package de.united.azubiware;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import de.united.azubiware.Connection.Client.Client;
+import de.united.azubiware.connection.client.Client;
+import de.united.azubiware.connection.client.IClient;
 import de.united.azubiware.login.ActionResolver;
 import de.united.azubiware.screens.SplashScreen;
 import de.united.azubiware.utility.FontLoader;

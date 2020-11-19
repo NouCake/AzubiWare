@@ -1,12 +1,12 @@
-package de.united.azubiware.Connection.Match;
+package de.united.azubiware.connection.match;
 
-import de.united.azubiware.Connection.Client.Client;
+import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
-import de.united.azubiware.Connection.WebSocketClient;
 import de.united.azubiware.Packets.Handler.IPacketHandler;
 import de.united.azubiware.Packets.MatchLoginPacket;
+import de.united.azubiware.connection.WebSocketClient;
 
 import java.net.URI;
 import java.util.UUID;

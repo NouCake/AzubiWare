@@ -1,12 +1,18 @@
-package de.united.azubiware.Connection.Client;
+package de.united.azubiware.connection.client;
 
-import de.united.azubiware.Connection.*;
-import de.united.azubiware.Connection.Match.IMatchListener;
-import de.united.azubiware.Connection.Match.MatchClient;
-import de.united.azubiware.Connection.Match.TTTClient;
+import de.united.azubiware.Connection.IConnection;
+import de.united.azubiware.Connection.IConnectionManager;
+import de.united.azubiware.Connection.PacketListener;
 import de.united.azubiware.Matches.TTT.TTTMatch;
-import de.united.azubiware.Packets.*;
+import de.united.azubiware.Packets.LoginPacket;
+import de.united.azubiware.Packets.QueuePollPacket;
+import de.united.azubiware.Packets.QueueStartPacket;
+import de.united.azubiware.Packets.QueueStopPacket;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.connection.WebSocketClient;
+import de.united.azubiware.connection.match.IMatchListener;
+import de.united.azubiware.connection.match.MatchClient;
+import de.united.azubiware.connection.match.TTTClient;
 
 import java.net.URI;
 import java.util.UUID;
@@ -72,7 +78,7 @@ public class Client implements IClient {
     }
 
     @Override
-    public void setClientLister(IClientListener lister) {
+    public void setClientLister(de.united.azubiware.connection.client.IClientListener lister) {
         this.listener = lister;
     }
 

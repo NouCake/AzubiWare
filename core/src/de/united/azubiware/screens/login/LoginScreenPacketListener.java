@@ -1,8 +1,7 @@
 package de.united.azubiware.screens.login;
 
-import de.united.azubiware.Connection.IClientListener;
-import de.united.azubiware.Connection.PacketListener;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.connection.client.IClientListener;
 
 public class LoginScreenPacketListener implements IClientListener {
 
@@ -27,7 +26,8 @@ public class LoginScreenPacketListener implements IClientListener {
     }
 
     @Override
-    public void onMatchStart(int matchType, IUser... oponents) {
+    public void onMatchFound(int matchType, IUser... oponents) {
 
     }
+
 }

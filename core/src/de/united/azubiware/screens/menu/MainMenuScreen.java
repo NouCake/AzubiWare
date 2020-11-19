@@ -16,8 +16,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.minigames.IGame;
 import de.united.azubiware.minigames.TicTacToe;
 import de.united.azubiware.screens.minigames.WaitingScreen;
+import de.united.azubiware.screens.minigames.ttt.TTTMatchListener;
 import de.united.azubiware.screens.minigames.ttt.TicTacToeScreen;
 import de.united.azubiware.utility.ClosePopUp;
 import de.united.azubiware.utility.Clouds;
@@ -114,10 +116,9 @@ public class MainMenuScreen extends ScreenAdapter {
         paginator.paginate();
 
         if(foundMatch) {
-            if (paginator.getCurrentMatchType() == TTTMatch.MATCH_TYPE) {
-                dispose();
-                game.setScreen(new WaitingScreen(game, new TicTacToe()));
-            }
+            dispose();
+            game.setScreen(waitingScreen = new WaitingScreen(game, iGame));
+            game.getClient().setMatchListener(new TTTMatchListener(waitingScreen));
         }
     }
 
@@ -131,6 +132,8 @@ public class MainMenuScreen extends ScreenAdapter {
     int waiting = 0;
 
     boolean foundMatch = false;
+    WaitingScreen waitingScreen;
+    IGame iGame;
 
     public void setWaiting(int waiting) {
         this.waiting = waiting;
@@ -141,19 +144,14 @@ public class MainMenuScreen extends ScreenAdapter {
             game.getClient().sendQueuePoll(paginator.getCurrentMatchType());
             label.setText(waiting + " in queue");
             lastUpdated = TimeUtils.millis();
-            /*
-            if(new Random().nextBoolean() && new Random().nextBoolean()){
-                if(paginator.getCurrent() == 0) {
-                    dispose();
-                    game.setScreen(new TicTacToeScreen(game));
-                }
-            }
-             */
         }
     }
 
-    public void startMatch(){
+    public void startMatch(int matchType){
         foundMatch = true;
+        if(matchType == TTTMatch.MATCH_TYPE){
+            iGame = new TicTacToe();
+        }
     }
 
 }

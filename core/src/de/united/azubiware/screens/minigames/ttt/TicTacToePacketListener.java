@@ -1,7 +1,7 @@
 package de.united.azubiware.screens.minigames.ttt;
 
-import de.united.azubiware.Connection.IClientListener;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.connection.client.IClientListener;
 
 public class TicTacToePacketListener implements IClientListener {
 
@@ -32,7 +32,8 @@ public class TicTacToePacketListener implements IClientListener {
     }
 
     @Override
-    public void onMatchStart(int matchType, IUser... oponents) {
+    public void onMatchFound(int matchType, IUser... oponents) {
 
     }
+
 }

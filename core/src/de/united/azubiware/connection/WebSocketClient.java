@@ -1,5 +1,8 @@
-package de.united.azubiware.Connection;
+package de.united.azubiware.connection;
 
+import de.united.azubiware.Connection.IConnection;
+import de.united.azubiware.Connection.IConnectionListener;
+import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.WebSocket.WebSocketConnection;
 import de.united.azubiware.Packets.Handler.PacketParser;
 import de.united.azubiware.Packets.IPacket;
@@ -8,7 +11,7 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 
-public class WebSocketClient extends org.java_websocket.client.WebSocketClient implements IConnectionManager{
+public class WebSocketClient extends org.java_websocket.client.WebSocketClient implements IConnectionManager {
 
     private IConnectionListener listener;
     private WebSocketConnection connection;
