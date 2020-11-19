@@ -1,6 +1,7 @@
 package de.united.azubiware.Matches.TTT;
 
 import de.united.azubiware.Connection.IConnection;
+import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.Handler.APacketHandler;
 import de.united.azubiware.Packets.TTTPacket;
@@ -11,10 +12,8 @@ public class TTTPacketHandler extends APacketHandler {
 
     private TTTMatch match;
 
-    private TicTacToe ttt;
-
     public TTTPacketHandler(){
-        ttt = new TicTacToe();
+
     }
 
     public void setMatch(TTTMatch match) {
@@ -22,17 +21,12 @@ public class TTTPacketHandler extends APacketHandler {
     }
 
     public void onTTTPacket(IConnection connection, TTTPacket packet){
-        int player = match.getPlayerFromConnection(connection);
-        try{
-            ttt.setField(player, packet.getFieldX(), packet.getFieldY());
-        } catch (RuntimeException e){
-            connection.send(new ErrorResponsePacket("Error with your Packet: " + e.getMessage()));
+        if(!match.isMatchStarted()){
+            connection.send(new ErrorResponsePacket("Nicht so schnell mein junger Freund!"));
+            return;
         }
-
-        int won = ttt.checkPlayerWin();
-        if(won != 0){
-            System.out.println("Player "+won+" has won");
-        }
+        MatchUser user = match.getPlayerFromConnection(connection);
+        match.doPlayerTurn(user, packet.getFieldX(), packet.getFieldY());
     }
 
 }

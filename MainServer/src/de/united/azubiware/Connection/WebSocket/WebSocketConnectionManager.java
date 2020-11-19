@@ -10,6 +10,7 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,7 +63,6 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
         synchronized (connectedSockets){
             connectedSockets.add(connection);
         }
-        System.out.println("Connecting socket: " + socket + " | " + connection);
 
         if(listener != null) listener.onConnected(connection);
         System.out.println("Connected");
@@ -78,7 +78,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
     @Override
     public void onMessage(WebSocket socket, String message) {
-        System.out.println(getClass().getSimpleName() + " Got Message: " + message);
+        System.out.println("Got Message: " + message);
         WebSocketConnection connection = getConnectionFromSocket(socket);
 
         IPacket packet = PacketParser.createPacketFromJson(message);
@@ -97,6 +97,15 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     @Override
     public void onStart() {
         System.out.println("Started WebSocket Server on Port: " + port);
+    }
+
+    @Override
+    public void stop(){
+        try {
+            super.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

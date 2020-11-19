@@ -10,6 +10,11 @@ public class TicTacToe {
 
     private int lastPlayer = 0;
 
+    public TicTacToe() {
+        draw();
+        checkPlayerWin();
+    }
+
     public void draw() {
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
@@ -52,18 +57,26 @@ public class TicTacToe {
         return win;
     }
 
-    public void setField(int player, int x, int y){
-        if(player != 1 && player != 2) throw new RuntimeException("Bad Player");
-        if(x < 0 || x >= 3) throw  new RuntimeException("Bad X");
-        if(y < 0 || y >= 3) throw  new RuntimeException("Bad Y");
-        if(field[y][x] != 0) throw new RuntimeException("Field already taken!");
-        if(lastPlayer == player) throw new RuntimeException("Player have to alternate");
+    public void setField(int player, int x, int y) throws IllegalTurnException{
+        if(player != 1 && player != 2) throw new IllegalTurnException("Bad Player");
+        if(x < 0 || x >= 3) throw  new IllegalTurnException("Bad X");
+        if(y < 0 || y >= 3) throw  new IllegalTurnException("Bad Y");
+        if(field[y][x] != 0) throw new IllegalTurnException("Field already taken!");
+        if(lastPlayer == player) throw new IllegalTurnException("Player have to alternate");
 
+        lastPlayer = player;
         field[y][x] = player;
+        draw();
     }
 
-    public TicTacToe() {
-        draw();
-        checkPlayerWin();
+    public int getNextPlayer(){
+        return 1 + ((lastPlayer + 1) % 2);
     }
+
+    public class IllegalTurnException extends Exception {
+        public IllegalTurnException(String message){
+            super(message);
+        }
+    }
+
 }

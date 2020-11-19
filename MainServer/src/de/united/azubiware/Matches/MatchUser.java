@@ -12,10 +12,14 @@ public class MatchUser implements IUserConnection {
     private final IUser user;
     private final UUID matchToken;
     private IConnection connection;
+    private final int playerIndex;
 
-    public MatchUser(IUser user) {
+    public MatchUser(IUser user, int playerIndex) {
         this.user = user;
+        this.playerIndex = playerIndex;
         matchToken = UUID.randomUUID();
+
+        System.out.println("New MatchUser: " + playerIndex);
     }
 
     public boolean isConnected(){
@@ -26,6 +30,10 @@ public class MatchUser implements IUserConnection {
         if(this.connection != null)
             throw new RuntimeException("User is already Connected!");
         this.connection = connection;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
     }
 
     public UUID getMatchToken() {
