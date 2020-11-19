@@ -96,6 +96,7 @@ public abstract class AMatch implements IMatch {
             return;
         }
         user.setConnection(connection);
+        System.out.println(user.getName());
 
         checkIfAllConnected();
     }

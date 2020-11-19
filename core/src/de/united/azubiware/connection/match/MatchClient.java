@@ -35,6 +35,7 @@ public class MatchClient{
             }
         };
 
+        System.out.println("Connection to Adress: " + adress);
         matchServer = new WebSocketClient(URI.create(adress));
         matchServer.setConnectionListener(listener);
     }
