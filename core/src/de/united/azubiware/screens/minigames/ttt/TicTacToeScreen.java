@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
 import de.united.azubiware.screens.menu.MainMenuScreen;
+import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.utility.ClosePopUp;
 
 public class TicTacToeScreen extends ScreenAdapter {
@@ -30,6 +31,7 @@ public class TicTacToeScreen extends ScreenAdapter {
     Stage stage;
     private TicTacToeField ticTacToeField;
     private ClosePopUp closePopUp;
+    private ResultOverlay resultOverlay;
 
     private boolean yourTurn = false;
 
@@ -68,6 +70,8 @@ public class TicTacToeScreen extends ScreenAdapter {
 
         stage.addActor(image);
         stage.addActor(leave);
+
+        resultOverlay = new ResultOverlay(stage);
         closePopUp = new ClosePopUp(stage, game);
 
         stage.addListener(new ClickListener(){
@@ -87,10 +91,12 @@ public class TicTacToeScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if(keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE){
-                    if(closePopUp.isHidden()){
-                        closePopUp.show();
-                    }else{
-                        closePopUp.hide();
+                    if(!resultOverlay.isShowResult()) {
+                        if (closePopUp.isHidden()) {
+                            closePopUp.show();
+                        } else {
+                            closePopUp.hide();
+                        }
                     }
                 }
                 return super.keyDown(event, keycode);
@@ -141,5 +147,9 @@ public class TicTacToeScreen extends ScreenAdapter {
 
     public TicTacToeField getTicTacToeField() {
         return ticTacToeField;
+    }
+
+    public ResultOverlay getResultOverlay() {
+        return resultOverlay;
     }
 }
