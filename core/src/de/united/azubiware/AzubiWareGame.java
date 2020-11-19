@@ -22,6 +22,7 @@ public class AzubiWareGame extends Game {
 	public AzubiWareGame(ActionResolver resolver, boolean isHTML){
 		this.resolver = resolver;
 		this.isHTML = isHTML;
+
 		this.client = new Client();
 	}
 

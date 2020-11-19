@@ -51,7 +51,7 @@ public class SplashScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if(TimeUtils.millis() - startTime <= 5000) {
+        if(TimeUtils.millis() - startTime <= 1000) {
             Gdx.gl.glClearColor(0, 0, 0, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -59,8 +59,16 @@ public class SplashScreen implements Screen {
             drawBackground();
             stage.draw();
         }else{
-            dispose();
-            game.setScreen(new LoginScreen(game));
+            try {
+                if(game.getClient().isConnected()) {
+                    dispose();
+                    game.setScreen(new LoginScreen(game));
+                }else{
+                    startTime = TimeUtils.millis();
+                }
+            }catch (NullPointerException exception){
+                startTime = TimeUtils.millis();
+            }
         }
     }
 

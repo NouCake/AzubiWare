@@ -1,7 +1,7 @@
 package de.united.azubiware.screens.minigames;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.screens.menu.MainMenuScreen;
+import de.united.azubiware.utility.ClosePopUp;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,14 +33,20 @@ public class TicTacToeScreen extends ScreenAdapter {
     Sprite backgroundSprite;
 
     Stage stage;
+    private TicTacToeField ticTacToeField;
+    private ClosePopUp closePopUp;
 
     public TicTacToeScreen(AzubiWareGame game){
         this.game = game;
+
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
         backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundCastles.png"));
         backgroundSprite = new Sprite(backgroundTexture);
+
+        ticTacToeField = new TicTacToeField(stage);
 
         Image image = new Image(new Texture(Gdx.files.internal("games/ttt_bottom.png")));
         image.setWidth(stage.getWidth());
@@ -51,7 +58,7 @@ public class TicTacToeScreen extends ScreenAdapter {
         leave.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(!leave.isDisabled()){
+                if(!leave.isDisabled() && closePopUp.isHidden()){
                     dispose();
                     /*
                     LEAVE GAME
@@ -64,55 +71,54 @@ public class TicTacToeScreen extends ScreenAdapter {
 
         stage.addActor(image);
         stage.addActor(leave);
+        closePopUp = new ClosePopUp(stage, game);
 
         stage.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                try {
-                    List<TicTacToeField> fieldList = fields.values().stream().filter(new Predicate<TicTacToeField>() {
-                        @Override
-                        public boolean test(TicTacToeField ticTacToeField) {
-                            return ticTacToeField.getState() == 0;
-                        }
-                    }).collect(Collectors.toList());
-                    if(fieldList.size() > 0){
-                        for(TicTacToeField ticTacToeField : fieldList){
-                            float fieldMaxX = ticTacToeField.getMax().x;
-                            float fieldMaxY = ticTacToeField.getMax().y;
-                            float fieldMinX = ticTacToeField.getMin().x;
-                            float fieldMinY = ticTacToeField.getMin().y;
-
-                            if(x >= fieldMinX && x <= fieldMaxX && y >= fieldMinY && y <= fieldMaxY){
-                                ticTacToeField.setState(1);
-                                break;
-                            }
-                        }
+                if(closePopUp.isHidden()) {
+                    TicTacToePostition postition = ticTacToeField.findPosition(x, y);
+                    if (postition != null) {
+                        postition.setState(1);
+                        return true;
                     }
-                }catch (Exception exception){
-                    exception.printStackTrace();
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }
+
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if(keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE){
+                    if(closePopUp.isHidden()){
+                        closePopUp.show();
+                    }else{
+                        closePopUp.hide();
+                    }
+                }
+                return super.keyDown(event, keycode);
+            }
         });
+
     }
 
     public void drawBackground(){
         stage.getBatch().begin();
         stage.getBatch().draw(backgroundSprite, 0, 0, stage.getWidth(), stage.getHeight());
-        drawLines();
+        ticTacToeField.draw();
         stage.getBatch().end();
     }
 
-    private HashMap<Integer[], TicTacToeField> fields;
+    private HashMap<Integer[], TicTacToePostition> fields;
 
     public void drawLines(){
         float centerX = stage.getWidth()/2;
         float centerY = stage.getHeight()/1.5f;
 
         float lineLength = stage.getWidth()*0.45f;
+        float fieldSize = Math.round((lineLength-10f)/3);
+        lineLength = fieldSize*3+10;
         float lineThickness = 5f;
 
-        float fieldSize = (lineLength-10f)/3;
         Texture texture = new Texture(Gdx.files.internal("line.png"));
 
         stage.getBatch().draw(texture, centerX-lineLength/2, centerY-(fieldSize/2+lineThickness/2), lineLength, lineThickness);
@@ -141,7 +147,7 @@ public class TicTacToeScreen extends ScreenAdapter {
                     Vector2 max = new Vector2(posX + fieldSize / 2, posY + fieldSize / 2);
                     Vector2 min = new Vector2(posX - fieldSize / 2, posY - fieldSize / 2);
 
-                    TicTacToeField ticTacToeField = new TicTacToeField(min, max, center);
+                    TicTacToePostition ticTacToeField = new TicTacToePostition(min, max, center);
                     fields.put(new Integer[]{x, y}, ticTacToeField);
                 }
             }
@@ -149,14 +155,14 @@ public class TicTacToeScreen extends ScreenAdapter {
             Texture cross = new Texture(Gdx.files.internal("games/ttt/blue_cross.png"));
             Texture circle = new Texture(Gdx.files.internal("games/ttt/red_circle.png"));
 
-            List<TicTacToeField> fieldList = fields.values().stream().filter(new Predicate<TicTacToeField>() {
+            List<TicTacToePostition> fieldList = fields.values().stream().filter(new Predicate<TicTacToePostition>() {
                 @Override
-                public boolean test(TicTacToeField ticTacToeField) {
+                public boolean test(TicTacToePostition ticTacToeField) {
                     return ticTacToeField.getState() != 0;
                 }
             }).collect(Collectors.toList());
             if(fieldList.size() > 0) {
-                for (TicTacToeField ticTacToeField : fieldList) {
+                for (TicTacToePostition ticTacToeField : fieldList) {
                     if (ticTacToeField.getState() == 1) {
                         stage.getBatch().draw(cross, ticTacToeField.getCenter().x - ((fieldSize - 10f) / 2), ticTacToeField.getCenter().y - ((fieldSize - 10f) / 2), fieldSize - 10f, fieldSize - 10f);
                     } else {

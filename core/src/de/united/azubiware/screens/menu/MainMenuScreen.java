@@ -1,6 +1,7 @@
 package de.united.azubiware.screens.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
@@ -17,7 +18,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.screens.minigames.TicTacToePostition;
 import de.united.azubiware.screens.minigames.TicTacToeScreen;
+import de.united.azubiware.utility.ClosePopUp;
 import de.united.azubiware.utility.Clouds;
 import de.united.azubiware.utility.MiniGamePaginator;
 
@@ -36,6 +39,7 @@ public class MainMenuScreen extends ScreenAdapter {
     Sprite backgroundSprite;
 
     MiniGamePaginator paginator;
+    ClosePopUp closePopUp;
 
     Stage stage;
 
@@ -43,6 +47,7 @@ public class MainMenuScreen extends ScreenAdapter {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
         backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundForest.png"));
         backgroundSprite = new Sprite(backgroundTexture);
@@ -62,6 +67,22 @@ public class MainMenuScreen extends ScreenAdapter {
         paginator = new MiniGamePaginator(stage);
         buttonManager = new MenuButtonManager(stage, paginator);
         clouds = new Clouds(stage);
+
+        closePopUp = new ClosePopUp(stage, game);
+        stage.addListener(new ClickListener(){
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if(keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE){
+                    if(closePopUp.isHidden()){
+                        closePopUp.show();
+                    }else{
+                        closePopUp.hide();
+                    }
+                }
+                return super.keyDown(event, keycode);
+            }
+        });
+
     }
 
     public void drawBackground(){
