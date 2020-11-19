@@ -34,7 +34,6 @@ public class TTTMatchListener implements ITTTListener {
     @Override
     public void onEnemyTurn(int x, int y) {
         if(ticTacToeScreen != null){
-            System.out.println(x + "|" + y);
             TicTacToePostition position = ticTacToeScreen.getTicTacToeField().findPositionByVector(x, y);
             if(position != null){
                 ticTacToeScreen.getTicTacToeField().findPositionByVector(x, y).setState(-1);
