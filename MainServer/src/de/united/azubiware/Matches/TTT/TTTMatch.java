@@ -5,6 +5,7 @@ import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.TTTNextTurnPacket;
+import de.united.azubiware.Packets.TTTPacket;
 import de.united.azubiware.User.IUser;
 
 public class TTTMatch extends AMatch {
@@ -34,6 +35,12 @@ public class TTTMatch extends AMatch {
             user.send(new ErrorResponsePacket("You are bad at this game :c \n"+e.getMessage()));
             return;
         }
+
+        int otherPlayer = tttGame.getNextPlayer();
+        MatchUser otherUser = getPlayerFromIndex(otherPlayer);
+        if(otherUser == null) throw new RuntimeException("Something bad happend :c");
+        otherUser.send(new TTTPacket(fieldX, fieldY));
+
 
         if(!checkMatchOver())
             sendNextTurnPackets();
