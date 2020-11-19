@@ -17,6 +17,10 @@ public class TicTacToePostition {
         this.min = min;
         this.max = max;
         this.center = center;
+
+        this.posX = posX;
+        this.posY = posY;
+
         state = 0;
     }
 
