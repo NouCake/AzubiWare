@@ -12,7 +12,8 @@ public class TTTMatchListener implements ITTTListener {
         this.waitingScreen = waitingScreen;
     }
 
-    public TTTMatchListener(TicTacToeScreen ticTacToeScreen){
+    public void switchToGameScreen(TicTacToeScreen ticTacToeScreen){
+        this.waitingScreen = null;
         this.ticTacToeScreen = ticTacToeScreen;
     }
 

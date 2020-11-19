@@ -14,8 +14,8 @@ import de.united.azubiware.utility.ClosePopUp;
 
 public class WaitingScreen extends ScreenAdapter {
 
-    private IGame miniGame;
-    private AzubiWareGame game;
+    IGame miniGame;
+    AzubiWareGame game;
     private Stage stage;
 
     private ClosePopUp popUp;
@@ -23,8 +23,9 @@ public class WaitingScreen extends ScreenAdapter {
 
     public WaitingScreen(AzubiWareGame game, IGame iGame){
         this.game = game;
-
+        this.miniGame = iGame;
         this.stage = new Stage(new ScreenViewport());
+
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 

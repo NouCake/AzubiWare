@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
-import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.utility.ClosePopUp;
 
@@ -37,7 +36,8 @@ public class TicTacToeScreen extends ScreenAdapter {
     public TicTacToeScreen(AzubiWareGame game){
         this.game = game;
 
-        game.getClient().setMatchListener(new TTTMatchListener(this));
+        TTTMatchListener tttMatchListener = (TTTMatchListener) game.getClient().getMatchListener();
+        tttMatchListener.switchToGameScreen(this);
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -55,14 +55,12 @@ public class TicTacToeScreen extends ScreenAdapter {
 
         Button leave = new Button(createButtonStyle());
         leave.setPosition(stage.getWidth()/2f - leave.getWidth()/2f, leave.getHeight()/4.25f);
+        leave.setDisabled(true);
         leave.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(!leave.isDisabled() && closePopUp.isHidden()){
                     dispose();
-                    /*
-                    LEAVE GAME
-                     */
                     game.setScreen(new MainMenuScreen(game));
                 }
                 return true;
