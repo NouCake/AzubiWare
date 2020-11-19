@@ -17,6 +17,7 @@ import de.united.azubiware.AzubiWareGame;
 
 public class ClosePopUp {
 
+    private Image dark;
     private Image background;
     private Label label;
 
@@ -28,24 +29,31 @@ public class ClosePopUp {
     public ClosePopUp(Stage stage, AzubiWareGame game){
         hidden = true;
 
+        dark = new Image(new Texture(Gdx.files.internal("popup_dark.png")));
+        dark.setWidth(stage.getWidth());
+        dark.setHeight(stage.getHeight());
+        dark.setPosition(stage.getWidth()/2-dark.getWidth()/2, stage.getHeight()/2-dark.getHeight()/2);
+        dark.setVisible(false);
+        stage.addActor(dark);
+
         background = new Image(new Texture(Gdx.files.internal("popup_background.png")));
-        background.setWidth(stage.getWidth());
-        background.setHeight(stage.getWidth());
-        background.setPosition(stage.getWidth()/2-background.getWidth()/2, stage.getHeight()/2-background.getWidth()/2);
+        background.setWidth(stage.getWidth()/2);
+        background.setHeight((stage.getWidth()/2)*0.6f);
+        background.setPosition(stage.getWidth()/2-background.getWidth()/2, stage.getHeight()/2-background.getHeight()/2);
         background.setVisible(false);
         stage.addActor(background);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = game.getFont();
-        labelStyle.fontColor = Color.DARK_GRAY;
+        labelStyle.fontColor = Color.BLACK;
 
         label = new Label("Are you sure", labelStyle);
-        label.setPosition(stage.getWidth()/2-label.getWidth()/2, stage.getHeight()/1.5f+label.getHeight()*2);
+        label.setPosition(stage.getWidth()/2-label.getWidth()/2, stage.getHeight()/2);
         label.setVisible(false);
         stage.addActor(label);
 
         exit = new Button(creatButtonStyle("exit"));
-        exit.setPosition(stage.getWidth()/2-exit.getWidth()/2, stage.getHeight()/2+exit.getHeight());
+        exit.setPosition(stage.getWidth()/2-exit.getWidth()/2, stage.getHeight()/2-exit.getHeight()*1.75f);
         exit.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -59,7 +67,7 @@ public class ClosePopUp {
         stage.addActor(exit);
 
         stay = new Button(creatButtonStyle("stay"));
-        stay.setPosition(stage.getWidth()/2-stay.getWidth()/2, stage.getHeight()/2-stay.getHeight()*0.25f);
+        stay.setPosition(stage.getWidth()/2-stay.getWidth()/2, stage.getHeight()/2 - stay.getHeight()/2);
         stay.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -89,16 +97,18 @@ public class ClosePopUp {
     public void show(){
         hidden = false;
 
+        dark.setVisible(true);
         background.setVisible(true);
         label.setVisible(true);
 
-        exit.setVisible(true);
+        //exit.setVisible(true);
         stay.setVisible(true);
     }
 
     public void hide(){
         hidden = true;
 
+        dark.setVisible(false);
         background.setVisible(false);
         label.setVisible(false);
 

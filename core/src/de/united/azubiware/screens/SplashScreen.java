@@ -59,14 +59,10 @@ public class SplashScreen implements Screen {
             drawBackground();
             stage.draw();
         }else{
-            try {
-                if(game.getClient().isConnected()) {
-                    dispose();
-                    game.setScreen(new LoginScreen(game));
-                }else{
-                    startTime = TimeUtils.millis();
-                }
-            }catch (NullPointerException exception){
+            if(game.getClient().isConnected()) {
+                dispose();
+                game.setScreen(new LoginScreen(game));
+            }else{
                 startTime = TimeUtils.millis();
             }
         }

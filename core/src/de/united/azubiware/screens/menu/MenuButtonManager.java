@@ -1,9 +1,11 @@
 package de.united.azubiware.screens.menu;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.screens.menu.buttonlistener.LeftButtonListener;
 import de.united.azubiware.screens.menu.buttonlistener.PlayButtonListener;
 import de.united.azubiware.screens.menu.buttonlistener.RightButtonListener;
@@ -11,6 +13,7 @@ import de.united.azubiware.utility.MiniGamePaginator;
 
 public class MenuButtonManager {
 
+    private AzubiWareGame game;
     private Stage stage;
     private MenuButtonStyler buttonStyler;
     private MiniGamePaginator paginator;
@@ -20,7 +23,8 @@ public class MenuButtonManager {
     private Button rightButton;
     private Button leftButton;
 
-    public MenuButtonManager(Stage stage, MiniGamePaginator paginator){
+    public MenuButtonManager(Stage stage, MiniGamePaginator paginator, AzubiWareGame game){
+        this.game = game;
         this.stage = stage;
         this.paginator = paginator;
         buttonStyler = new MenuButtonStyler();
@@ -60,11 +64,15 @@ public class MenuButtonManager {
     }
 
     public void queueUp(){
+        game.getClient().sendStartQueue(paginator.getCurrent());
+
         rightButton.setDisabled(true);
         leftButton.setDisabled(true);
     }
 
     public void quitQueue(){
+        game.getClient().sendStopQueue();
+
         rightButton.setDisabled(false);
         leftButton.setDisabled(false);
     }

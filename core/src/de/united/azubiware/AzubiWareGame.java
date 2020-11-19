@@ -13,10 +13,12 @@ public class AzubiWareGame extends Game {
 	boolean initiatedSignIn = false;
 	boolean isHTML = false;
 	BitmapFont font;
-	private Client client;
+	Client client;
 
 	public AzubiWareGame(ActionResolver resolver){
 		this.resolver = resolver;
+
+		this.client = new Client();
 	}
 
 	public AzubiWareGame(ActionResolver resolver, boolean isHTML){

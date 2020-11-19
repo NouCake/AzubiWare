@@ -65,7 +65,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
         stage.addActor(label);
         paginator = new MiniGamePaginator(stage);
-        buttonManager = new MenuButtonManager(stage, paginator);
+        buttonManager = new MenuButtonManager(stage, paginator, game);
         clouds = new Clouds(stage);
 
         closePopUp = new ClosePopUp(stage, game);
