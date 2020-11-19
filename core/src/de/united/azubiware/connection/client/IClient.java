@@ -1,6 +1,7 @@
 package de.united.azubiware.connection.client;
 
-import de.united.azubiware.connection.match.IMatchListener;
+import de.united.azubiware.Connection.Match.IMatchListener;
+import de.united.azubiware.Packets.IPacket;
 
 public interface IClient {
 
@@ -15,5 +16,6 @@ public interface IClient {
     void sendQueuePoll(int matchType);
 
     void setMatchListener(IMatchListener listener);
+    void sendMatchPacket(IPacket packet);
 
 }

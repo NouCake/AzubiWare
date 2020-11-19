@@ -5,6 +5,7 @@ import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
 import de.united.azubiware.Packets.Handler.IPacketHandler;
+import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.MatchLoginPacket;
 import de.united.azubiware.connection.WebSocketClient;
 
@@ -36,6 +37,11 @@ public class MatchClient{
 
         matchServer = new WebSocketClient(URI.create(adress));
         matchServer.setConnectionListener(listener);
+    }
+
+    public void sendPacket(IPacket packet){
+        if(connection == null) return;
+        connection.send(packet);
     }
 
     public void start(){
