@@ -41,19 +41,19 @@ public class ResultOverlay {
         dark.setVisible(false);
 
         winImage = new Image(new Texture(Gdx.files.internal("games/win_overlay.png")));
-        winImage.setPosition(stage.getWidth()/2-winImage.getWidth()/2, stage.getHeight()/2-winImage.getWidth());
+        winImage.setPosition(stage.getWidth()/2-winImage.getWidth()/2, stage.getHeight()/2+winImage.getWidth()/2.5f);
         winImage.setVisible(false);
 
         loseImage = new Image(new Texture(Gdx.files.internal("games/lose_overlay.png")));
-        loseImage.setPosition(stage.getWidth()/2-loseImage.getWidth()/2, stage.getHeight()/2-loseImage.getHeight());
+        loseImage.setPosition(stage.getWidth()/2-loseImage.getWidth()/2, stage.getHeight()/2+loseImage.getHeight()/2.5f);
         loseImage.setVisible(false);
 
         drawImage = new Image(new Texture(Gdx.files.internal("games/draw_overlay.png")));
-        drawImage.setPosition(stage.getWidth()/2-drawImage.getWidth()/2, stage.getHeight()/2-drawImage.getHeight());
+        drawImage.setPosition(stage.getWidth()/2-drawImage.getWidth()/2, stage.getHeight()/2+drawImage.getHeight()/2.5f);
         drawImage.setVisible(false);
 
         leave = new Button(createButtonStyle());
-        leave.setPosition(stage.getWidth()/2f - leave.getWidth()/2f, stage.getHeight()/2f-leave.getHeight());
+        leave.setPosition(stage.getWidth()/2f - leave.getWidth()/2f, stage.getHeight()/2f-leave.getHeight()/2);
         leave.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
