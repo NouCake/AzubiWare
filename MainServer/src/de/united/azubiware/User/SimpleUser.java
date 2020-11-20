@@ -12,6 +12,10 @@ public class SimpleUser implements IUser{
         this.name = name;
     }
 
+    public SimpleUser(IUser user){
+        this(user.getId(), user.getName());
+    }
+
     @Override
     public UUID getId() {
         return uuid;

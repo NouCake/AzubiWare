@@ -50,6 +50,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     public void sendMessage(IConnection connection, IPacket packet) {
         WebSocketConnection websocket = (WebSocketConnection) connection;
         try {
+            if(websocket.getSocket().isClosing()) throw new WebsocketNotConnectedException();
             websocket.getSocket().send(packet.toJsonString());
         } catch (WebsocketNotConnectedException e){
             System.out.println("Couldn't send Message: " + packet.toJsonString());
@@ -107,7 +108,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     @Override
     public void stop(){
         try {
-            super.stop();
+            super.stop(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }
