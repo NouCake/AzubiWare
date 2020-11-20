@@ -26,7 +26,7 @@ public class MiniGamePaginator {
 
     public MiniGamePaginator(Stage stage){
         this.stage = stage;
-        this.finalX = (stage.getWidth()/2f-150);
+        this.finalX = (stage.getWidth()/2f-(stage.getWidth()*0.25f));
 
         create();
     }
@@ -34,13 +34,15 @@ public class MiniGamePaginator {
     public void create(){
         Texture tttTexture = new Texture("games/ttt/splash.png");
         Image tttImage = new Image(tttTexture);
-        tttImage.setPosition(stage.getWidth()/2f-150, stage.getHeight()/2f-50);
+        tttImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
+        tttImage.setPosition(stage.getWidth()/2f-tttImage.getWidth()/2, stage.getHeight()/2f-((tttImage.getHeight()/2)*0.4f));
         miniGames.put(0, tttImage);
         matchTypes.put(0, TTTMatch.MATCH_TYPE);
 
         Texture sspTexture = new Texture("games/ssp/splash.png");
         Image sspImage = new Image(sspTexture);
-        sspImage.setPosition(-300, stage.getHeight()/2f-50);
+        sspImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
+        sspImage.setPosition(-(sspImage.getWidth()*1.5f), stage.getHeight()/2f-((sspImage.getHeight()/2)*0.4f));
         miniGames.put(-1, sspImage);
 
         stage.addActor(tttImage);

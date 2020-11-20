@@ -3,6 +3,7 @@
     package="de.united.azubiware" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +12,12 @@
         android:appCategory="game"
         android:label="@string/app_name"
         android:theme="@style/GdxTheme" >
+
+        <meta-data android:name="com.google.android.gms.games.APP_ID"
+                   android:value="@string/app_id" />
+        <meta-data android:name="com.google.android.gms.version"
+                   android:value="@integer/google_play_services_version"/>
+
         <activity
             android:name="de.united.azubiware.AndroidLauncher"
             android:label="@string/app_name" 

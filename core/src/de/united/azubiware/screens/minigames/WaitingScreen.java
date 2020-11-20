@@ -39,6 +39,7 @@ public class WaitingScreen extends ScreenAdapter {
         backgroundSprite = new Sprite(iGame.getBackground());
 
         Image image = new Image(iGame.getSplash());
+        image.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
         image.setPosition(stage.getWidth()/2-image.getWidth()/2, stage.getHeight()/2);
         stage.addActor(image);
 

@@ -21,16 +21,16 @@ public class Clouds {
 
     public void createClouds(){
         clouds = new ArrayList<>();
-        int cloudAmount = 4+new Random().nextInt(4);
+        int cloudAmount = 5+new Random().nextInt(4);
         for(int i = 0; i < cloudAmount; i++){
             Texture texture = new Texture(Gdx.files.internal("backgrounds/clouds/cloud" + (new Random().nextInt(8)+1) + ".png"));
             Image image = new Image(texture);
-            image.setSize(90f, 90f);
+            image.setSize(stage.getWidth()/8, stage.getHeight()/8);
             image.setPosition(stage.getWidth()/2f, stage.getHeight()/2f);
             if(new Random().nextInt(30) >= 14){
-                image.setPosition(stage.getWidth()/2f-(new Random().nextInt((int) (stage.getWidth()/2))+2), stage.getHeight()-(100+(new Random().nextInt(10))));
+                image.setPosition(stage.getWidth()/2f-(new Random().nextInt((int) (stage.getWidth()/2))+2), stage.getHeight()-(image.getHeight()+10+(new Random().nextInt(10))));
             }else{
-                image.setPosition(stage.getWidth()/2f+(new Random().nextInt((int) (stage.getWidth()/2))+2), stage.getHeight()-(100+(new Random().nextInt(10))));
+                image.setPosition(stage.getWidth()/2f+(new Random().nextInt((int) (stage.getWidth()/2))+2), stage.getHeight()-(image.getHeight()+10+(new Random().nextInt(10))));
             }
             clouds.add(image);
             stage.addActor(image);

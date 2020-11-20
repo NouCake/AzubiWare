@@ -127,7 +127,6 @@ public class TicTacToeScreen extends ScreenAdapter {
                 return super.keyDown(event, keycode);
             }
         });
-
     }
 
     public void drawBackground(){
@@ -174,10 +173,6 @@ public class TicTacToeScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         stage.dispose();
-    }
-
-    public void setSwitchToMenu(boolean switchToMenu) {
-        this.switchToMenu = switchToMenu;
     }
 
     public void setYourTurn(boolean yourTurn) {
