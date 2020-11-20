@@ -19,7 +19,7 @@ public class MenuPacketListener implements IClientListener {
 
     @Override
     public void onError(String messsage) {
-        
+
     }
 
     @Override
