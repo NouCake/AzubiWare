@@ -29,11 +29,11 @@ public class TicTacToeScreen extends ScreenAdapter {
 
     final AzubiWareGame game;
 
-    Texture backgroundTexture;
-    Sprite backgroundSprite;
+    private Texture backgroundTexture;
+    private Sprite backgroundSprite;
     private Label turn;
 
-    Stage stage;
+    private Stage stage;
     private TicTacToeField ticTacToeField;
     private ClosePopUp closePopUp;
     private ResultOverlay resultOverlay;
@@ -90,7 +90,7 @@ public class TicTacToeScreen extends ScreenAdapter {
 
         stage.addActor(image);
         stage.addActor(leave);
-        
+
         stage.addActor(top);
         stage.addActor(turn);
 
