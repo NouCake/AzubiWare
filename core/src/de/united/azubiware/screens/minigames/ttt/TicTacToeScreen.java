@@ -3,6 +3,7 @@ package de.united.azubiware.screens.minigames.ttt;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,9 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
@@ -28,6 +31,7 @@ public class TicTacToeScreen extends ScreenAdapter {
 
     Texture backgroundTexture;
     Sprite backgroundSprite;
+    private Label turn;
 
     Stage stage;
     private TicTacToeField ticTacToeField;
@@ -70,8 +74,25 @@ public class TicTacToeScreen extends ScreenAdapter {
             }
         });
 
+        Image top = new Image(new Texture(Gdx.files.internal("games/ttt_top.png")));
+        top.setWidth(stage.getWidth()*1.25f);
+        image.setPosition(stage.getWidth()/2-top.getWidth()/2, stage.getHeight()-top.getHeight()*0.85f);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+
+        labelStyle.font = game.getFont();
+        labelStyle.fontColor =  Color.WHITE;
+
+        turn = new Label("ENEMY TURN", labelStyle);
+        turn.setAlignment(Align.center);
+        turn.setWidth(stage.getWidth()+1.25f);
+        turn.setPosition(stage.getWidth()/2-turn.getWidth()/2, stage.getHeight()-top.getHeight()*0.9f);
+
         stage.addActor(image);
         stage.addActor(leave);
+        
+        stage.addActor(top);
+        stage.addActor(turn);
 
         resultOverlay = new ResultOverlay(stage);
         closePopUp = new ClosePopUp(stage, game);
@@ -137,7 +158,7 @@ public class TicTacToeScreen extends ScreenAdapter {
         stage.draw();
 
         if(resultOverlay.isShowResult()){
-            if(TimeUtils.millis() - resultOverlay.getFinished() >= 6000){
+            if(TimeUtils.millis() - resultOverlay.getFinished() >= 5000){
                 switchToMenu = true;
             }
         }
@@ -159,6 +180,11 @@ public class TicTacToeScreen extends ScreenAdapter {
 
     public void setYourTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
+        if(yourTurn){
+            turn.setText("YOUR TURN");
+        }else{
+            turn.setText("ENEMY TURN");
+        }
     }
 
     public TicTacToeField getTicTacToeField() {
