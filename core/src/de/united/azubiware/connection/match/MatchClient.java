@@ -45,6 +45,12 @@ public class MatchClient{
                     onMatchOver(MatchOverPacket.REASONS.ABORTED.ordinal());
                 }
             }
+
+            @Override
+            public void afterShutdown() {
+                super.afterShutdown();
+                if(matchListener != null) matchListener.onMatchOver(MatchOverPacket.REASONS.ABORTED.ordinal());
+            }
         };
 
         System.out.println("Connection to Adress: " + adress);
@@ -52,44 +58,40 @@ public class MatchClient{
         matchServer.setConnectionListener(listener);
     }
 
-    public void sendPacket(IPacket packet){
-        if(connection == null) return;
-        connection.send(packet);
+    public void onReady() {
+        if(matchListener == null) return;
+        matchListener.onMatchReady();
     }
-
+    public void onMatchOver(int reason) {
+        matchRunning = false;
+        if(matchListener != null) matchListener.onMatchOver(reason);
+        matchListener = null;
+        stop();
+    }
     public void start(){
         matchServer.start();
         matchRunning = true;
     }
-
     public void stop(){
         matchServer.stop();
+    }
+    public void sendPacket(IPacket packet){
+        if(connection == null) return;
+        connection.send(packet);
+    }
+    public void setMatchListener(IMatchListener matchListener){
+        this.matchListener = matchListener;
     }
 
     private void onMatchConnected(){
         connection.send(new MatchLoginPacket(matchToken.toString()));
     }
-
-    public void setMatchListener(IMatchListener matchListener){
-        this.matchListener = matchListener;
-    }
-
     protected void addPacketHandler(IPacketHandler handler){
         this.listener.addPacketHandler(handler);
-    }
-
-    public void onReady() {
-        if(matchListener == null) return;
-        matchListener.onMatchReady();
     }
 
     public IMatchListener getMatchListener() {
         return matchListener;
     }
 
-    public void onMatchOver(int reason) {
-        matchRunning = false;
-        if(matchListener != null) matchListener.onMatchOver(reason);
-        stop();
-    }
 }

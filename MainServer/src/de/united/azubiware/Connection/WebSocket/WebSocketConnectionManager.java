@@ -51,12 +51,13 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
         WebSocketConnection websocket = (WebSocketConnection) connection;
         try {
             if(websocket.getSocket().isClosing()) throw new WebsocketNotConnectedException();
-            websocket.getSocket().send(packet.toJsonString());
+            String msg = packet.toJsonString();
+            websocket.getSocket().send(msg);
+            System.out.println("Sending Message: " + msg);
         } catch (WebsocketNotConnectedException e){
-            System.out.println("Couldn't send Message: " + packet.toJsonString());
+            System.out.println(connection + " | Couldn't send Message: " + packet.toJsonString());
         }
     }
-
     @Override
     public String getConnectionAdress() {
         return "ws://two.noucake.de:"+port;
@@ -106,12 +107,25 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
 
     @Override
+    public void start() {
+        super.start();
+    }
+
+    private void doStop() throws IOException, InterruptedException {
+        super.stop();
+    }
+
+    @Override
     public void stop(){
-        try {
-            super.stop(3000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                doStop();
+                if(listener != null) listener.afterShutdown();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
 }

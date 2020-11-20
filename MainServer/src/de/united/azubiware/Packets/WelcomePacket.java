@@ -21,4 +21,5 @@ public class WelcomePacket implements IPacket{
     public String getUsername() {
         return username;
     }
+
 }

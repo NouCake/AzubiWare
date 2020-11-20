@@ -22,7 +22,9 @@ public abstract class AMatch implements IMatch {
     private IMatchListener listener;
     private final IConnectionManager server;
     private final PacketListener packetListener;
+
     private int playerWon = 0;
+    private boolean matchRunning = true;
 
     public AMatch(int matchType, int port, IUser ...userlist) {
         this.MATCH_ID = matchType;
@@ -31,10 +33,17 @@ public abstract class AMatch implements IMatch {
             @Override
             public void onClosed(IConnection connection) {
                 super.onClosed(connection);
+                if(!matchRunning) return;
                 MatchUser user = getPlayerFromConnection(connection);
                 if(user != null){
                     onMatchOver(MatchOverPacket.REASONS.ABORTED.ordinal());
                 }
+            }
+
+            @Override
+            public void afterShutdown() {
+                super.afterShutdown();
+                if(listener != null) listener.onMatchClose();
             }
         };
 
@@ -64,7 +73,7 @@ public abstract class AMatch implements IMatch {
     }
     public MatchUser getPlayerFromConnection(IConnection connection){
         for(MatchUser user : users){
-            if(user.getConnection().equals(connection)) return user;
+            if(user.isConnected() && user.getConnection().equals(connection)) return user;
         }
         return null;
     }
@@ -79,15 +88,16 @@ public abstract class AMatch implements IMatch {
         for(MatchUser user : users){
             if(!user.isConnected()) return;
         }
-
-        sendAllUsers(new MatchReadyPacket());
-        onAllUserConnected();
+        onMatchReady();
     }
     private void onMatchTimedOut(){
         if(listener != null) listener.onMatchTimedOut();
         onMatchOver(MatchOverPacket.REASONS.ABORTED.ordinal());
     }
-
+    private void onMatchReady(){
+        sendAllUsers(new MatchReadyPacket());
+        onAllUserConnected();
+    }
     private void sendMatchOverPackets(int r){
         for(MatchUser user : users){
             int reason = r;
@@ -105,6 +115,7 @@ public abstract class AMatch implements IMatch {
     }
 
     protected void onMatchOver(int reason){
+        matchRunning = false;
         if(listener != null) listener.onMatchFinished();
         sendMatchOverPackets(reason);
         server.stop();
@@ -174,7 +185,7 @@ public abstract class AMatch implements IMatch {
         if(user == null) throw new RuntimeException("This user wasn't there when match was started!");
 
         IUser[] oponents = Arrays.stream(users)
-                .filter(mu -> mu.getId().equals(user.getId()))
+                .filter(mu -> !mu.getId().equals(user.getId()))
                 .toArray(IUser[]::new);
 
         return new MatchConnectionInfoPacket(getMatchType(), server.getConnectionAdress(), user.getMatchToken(), oponents);

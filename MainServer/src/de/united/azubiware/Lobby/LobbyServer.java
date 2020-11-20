@@ -67,11 +67,14 @@ public class LobbyServer implements ILobby, IUserListener {
         match.setMatchListener(new IMatchListener() {
             @Override
             public void onMatchFinished() {
-                PortManager.ports.freePort(port);
             }
 
             @Override
             public void onMatchTimedOut() {
+            }
+
+            @Override
+            public void onMatchClose(){
                 PortManager.ports.freePort(port);
             }
         });
