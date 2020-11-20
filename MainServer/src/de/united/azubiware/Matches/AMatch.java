@@ -177,7 +177,7 @@ public abstract class AMatch implements IMatch {
                 .filter(mu -> mu.getId().equals(user.getId()))
                 .toArray(IUser[]::new);
 
-        return new MatchConnectionInfoPacket(getMatchType(), server.getConnectionAdress(), user.getMatchToken(), null);
+        return new MatchConnectionInfoPacket(getMatchType(), server.getConnectionAdress(), user.getMatchToken(), oponents);
     }
 
 }

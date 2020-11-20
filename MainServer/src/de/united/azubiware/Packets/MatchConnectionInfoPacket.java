@@ -3,6 +3,7 @@ package de.united.azubiware.Packets;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.User.SimpleUser;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public class MatchConnectionInfoPacket implements IPacket {
@@ -13,9 +14,13 @@ public class MatchConnectionInfoPacket implements IPacket {
     private final String adress;
     private final UUID matchToken;
 
-    private final IUser[] oponents;
+    private final SimpleUser[] oponents;
 
     public MatchConnectionInfoPacket(int matchtype, String adress, UUID matchToken, IUser[] oponents) {
+        this(matchtype, adress, matchToken, Arrays.stream(oponents).map(SimpleUser::new).toArray(SimpleUser[]::new));
+    }
+
+    public MatchConnectionInfoPacket(int matchtype, String adress, UUID matchToken, SimpleUser[] oponents) {
         this.matchtype = matchtype;
         this.adress = adress;
         this.matchToken = matchToken;
