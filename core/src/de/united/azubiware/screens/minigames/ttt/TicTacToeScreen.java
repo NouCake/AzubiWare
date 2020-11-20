@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.utility.ClosePopUp;
@@ -41,7 +42,7 @@ public class TicTacToeScreen extends ScreenAdapter {
     private boolean switchToMenu = false;
     private boolean yourTurn = false;
 
-    public TicTacToeScreen(AzubiWareGame game){
+    public TicTacToeScreen(AzubiWareGame game, IUser[] opponents){
         this.game = game;
 
         TTTMatchListener tttMatchListener = (TTTMatchListener) game.getClient().getMatchListener();

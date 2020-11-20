@@ -1,14 +1,17 @@
 package de.united.azubiware.screens.minigames;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.minigames.IGame;
 import de.united.azubiware.utility.ClosePopUp;
 
@@ -21,10 +24,14 @@ public class WaitingScreen extends ScreenAdapter {
     private ClosePopUp popUp;
     private Sprite backgroundSprite;
 
-    public WaitingScreen(AzubiWareGame game, IGame iGame){
+    private IUser[] opponents;
+
+    public WaitingScreen(AzubiWareGame game, IGame iGame, IUser[] opponents){
         this.game = game;
         this.miniGame = iGame;
         this.stage = new Stage(new ScreenViewport());
+
+        this.opponents = opponents;
 
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
@@ -34,6 +41,24 @@ public class WaitingScreen extends ScreenAdapter {
         Image image = new Image(iGame.getSplash());
         image.setPosition(stage.getWidth()/2-image.getWidth()/2, stage.getHeight()/2);
         stage.addActor(image);
+
+        if(opponents.length > 0) {
+            Label.LabelStyle labelStyle = new Label.LabelStyle();
+
+            labelStyle.font = game.getFont();
+            labelStyle.fontColor = Color.DARK_GRAY;
+
+            Label opponent = new Label("Opponents", labelStyle);
+            opponent.setPosition(stage.getWidth()/2-opponent.getWidth()/2, stage.getHeight()-opponent.getHeight());
+            stage.addActor(opponent);
+            int amount = 1;
+            for (IUser user : opponents) {
+                Label userLabel = new Label(user.getName(), labelStyle);
+                userLabel.setPosition(stage.getWidth()/2-userLabel.getWidth()/2, stage.getHeight()-opponent.getHeight()-(amount*userLabel.getHeight()/2));
+                stage.addActor(userLabel);
+                amount++;
+            }
+        }
 
         popUp = new ClosePopUp(stage, game);
         stage.addListener(new ClickListener(){
@@ -70,7 +95,7 @@ public class WaitingScreen extends ScreenAdapter {
 
         if(switchToMatch){
             dispose();
-            game.setScreen(miniGame.createStage(game));
+            game.setScreen(miniGame.createStage(game, opponents));
         }
     }
 
