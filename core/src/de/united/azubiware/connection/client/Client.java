@@ -105,7 +105,8 @@ public class Client implements IClient {
     public void stop() {
         client.stop();
         connection = null;
-        currentMatchClient.stop();
+        if(currentMatchClient != null)
+            currentMatchClient.stop();
     }
 
     @Override

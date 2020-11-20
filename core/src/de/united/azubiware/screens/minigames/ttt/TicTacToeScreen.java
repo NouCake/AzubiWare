@@ -87,7 +87,7 @@ public class TicTacToeScreen extends ScreenAdapter {
         turn = new Label("ENEMY TURN", labelStyle);
         turn.setAlignment(Align.center);
         turn.setWidth(stage.getWidth()+1.25f);
-        turn.setFontScale(1.25f);
+        turn.setFontScale(1.15f);
         turn.setPosition(stage.getWidth()/2-turn.getWidth()/2, stage.getHeight()-top.getHeight()/2);
 
         stage.addActor(image);
