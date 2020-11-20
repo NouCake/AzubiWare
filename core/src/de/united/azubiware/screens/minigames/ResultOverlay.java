@@ -52,7 +52,7 @@ public class ResultOverlay {
         drawImage.setVisible(false);
 
         leave = new Button(createButtonStyle());
-        leave.setPosition(stage.getWidth()/2f - leave.getWidth()/2f, stage.getHeight()/2f-leave.getHeight()/2);
+        leave.setPosition(stage.getWidth()/2f - leave.getWidth(),stage.getHeight()/2f-leave.getHeight());
         leave.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

@@ -49,12 +49,12 @@ public class WaitingScreen extends ScreenAdapter {
             labelStyle.fontColor = Color.DARK_GRAY;
 
             Label opponent = new Label("Opponents", labelStyle);
-            opponent.setPosition(stage.getWidth()/2-opponent.getWidth()/2, stage.getHeight()-opponent.getHeight());
+            opponent.setPosition(stage.getWidth()/2-opponent.getWidth()/2, image.getY()-opponent.getHeight());
             stage.addActor(opponent);
             int amount = 1;
             for (IUser user : opponents) {
                 Label userLabel = new Label(user.getName(), labelStyle);
-                userLabel.setPosition(stage.getWidth()/2-userLabel.getWidth()/2, stage.getHeight()-opponent.getHeight()-(amount*userLabel.getHeight()/2));
+                userLabel.setPosition(stage.getWidth()/2-userLabel.getWidth()/2, opponent.getY()-opponent.getHeight()/2-(amount*userLabel.getHeight()/2));
                 stage.addActor(userLabel);
                 amount++;
             }

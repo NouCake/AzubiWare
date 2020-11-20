@@ -37,7 +37,7 @@ public class Client implements IClient {
     public void doError(String message){
         System.out.println("Error Packet: \n"+message);
         if(listener == null) return;
-        listener.onError(message);
+            listener.onError(message);
     }
 
     public void doWelcome(IUser user){

@@ -77,8 +77,7 @@ public class TicTacToeScreen extends ScreenAdapter {
         });
 
         Image top = new Image(new Texture(Gdx.files.internal("games/ttt_top.png")));
-        top.setWidth(stage.getWidth()*1.25f);
-        image.setPosition(stage.getWidth()/2-top.getWidth()/2, stage.getHeight()-top.getHeight()*0.85f);
+        top.setPosition(stage.getWidth()/2-top.getWidth()/2, stage.getHeight()-top.getHeight());
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
 
@@ -88,7 +87,8 @@ public class TicTacToeScreen extends ScreenAdapter {
         turn = new Label("ENEMY TURN", labelStyle);
         turn.setAlignment(Align.center);
         turn.setWidth(stage.getWidth()+1.25f);
-        turn.setPosition(stage.getWidth()/2-turn.getWidth()/2, stage.getHeight()-top.getHeight()*0.9f);
+        turn.setFontScale(1.25f);
+        turn.setPosition(stage.getWidth()/2-turn.getWidth()/2, stage.getHeight()-top.getHeight()/2);
 
         stage.addActor(image);
         stage.addActor(leave);
