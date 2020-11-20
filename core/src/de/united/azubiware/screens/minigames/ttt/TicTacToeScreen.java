@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
@@ -33,6 +34,7 @@ public class TicTacToeScreen extends ScreenAdapter {
     private ClosePopUp closePopUp;
     private ResultOverlay resultOverlay;
 
+    private boolean switchToMenu = false;
     private boolean yourTurn = false;
 
     public TicTacToeScreen(AzubiWareGame game){
@@ -133,6 +135,17 @@ public class TicTacToeScreen extends ScreenAdapter {
         stage.act();
         drawBackground();
         stage.draw();
+
+        if(resultOverlay.isShowResult()){
+            if(TimeUtils.millis() - resultOverlay.getFinished() >= 6000){
+                switchToMenu = true;
+            }
+        }
+
+        if(switchToMenu || resultOverlay.isSwitchToMenu()){
+            dispose();
+            game.setScreen(new MainMenuScreen(game));
+        }
     }
 
     @Override
@@ -140,6 +153,9 @@ public class TicTacToeScreen extends ScreenAdapter {
         stage.dispose();
     }
 
+    public void setSwitchToMenu(boolean switchToMenu) {
+        this.switchToMenu = switchToMenu;
+    }
 
     public void setYourTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
