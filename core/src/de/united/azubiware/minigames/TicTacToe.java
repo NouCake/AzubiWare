@@ -5,6 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.User.IUser;
+import de.united.azubiware.connection.match.IMatchListener;
+import de.united.azubiware.screens.minigames.WaitingScreen;
+import de.united.azubiware.screens.minigames.ttt.TTTMatchListener;
 import de.united.azubiware.screens.minigames.ttt.TicTacToeScreen;
 
 public class TicTacToe implements IGame{
@@ -25,7 +29,12 @@ public class TicTacToe implements IGame{
     }
 
     @Override
-    public Screen createStage(AzubiWareGame game) {
-        return new TicTacToeScreen(game);
+    public Screen createStage(AzubiWareGame game, IUser[] opponents) {
+        return new TicTacToeScreen(game, opponents);
+    }
+
+    @Override
+    public IMatchListener createMatchListener(WaitingScreen waitingScreen) {
+        return new TTTMatchListener(waitingScreen);
     }
 }

@@ -51,7 +51,9 @@ public class TTTMatchListener implements ITTTListener {
     @Override
     public void onMatchOver(int reason) {
         if(ticTacToeScreen != null) {
-            if (MatchOverPacket.REASONS.ABORTED.ordinal() == reason || MatchOverPacket.REASONS.YOU_WON.ordinal() == reason) {
+            if(reason == MatchOverPacket.REASONS.DRAW.ordinal()){
+                ticTacToeScreen.getResultOverlay().setResult(0);
+            }else if (MatchOverPacket.REASONS.ABORTED.ordinal() == reason || MatchOverPacket.REASONS.YOU_WON.ordinal() == reason) {
                 ticTacToeScreen.getResultOverlay().setResult(1);
             } else {
                 ticTacToeScreen.getResultOverlay().setResult(-1);

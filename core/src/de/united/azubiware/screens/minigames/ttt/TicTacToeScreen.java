@@ -3,6 +3,7 @@ package de.united.azubiware.screens.minigames.ttt;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,12 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.utility.ClosePopUp;
@@ -25,17 +30,19 @@ public class TicTacToeScreen extends ScreenAdapter {
 
     final AzubiWareGame game;
 
-    Texture backgroundTexture;
-    Sprite backgroundSprite;
+    private Texture backgroundTexture;
+    private Sprite backgroundSprite;
+    private Label turn;
 
-    Stage stage;
+    private Stage stage;
     private TicTacToeField ticTacToeField;
     private ClosePopUp closePopUp;
     private ResultOverlay resultOverlay;
 
+    private boolean switchToMenu = false;
     private boolean yourTurn = false;
 
-    public TicTacToeScreen(AzubiWareGame game){
+    public TicTacToeScreen(AzubiWareGame game, IUser[] opponents){
         this.game = game;
 
         TTTMatchListener tttMatchListener = (TTTMatchListener) game.getClient().getMatchListener();
@@ -61,6 +68,7 @@ public class TicTacToeScreen extends ScreenAdapter {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(!leave.isDisabled() && closePopUp.isHidden()){
+                    game.getClient().doMatchOver();
                     dispose();
                     game.setScreen(new MainMenuScreen(game));
                 }
@@ -68,8 +76,25 @@ public class TicTacToeScreen extends ScreenAdapter {
             }
         });
 
+        Image top = new Image(new Texture(Gdx.files.internal("games/ttt_top.png")));
+        top.setPosition(stage.getWidth()/2-top.getWidth()/2, stage.getHeight()-top.getHeight());
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+
+        labelStyle.font = game.getFont();
+        labelStyle.fontColor =  Color.WHITE;
+
+        turn = new Label("ENEMY TURN", labelStyle);
+        turn.setAlignment(Align.center);
+        turn.setWidth(stage.getWidth()+1.25f);
+        turn.setFontScale(1.25f);
+        turn.setPosition(stage.getWidth()/2-turn.getWidth()/2, stage.getHeight()-top.getHeight()/2);
+
         stage.addActor(image);
         stage.addActor(leave);
+
+        stage.addActor(top);
+        stage.addActor(turn);
 
         resultOverlay = new ResultOverlay(stage);
         closePopUp = new ClosePopUp(stage, game);
@@ -133,6 +158,17 @@ public class TicTacToeScreen extends ScreenAdapter {
         stage.act();
         drawBackground();
         stage.draw();
+
+        if(resultOverlay.isShowResult()){
+            if(TimeUtils.millis() - resultOverlay.getFinished() >= 5000){
+                switchToMenu = true;
+            }
+        }
+
+        if(switchToMenu || resultOverlay.isSwitchToMenu()){
+            dispose();
+            game.setScreen(new MainMenuScreen(game));
+        }
     }
 
     @Override
@@ -140,9 +176,17 @@ public class TicTacToeScreen extends ScreenAdapter {
         stage.dispose();
     }
 
+    public void setSwitchToMenu(boolean switchToMenu) {
+        this.switchToMenu = switchToMenu;
+    }
 
     public void setYourTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
+        if(yourTurn){
+            turn.setText("YOUR TURN");
+        }else{
+            turn.setText("ENEMY TURN");
+        }
     }
 
     public TicTacToeField getTicTacToeField() {

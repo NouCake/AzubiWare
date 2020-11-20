@@ -14,7 +14,7 @@ public class AzubiWareGame extends Game {
 	boolean initiatedSignIn = false;
 	boolean isHTML = false;
 	BitmapFont font;
-	IClient client;
+	Client client;
 
 	public AzubiWareGame(ActionResolver resolver){
 		this.resolver = resolver;
@@ -43,10 +43,11 @@ public class AzubiWareGame extends Game {
 	}
 
 	public void render() {
-		super.render(); //important!
+		super.render();
 	}
 
 	public void dispose() {
+		getClient().stop();
 	}
 
 	public void initateSignIn(){
@@ -62,7 +63,7 @@ public class AzubiWareGame extends Game {
 		return font;
 	}
 
-	public IClient getClient() {
+	public Client getClient() {
 		return client;
 	}
 }

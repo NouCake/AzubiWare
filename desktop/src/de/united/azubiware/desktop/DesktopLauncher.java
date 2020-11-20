@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		ActionResolverDesktop actionResolverDesktop = new ActionResolverDesktop();
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-		config.setTitle("AzubiWare");
+		config.setTitle("AzWare");
 		config.setResizable(false);
 		config.setWindowedMode(800, 720);
 
