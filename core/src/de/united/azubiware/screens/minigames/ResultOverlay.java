@@ -63,6 +63,7 @@ public class ResultOverlay {
                 return true;
             }
         });
+        leave.setVisible(false);
 
         stage.addActor(dark);
         stage.addActor(loseImage);
@@ -83,6 +84,7 @@ public class ResultOverlay {
             } else {
                 loseImage.setVisible(true);
             }
+            leave.setVisible(true);
         }
     }
 
