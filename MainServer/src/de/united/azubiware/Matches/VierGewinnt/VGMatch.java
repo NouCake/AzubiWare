@@ -41,7 +41,7 @@ public class VGMatch extends AMatch {
 
         int otherPlayer = vgGame.getNextPlayer();
         MatchUser otherUser = getPlayerFromIndex(otherPlayer);
-        if(otherUser == null) throw new RuntimeException("Something bad happend :c");
+        if(otherUser == null) throw new RuntimeException("Something bad happened :c");
         otherUser.send(new VGPacket(fieldX));
 
 
