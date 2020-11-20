@@ -7,6 +7,7 @@ public class VierGewinnt {
     private static final int height = 6;
     private static final int width = 7;
     Scanner scanner = new Scanner(System.in);
+    private int VGWinner;
 
     private static final int[][] field = new int[width][height];
     private int lastPlayer = 0;
@@ -62,7 +63,7 @@ public class VierGewinnt {
             while (y + i < 0 || x - i + 3 < 0) {
                 i++;
             }
-            if (y + i + 4 > height || x - i >= width || x - i -3 < 0) {
+            if (y + i + 4 > height || x - i >= width || x - i - 3 < 0) {
                 break;
             }
             System.out.println("true");
@@ -73,24 +74,28 @@ public class VierGewinnt {
         return false;
     }
 
+    public int getWinner() {
+        return VGWinner;
+    }
+
     public void addChip(int input, int player) {
         if (field[input][0] != 0) {
             System.out.println("new chip cannot be added!");
         } else {
             for (int i = height - 1; i >= 0; i--) {
                 if (field[input][i] == 0) {
-                    if (player==1) {
+                    if (player == 1) {
                         field[input][i] = 1;
-                        if (checkPlayerWin(input, i, 1))
-                            System.out.println("Player 1 won!");
-
-
+                        if (checkPlayerWin(input, i, 1)) {
+                            VGWinner = 1;
+                        }
                     } else if (player == 2) {
                         field[input][i] = 2;
                         checkPlayerWin(input, i, 2);
-                        if (checkPlayerWin(input, i, 2))
+                        if (checkPlayerWin(input, i, 2)) {
                             System.out.println("Player 2 won!");
-
+                            VGWinner = 2;
+                        }
 
                     }
                     break;
@@ -104,15 +109,15 @@ public class VierGewinnt {
         int full = 0;
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
-               if (field[width][height] != 0) {
-                   full++;
-               }
+                if (field[width][height] != 0) {
+                    full++;
+                }
             }
         }
         if (full == 42) {
             return true;
         }
-        return  false;
+        return false;
     }
 
 
@@ -132,11 +137,11 @@ public class VierGewinnt {
 
     }
 
-    public void setField(int player, int Xinput) throws IllegalTurnException{
-        if(player != 1 && player != 2) throw new IllegalTurnException("Bad Player");
-        if(Xinput < 0 || Xinput >= width) throw  new IllegalTurnException("Bad X");
+    public void setField(int player, int Xinput) throws IllegalTurnException {
+        if (player != 1 && player != 2) throw new IllegalTurnException("Bad Player");
+        if (Xinput < 0 || Xinput >= width) throw new IllegalTurnException("Bad X");
         if (field[Xinput][0] != 0) throw new IllegalTurnException("column already full");
-        if(lastPlayer == player) throw new IllegalTurnException("Player have to alternate");
+        if (lastPlayer == player) throw new IllegalTurnException("Player have to alternate");
 
         lastPlayer = player;
         addChip(Xinput, player);
@@ -144,21 +149,13 @@ public class VierGewinnt {
     }
 
     public class IllegalTurnException extends Exception {
-        public IllegalTurnException(String message){
+        public IllegalTurnException(String message) {
             super(message);
         }
     }
 
-    public int getNextPlayer(){
+    public int getNextPlayer() {
         return 1 + ((lastPlayer + 1) % 2);
     }
 
-    public static void main(String[] args) {
-        VierGewinnt vierGewinnt = new VierGewinnt();
-        vierGewinnt.draw();
-        while (true) {
-            vierGewinnt.addChip(vierGewinnt.scanner.nextInt(), 1);
-            vierGewinnt.addChip(vierGewinnt.scanner.nextInt(), 2);
-        }
-    }
 }
