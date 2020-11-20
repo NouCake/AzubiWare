@@ -98,6 +98,9 @@ public abstract class AMatch implements IMatch {
                     reason = playerWon == user.getPlayerIndex() ? MatchOverPacket.REASONS.YOU_WON.ordinal() : MatchOverPacket.REASONS.YOU_LOST.ordinal();
                 }
             }
+            if(user.isConnected()){
+                user.send(new MatchOverPacket(reason));
+            }
         }
     }
 
@@ -122,7 +125,14 @@ public abstract class AMatch implements IMatch {
 
         checkIfAllConnected();
     }
+    protected void sendAllUsers(IPacket packet){
+        for(MatchUser user : users){
+            if(user.isConnected())
+                user.send(packet);
+        }
+    }
     protected abstract void onAllUserConnected();
+
 
     public void setPlayerWon(int playerIndex){
         if(playerWon != 0){
@@ -130,14 +140,6 @@ public abstract class AMatch implements IMatch {
         }
         this.playerWon = playerIndex;
     }
-
-    protected void sendAllUsers(IPacket packet){
-        for(MatchUser user : users){
-            if(user.isConnected())
-                user.send(packet);
-        }
-    }
-
     @Override
     public int getMatchType() {
         return MATCH_ID;

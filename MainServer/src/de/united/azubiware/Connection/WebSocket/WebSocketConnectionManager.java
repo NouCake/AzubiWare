@@ -7,6 +7,7 @@ import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.Handler.PacketParser;
 import org.java_websocket.WebSocket;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
@@ -48,7 +49,11 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     @Override
     public void sendMessage(IConnection connection, IPacket packet) {
         WebSocketConnection websocket = (WebSocketConnection) connection;
-        websocket.getSocket().send(packet.toJsonString());
+        try {
+            websocket.getSocket().send(packet.toJsonString());
+        } catch (WebsocketNotConnectedException e){
+            System.out.println("Couldn't send Message: " + packet.toJsonString());
+        }
     }
 
     @Override
