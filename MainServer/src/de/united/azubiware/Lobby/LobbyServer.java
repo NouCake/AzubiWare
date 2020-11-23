@@ -16,6 +16,7 @@ import de.united.azubiware.User.IUserDatabase;
 import de.united.azubiware.User.SimpleUserDatabase;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,6 +33,7 @@ public class LobbyServer implements ILobby, IUserListener {
 
     public LobbyServer(){
         matchClasses = new HashMap<>();
+        matchClasses.put(TTTMatch.MATCH_TYPE, TTTMatch.class);
         queue = new LinkedList<>();
         userDB = new SimpleUserDatabase();
         UserConnectionManager connectionListener = new UserConnectionManager(this, userDB);
@@ -46,15 +48,16 @@ public class LobbyServer implements ILobby, IUserListener {
     private void tryMatchmaking(){
         synchronized (queue){
             if(queue.size() < 2) return;
-            startMatch(0, queue.get(0), queue.get(1));
+            startMatch(TTTMatch.MATCH_TYPE, queue.get(0), queue.get(1));
         }
     }
     void startMatch(int matchType, IUserConnection...users){
-        if(matchClasses.containsKey(matchType)) throw new RuntimeException("Unsupported Match");
+        if(!matchClasses.containsKey(matchType)) throw new RuntimeException("Unsupported Match");
         Class<? extends IMatch> matchClass = matchClasses.get(matchType);
-        ;
         try {
-            if((Boolean)matchClass.getMethod("isUserCountValid", Integer.class).invoke(null, users.length)) throw new RuntimeException("Bad User Count");
+            Method m = matchClass.getMethod("isUserCountValid", Integer.class);
+            boolean usersValid = (Boolean)m.invoke(null, users.length);
+            if(!usersValid) throw new RuntimeException("Bad User Count");
         } catch (Exception e) {
             e.printStackTrace();
             return;
