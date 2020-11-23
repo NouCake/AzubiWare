@@ -16,7 +16,7 @@ public class AzubiWareGame extends Game {
 
 	ActionResolver resolver;
 	boolean initiatedSignIn = false;
-	boolean isHTML = false;
+
 	BitmapFont font;
 	IClient client;
 
@@ -24,13 +24,6 @@ public class AzubiWareGame extends Game {
 
 	public AzubiWareGame(ActionResolver resolver){
 		this.resolver = resolver;
-
-		this.client = new Client();
-	}
-
-	public AzubiWareGame(ActionResolver resolver, boolean isHTML){
-		this.resolver = resolver;
-		this.isHTML = isHTML;
 
 		this.client = new Client();
 	}
@@ -46,11 +39,7 @@ public class AzubiWareGame extends Game {
 
 		client.start();
 
-		if(!isHTML) {
-			font = new FontLoader().loadFont("fonts/8-bitArcadeIn.ttf");
-		}else{
-			font = new BitmapFont();
-		}
+		font = new FontLoader().loadFont("fonts/8-bitArcadeIn.ttf");
 
 		this.setScreen(new SplashScreen(this));
 	}

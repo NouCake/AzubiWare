@@ -5,6 +5,7 @@
 	<inherits name="com.badlogic.gdx.graphics.g2d.freetype.freetype-gwt" />
 	<inherits name="de.golfgl.gdxgamesvcs.gdx_gamesvcs_gwt" />
 
+	<inherits name="MainServer" />
 	<inherits name='AzubiWareGame' />
 	<entry-point class='de.united.azubiware.client.HtmlLauncher' />
 	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
