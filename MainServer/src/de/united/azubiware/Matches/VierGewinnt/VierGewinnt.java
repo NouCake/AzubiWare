@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class VierGewinnt {
 
     private static final int height = 6;
-    private static final int width = 7;
+    private static final int width = 8;
     Scanner scanner = new Scanner(System.in);
     private int VGWinner;
 
@@ -154,8 +154,8 @@ public class VierGewinnt {
         }
     }
 
-    public int getNextPlayer() {
-        return 1 + ((lastPlayer + 1) % 2);
+    public int getNextPlayer(){
+        return 1 + (lastPlayer % 2);
     }
 
 }
