@@ -57,6 +57,7 @@ public class FourWinsScreen extends ScreenAdapter {
         resultOverlay = new ResultOverlay(stage);
         closePopup = new ClosePopUp(stage, game);
 
+        addCloseListener();
     }
 
     private Button createLeaveButton(){
@@ -139,9 +140,29 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(grid);
         return grid;
     }
+    private void addCloseListener(){
+        stage.addListener(new ClickListener(){
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if(keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE){
+                    if(!resultOverlay.isShowResult()) {
+                        if (closePopup.isHidden()) {
+                            closePopup.show();
+                        } else {
+                            closePopup.hide();
+                        }
+                    }
+                }
+                return super.keyDown(event, keycode);
+            }
+        });
+    }
 
     private void onRowClicked(int row){
-        game.getClient().sendMatchPacket(new VGPacket(row));
+        if(closePopup.isHidden() && yourTurn){
+            game.getClient().sendMatchPacket(new VGPacket(row));
+            grid.addStone(row);
+        }
     }
 
     @Override
