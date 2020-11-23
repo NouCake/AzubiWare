@@ -19,7 +19,7 @@ import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.minigames.FourWins;
-import de.united.azubiware.minigames.IGame;
+import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.minigames.TicTacToe;
 import de.united.azubiware.screens.minigames.WaitingScreen;
 import de.united.azubiware.utility.ClosePopUp;

@@ -3,7 +3,7 @@ package de.united.azubiware.utility;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import de.united.azubiware.minigames.FourWins;
-import de.united.azubiware.minigames.IGame;
+import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.minigames.SSP;
 import de.united.azubiware.minigames.TicTacToe;
 

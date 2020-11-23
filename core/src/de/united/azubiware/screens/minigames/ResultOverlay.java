@@ -14,24 +14,21 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class ResultOverlay {
 
-    private Stage stage;
+    private final Image winImage;
+    private final Image loseImage;
+    private final Image drawImage;
 
-    private Image winImage;
-    private Image loseImage;
-    private Image drawImage;
+    private final Button leave;
 
-    private Button leave;
+    private final Image dark;
 
-    private Image dark;
-
-    private int result = 0;
+    private final int result = 0;
     private boolean showResult = false;
     private boolean switchToMenu = false;
 
     private long finished;
 
     public ResultOverlay(Stage stage){
-        this.stage = stage;
 
         dark = new Image(new Texture(Gdx.files.internal("popup_dark.png")));
         dark.setHeight(stage.getHeight());
@@ -88,7 +85,7 @@ public class ResultOverlay {
     }
 
     public boolean isShowResult() {
-        return showResult || (TimeUtils.millis() - finished >= 5000);
+        return showResult;
     }
 
     private Button.ButtonStyle createButtonStyle(){
@@ -109,6 +106,6 @@ public class ResultOverlay {
     }
 
     public boolean isSwitchToMenu() {
-        return switchToMenu;
+        return ((TimeUtils.millis() - finished) >= 5000) || switchToMenu;
     }
 }

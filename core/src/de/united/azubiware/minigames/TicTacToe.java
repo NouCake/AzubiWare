@@ -6,11 +6,12 @@ import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.match.IMatchListener;
+import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.screens.minigames.WaitingScreen;
 import de.united.azubiware.screens.minigames.ttt.TTTMatchListener;
 import de.united.azubiware.screens.minigames.ttt.TicTacToeScreen;
 
-public class TicTacToe implements IGame{
+public class TicTacToe implements IGame {
 
     @Override
     public int getMatchType() {

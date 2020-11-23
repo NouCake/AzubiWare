@@ -42,8 +42,10 @@ public class FourWinsScreen extends ScreenAdapter {
 
     public FourWinsScreen(AzubiWareGame game, IUser opponent){
         this.game = game;
+
         batch = new PolygonSpriteBatch();
         stage = new Stage(new ScreenViewport(), batch);
+
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
@@ -53,6 +55,18 @@ public class FourWinsScreen extends ScreenAdapter {
         grid = createGrid();
         resultOverlay = new ResultOverlay(stage);
         closePopup = new ClosePopUp(stage, game);
+
+        btnLeave.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(!btnLeave.isDisabled()){
+                    game.getClient().sendMatchLeave();
+                    dispose();
+                    game.setScreen(new MainMenuScreen(game));
+                }
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
 
         addCloseListener();
     }
@@ -70,6 +84,7 @@ public class FourWinsScreen extends ScreenAdapter {
         Button btn =  new Button(style);
         btn.setPosition(stage.getWidth()/2f - btn.getWidth()/2f, 10);
         stage.addActor(btn);
+
         return btn;
     }
 
@@ -178,7 +193,6 @@ public class FourWinsScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        super.render(delta);
         stage.act();
         stage.draw();
 
@@ -186,6 +200,8 @@ public class FourWinsScreen extends ScreenAdapter {
             dispose();
             game.setScreen(new MainMenuScreen(game));
         }
+        
+        super.render(delta);
     }
 
     @Override
@@ -196,6 +212,13 @@ public class FourWinsScreen extends ScreenAdapter {
 
     public void setTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
+
+        if(yourTurn){
+            turn.setText("Your Turn");
+        }else{
+            turn.setText("Enemy Turn");
+        }
+
         grid.setTurn(yourTurn);
     }
 
