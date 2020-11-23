@@ -181,7 +181,6 @@ public class FourWinsScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        super.render(delta);
         stage.act();
         stage.draw();
 
@@ -189,6 +188,8 @@ public class FourWinsScreen extends ScreenAdapter {
             dispose();
             game.setScreen(new MainMenuScreen(game));
         }
+        
+        super.render(delta);
     }
 
     @Override
