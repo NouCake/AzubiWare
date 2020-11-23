@@ -27,4 +27,9 @@ public class VGClientPacketHandler extends APacketHandler {
         listener.onEnemyTurn(packet.getFieldX());
     }
 
+    public void onEnemyHint(IConnection c, VGTurnHint packet){
+        listener.onHint(packet.getRow());
+    }
+
+
 }
