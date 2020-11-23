@@ -4,5 +4,6 @@ public interface IMatchListener {
 
     void onMatchFinished();
     void onMatchTimedOut();
+    void onMatchClose();
 
 }

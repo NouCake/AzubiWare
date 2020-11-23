@@ -1,3 +1,10 @@
 sourceCompatibility = 11
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../android/assets"]
+
+task run(dependsOn: classes, type: JavaExec) {
+    main = "de.united.azubiware.Main"
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    ignoreExitValue = true
+}
