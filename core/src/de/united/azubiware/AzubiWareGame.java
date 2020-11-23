@@ -49,14 +49,14 @@ public class AzubiWareGame extends Game {
 	}
 
 	public void dispose() {
-		getClient().stop();
+		client.stop();
 		gsClient.logOff();
+		gsClient.pauseSession();
 	}
 
 	@Override
 	public void pause() {
 		super.pause();
-
 		gsClient.pauseSession();
 	}
 
