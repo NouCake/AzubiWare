@@ -4,8 +4,6 @@ import java.util.UUID;
 
 public class WelcomePacket implements IPacket{
 
-    public static final int type = 7;
-
     private final UUID uuid;
     private final String username;
 

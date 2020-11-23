@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder;
 public interface IPacket {
 
     default String toJsonString() {
-        //TODO
         GsonBuilder gsonBuilder  = new GsonBuilder();
         gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
         Gson gson = gsonBuilder.create();

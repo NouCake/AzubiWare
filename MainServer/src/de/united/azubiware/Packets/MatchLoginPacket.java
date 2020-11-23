@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class MatchLoginPacket implements IPacket{
 
-    public static final int type = 8;
     @SerializedName("matchtoken")
     private final String token;
 

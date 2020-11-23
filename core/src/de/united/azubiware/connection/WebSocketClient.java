@@ -34,12 +34,7 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     @Override
     public void onMessage(String message) {
         System.out.println("Got Message: " + message);
-        IPacket packet = PacketParser.createPacketFromJson(message);
-        if(packet == null) {
-            System.out.println("Couldn't create Packet from JSON! :c");
-        };
-
-        if(listener != null) listener.onMessage(connection, packet);
+        if(listener != null) listener.onMessage(connection, message);
     }
 
     @Override

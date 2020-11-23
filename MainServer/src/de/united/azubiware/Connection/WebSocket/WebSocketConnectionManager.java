@@ -87,14 +87,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     public void onMessage(WebSocket socket, String message) {
         //System.out.println("Got Message: " + message);
         WebSocketConnection connection = getConnectionFromSocket(socket);
-
-        IPacket packet = PacketParser.createPacketFromJson(message);
-        if(packet == null){
-            connection.send(new ErrorResponsePacket("Error while parsing the Package"));
-            return;
-        }
-
-        if(listener != null) this.listener.onMessage(connection, packet);
+        if(listener != null) this.listener.onMessage(connection, message);
     }
     @Override
     public void onError(WebSocket conn, Exception ex) {

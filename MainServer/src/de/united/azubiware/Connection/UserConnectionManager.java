@@ -43,15 +43,16 @@ public class UserConnectionManager implements IConnectionListener{
     }
 
     @Override
-    public void onMessage(IConnection connection, IPacket packet) {
+    public void onMessage(IConnection connection, String message) {
         IUserConnection user = getUserFromConnection(connection);
 
         if(user == null) { // => User is not logged in
-            user = tryLogin(connection, packet);
+            //TODO
+            //user = tryLogin(connection, packet);
             return;
         }
 
-        listener.onPacket(user, packet);
+        listener.onMessage(user, message);
     }
     @Override
     public void onConnected(IConnection connection) {
