@@ -5,5 +5,6 @@ public interface IVGListener extends IMatchListener{
     void onNextTurn(boolean yourTurn);
     void onInvalidTurn();
     void onEnemyTurn(int row);
+    void onHint(int row);
 
 }

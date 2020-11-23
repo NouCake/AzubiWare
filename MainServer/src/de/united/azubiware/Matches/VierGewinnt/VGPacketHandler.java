@@ -6,6 +6,7 @@ import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.Handler.APacketHandler;
 import de.united.azubiware.Packets.TTTPacket;
 import de.united.azubiware.Packets.VGPacket;
+import de.united.azubiware.Packets.VGTurnHint;
 
 public class VGPacketHandler extends APacketHandler {
 
@@ -23,4 +24,11 @@ public class VGPacketHandler extends APacketHandler {
         MatchUser user = match.getPlayerFromConnection(connection);
         match.doPlayerTurn(user, packet.getFieldX());
     }
+
+    public void onHint(IConnection connection, VGTurnHint packet){
+        MatchUser user = match.getPlayerFromConnection(connection);
+        int otherPlayerIndex = (user.getPlayerIndex() % 2) + 1;
+        match.getPlayerFromIndex(otherPlayerIndex).send(packet);
+    }
+
 }

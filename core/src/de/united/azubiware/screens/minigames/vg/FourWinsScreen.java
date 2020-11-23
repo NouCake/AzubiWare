@@ -23,7 +23,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
 import de.united.azubiware.Packets.VGPacket;
+import de.united.azubiware.Packets.VGTurnHint;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.minigames.FourWins;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.screens.minigames.ttt.TicTacToePostition;
@@ -134,6 +136,12 @@ public class FourWinsScreen extends ScreenAdapter {
                 super.onRowClicked(row);
                 FourWinsScreen.this.onRowClicked(row);
             }
+
+            @Override
+            protected void onHintChanged(int row) {
+                super.onHintChanged(row);
+                game.getClient().sendMatchPacket(new VGTurnHint(row));
+            }
         };
         float padding = 50;
         float targetWidth = stage.getWidth() - 2 * padding;
@@ -191,7 +199,7 @@ public class FourWinsScreen extends ScreenAdapter {
 
     public void setTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
-        grid.setShowHoverStone(yourTurn);
+        grid.setTurn(yourTurn);
     }
 
     public void doEnemyTurn(int row) {
@@ -200,5 +208,9 @@ public class FourWinsScreen extends ScreenAdapter {
 
     public ResultOverlay getResultOverlay() {
         return resultOverlay;
+    }
+
+    public void onHint(int row) {
+        grid.setEnemyHint(row);
     }
 }

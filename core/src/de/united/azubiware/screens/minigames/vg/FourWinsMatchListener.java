@@ -30,6 +30,11 @@ public class FourWinsMatchListener implements IVGListener {
     }
 
     @Override
+    public void onHint(int row) {
+        screen.onHint(row);
+    }
+
+    @Override
     public void onMatchReady() {
         waitingScreen.setSwitchToMatch(screen);
     }

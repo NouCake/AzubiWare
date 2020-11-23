@@ -26,7 +26,12 @@ public class FourWinsGrid extends Group implements IClickListener {
 
     private final int[] stonesInRow = new int[numRows];
 
-    private final  Image hoverStone;
+    private final Image hoverStonePlayer;
+    private final Image hoverStoneEnemy;
+
+    private Image curHoverStone;
+
+    private int curHintPos = 0;
 
     public FourWinsGrid(){
         setSize(gridWidth, gridHeight);
@@ -36,7 +41,11 @@ public class FourWinsGrid extends Group implements IClickListener {
 
         gridOverlay = createOverlay();
         gridBg = createOverlayBackground(gridOverlay);
-        hoverStone = createHoverStone(stonePlayer, gridOverlay);
+
+        hoverStonePlayer = createHoverStone(stonePlayer, gridOverlay);
+        hoverStoneEnemy = createHoverStone(stoneEnemy, gridOverlay);
+        curHoverStone = hoverStonePlayer;
+
         stoneLayer = new Group();
 
         addActors();
@@ -46,7 +55,8 @@ public class FourWinsGrid extends Group implements IClickListener {
     private void addActors(){
         addActor(gridBg);
         addActor(stoneLayer);
-        addActor(hoverStone);
+        addActor(hoverStonePlayer);
+        addActor(hoverStoneEnemy);
         addActor(gridOverlay);
     }
     private Image createOverlayBackground(Actor overlay){
@@ -58,6 +68,7 @@ public class FourWinsGrid extends Group implements IClickListener {
     private Image createHoverStone(Texture texture,Actor overlay) {
         Image image = new Image(texture);
         image.setPosition(0, overlay.getHeight() - image.getHeight() * 0.5f);
+        image.setVisible(false);
         return image;
     }
     private Image createOverlay(){
@@ -72,10 +83,24 @@ public class FourWinsGrid extends Group implements IClickListener {
     public void addEnemyStone(int row){
         addStone(row, stoneEnemy);
     }
-    public void setShowHoverStone(boolean hover){
-        hoverStone.setVisible(hover);
+
+    public void setTurn(boolean yourTurn){
+        if(yourTurn){
+            hoverStoneEnemy.setVisible(false);
+            hoverStonePlayer.setVisible(true);
+        } else {
+            hoverStoneEnemy.setVisible(true);
+            hoverStonePlayer.setVisible(false);
+        }
     }
 
+    public void setEnemyHint(int row){
+        updateHoverStonePosition(hoverStoneEnemy, row);
+    }
+
+    protected void onHintChanged(int row){
+
+    }
     protected void onRowClicked(int row){
 
     }
@@ -86,10 +111,15 @@ public class FourWinsGrid extends Group implements IClickListener {
         stonesInRow[row]++;
     }
     private void updateMouseInput(float x, float y){
-        int cellWidth = (int)(gridWidth / numRows);
+        int cellWidth = gridWidth / numRows;
         int mouseRow = (int)(x / cellWidth);
-        if(mouseRow >= 0 && mouseRow < numRows)
-            hoverStone.setPosition(mouseRow * cellWidth, hoverStone.getY());
+        if(mouseRow >= 0 && mouseRow < numRows){
+            if(curHintPos != mouseRow){
+                curHintPos = mouseRow;
+                updateHoverStonePosition(hoverStonePlayer, curHintPos);
+                onHintChanged(curHintPos);
+            }
+        }
     }
     private void addStone(int row, Texture stone){
         Image image = new Image(stone);
@@ -99,7 +129,10 @@ public class FourWinsGrid extends Group implements IClickListener {
 
         addStoneInRow(row);
     }
-
+    private void updateHoverStonePosition(Image hoverStone, int row){
+        int cellWidth = (int)(gridWidth / numRows);
+        hoverStonePlayer.setPosition(row * cellWidth, hoverStonePlayer.getY());
+    }
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

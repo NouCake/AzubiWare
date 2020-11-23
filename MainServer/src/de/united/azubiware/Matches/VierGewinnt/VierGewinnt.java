@@ -4,12 +4,11 @@ import java.util.Scanner;
 
 public class VierGewinnt {
 
-    private static final int height = 6;
-    private static final int width = 8;
-    Scanner scanner = new Scanner(System.in);
+    private final int height = 6;
+    private final int width = 8;
     private int VGWinner;
 
-    private static final int[][] field = new int[width][height];
+    private final int[][] field = new int[width][height];
     private int lastPlayer = 0;
 
     public VierGewinnt() {
