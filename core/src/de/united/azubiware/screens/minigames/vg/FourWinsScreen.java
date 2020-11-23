@@ -75,6 +75,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(btn);
         return btn;
     }
+
     private Label createTurnLabel(){
         if(turn != null) throw new RuntimeException("TurnLabel is already defined!");
         final int padding = 10;
@@ -98,6 +99,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(turn);
         return turn;
     }
+
     private void initBackground(){
         float stageRatio = stage.getWidth() / stage.getHeight();
 
@@ -173,6 +175,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.act();
         stage.draw();
     }
+
     @Override
     public void dispose() {
         super.dispose();
