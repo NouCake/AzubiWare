@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
+import de.united.azubiware.Packets.VGPacket;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.screens.minigames.ttt.TicTacToePostition;
@@ -140,7 +141,7 @@ public class FourWinsScreen extends ScreenAdapter {
     }
 
     private void onRowClicked(int row){
-
+        game.getClient().sendMatchPacket(new VGPacket(row));
     }
 
     @Override
