@@ -1,17 +1,17 @@
 package de.united.azubiware.minigames;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Matches.TTT.TTTMatch;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.match.IMatchListener;
+import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.screens.minigames.WaitingScreen;
 import de.united.azubiware.screens.minigames.ttt.TTTMatchListener;
 import de.united.azubiware.screens.minigames.ttt.TicTacToeScreen;
 
-public class TicTacToe implements IGame{
+public class TicTacToe implements IGame {
 
     @Override
     public int getMatchType() {

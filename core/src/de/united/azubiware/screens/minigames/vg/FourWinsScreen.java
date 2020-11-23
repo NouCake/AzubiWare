@@ -64,6 +64,18 @@ public class FourWinsScreen extends ScreenAdapter {
         resultOverlay = new ResultOverlay(stage);
         closePopup = new ClosePopUp(stage, game);
 
+        btnLeave.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(!btnLeave.isDisabled()){
+                    game.getClient().sendMatchLeave();
+                    dispose();
+                    game.setScreen(new MainMenuScreen(game));
+                }
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
         addCloseListener();
     }
 
@@ -80,6 +92,7 @@ public class FourWinsScreen extends ScreenAdapter {
         Button btn =  new Button(style);
         btn.setPosition(stage.getWidth()/2f - btn.getWidth()/2f, 10);
         stage.addActor(btn);
+
         return btn;
     }
 

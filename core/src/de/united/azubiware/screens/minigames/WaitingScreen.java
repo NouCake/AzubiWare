@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.User.IUser;
-import de.united.azubiware.minigames.IGame;
+import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.utility.ClosePopUp;
 
 public class WaitingScreen extends ScreenAdapter {
