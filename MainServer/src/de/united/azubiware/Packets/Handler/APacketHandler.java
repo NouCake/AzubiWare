@@ -41,7 +41,7 @@ public abstract class APacketHandler implements IPacketHandler {
         int packetType = PacketParser.getTypeFromPacketClass(packet.getClass());
 
         if(!packetHandleMethods.containsKey(packetType)) {
-            System.out.println("No Handler defined in " + getClass().getSimpleName() + " for Packet " + packet.getClass().getSimpleName());
+//            System.out.println("No Handler defined in " + getClass().getSimpleName() + " for Packet " + packet.getClass().getSimpleName());
             return;
         }
         Method handler = packetHandleMethods.get(packetType);

@@ -1,4 +1,6 @@
-package de.united.azubiware.Packets;
+package de.united.azubiware.Games.VG;
+
+import de.united.azubiware.Packets.IPacket;
 
 public class VGTurnHint implements IPacket {
     public static final int type = 19;

@@ -20,12 +20,12 @@ public class LobbyPacketHandler extends APacketHandler {
     }
 
     public void onQueueStartPacket(IConnection connection, QueueStartPacket packet){
-        System.out.println("Queue Start");
+//        System.out.println("Queue Start");
         lobby.startQueueing(connectionManager.getUserFromConnection(connection), packet.getMatchType());
     }
 
     public void onQueueStopPacket(IConnection connection, QueueStopPacket packet){
-        System.out.println("Queue Stop");
+//        System.out.println("Queue Stop");
         lobby.stopQueueing(connectionManager.getUserFromConnection(connection));
     }
 

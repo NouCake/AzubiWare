@@ -1,12 +1,9 @@
-package de.united.azubiware.Matches.TTT;
+package de.united.azubiware.Games.TTT;
 
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.Handler.APacketHandler;
-import de.united.azubiware.Packets.TTTPacket;
-
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 
 public class TTTPacketHandler extends APacketHandler {
 

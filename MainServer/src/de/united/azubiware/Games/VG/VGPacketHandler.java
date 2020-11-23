@@ -1,16 +1,13 @@
-package de.united.azubiware.Matches.VierGewinnt;
+package de.united.azubiware.Games.VG;
 
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.Handler.APacketHandler;
-import de.united.azubiware.Packets.TTTPacket;
-import de.united.azubiware.Packets.VGPacket;
-import de.united.azubiware.Packets.VGTurnHint;
 
 public class VGPacketHandler extends APacketHandler {
 
-    private final VGMatch match;
+    private final de.united.azubiware.Games.TTT.VG.VGMatch match;
 
     public VGPacketHandler(VGMatch match) {
         this.match = match;

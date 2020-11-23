@@ -1,4 +1,4 @@
-package de.united.azubiware.Matches.VierGewinnt;
+package de.united.azubiware.Games.VG;
 
 import java.util.Scanner;
 
@@ -100,7 +100,6 @@ public class VierGewinnt {
                     break;
                 }
             }
-            draw();
         }
     }
 
@@ -144,7 +143,7 @@ public class VierGewinnt {
 
         lastPlayer = player;
         addChip(Xinput, player);
-        draw();
+//        draw();
     }
 
     public class IllegalTurnException extends Exception {

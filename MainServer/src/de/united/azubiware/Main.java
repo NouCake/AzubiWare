@@ -2,7 +2,7 @@ package de.united.azubiware;
 
 import de.united.azubiware.Lobby.LobbyServer;
 import de.united.azubiware.Matches.IMatch;
-import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.Packets.Handler.PacketParser;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.User.SimpleUser;

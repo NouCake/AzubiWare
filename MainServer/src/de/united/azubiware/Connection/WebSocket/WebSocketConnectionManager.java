@@ -72,7 +72,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
         }
 
         if(listener != null) listener.onConnected(connection);
-        System.out.println("Connected");
+//        System.out.println("Connected");
     }
     @Override
     public void onClose(WebSocket socket, int code, String reason, boolean remote) {
@@ -81,7 +81,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
             connectedSockets.remove(connection);
         }
         if(listener != null) listener.onClosed(connection);
-        System.out.println("Closed");
+//        System.out.println("Closed");
     }
     @Override
     public void onMessage(WebSocket socket, String message) {

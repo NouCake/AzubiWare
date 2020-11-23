@@ -1,4 +1,6 @@
-package de.united.azubiware.Packets;
+package de.united.azubiware.Games.TTT;
+
+import de.united.azubiware.Packets.IPacket;
 
 public class TTTIllegalTurnPacket implements IPacket {
 

@@ -1,15 +1,11 @@
-package de.united.azubiware.Matches.VierGewinnt;
+package de.united.azubiware.Games.VG;
 
 import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Matches.MatchUser;
-import de.united.azubiware.Matches.TTT.TTTPacketHandler;
-import de.united.azubiware.Matches.TTT.TicTacToe;
 import de.united.azubiware.Matches.VierGewinnt.VGPacketHandler;
 import de.united.azubiware.Matches.VierGewinnt.VierGewinnt;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.MatchOverPacket;
-import de.united.azubiware.Packets.VGNextTurnPacket;
-import de.united.azubiware.Packets.VGPacket;
 import de.united.azubiware.User.IUser;
 
 
@@ -70,9 +66,5 @@ public class VGMatch extends AMatch {
 
     public boolean isMatchStarted() {
         return matchStarted;
-    }
-
-    public static boolean isUserCountValid(Integer users) {
-        return users == 2;
     }
 }

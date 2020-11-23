@@ -1,10 +1,9 @@
 package de.united.azubiware.minigames;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import de.united.azubiware.AzubiWareGame;
-import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.screens.minigames.WaitingScreen;
