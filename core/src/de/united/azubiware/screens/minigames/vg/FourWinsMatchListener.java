@@ -31,7 +31,7 @@ public class FourWinsMatchListener implements IVGListener {
 
     @Override
     public void onMatchReady() {
-
+        waitingScreen.setSwitchToMatch(screen);
     }
 
     @Override

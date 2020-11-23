@@ -12,5 +12,6 @@ public interface IMatch {
     void setMatchListener(IMatchListener listener);
     void start();
     MatchConnectionInfoPacket getMatchInfoPacket(UUID user);
+    boolean isUserCountValid(int users);
 
 }

@@ -29,13 +29,8 @@ public class TicTacToe implements IGame{
     }
 
     @Override
-    public Screen createStage(AzubiWareGame game, IUser[] opponents) {
-        return new TicTacToeScreen(game, opponents);
-    }
-
-    @Override
-    public IMatchListener createMatchListener(WaitingScreen waitingScreen) {
-        return new TTTMatchListener(waitingScreen);
+    public IMatchListener createMatchListener(WaitingScreen waitingScreen, AzubiWareGame game, IUser[] opponents) {
+        return new TTTMatchListener(waitingScreen, new TicTacToeScreen(game, opponents));
     }
 
 }

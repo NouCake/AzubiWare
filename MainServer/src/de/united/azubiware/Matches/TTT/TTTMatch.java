@@ -69,4 +69,9 @@ public class TTTMatch extends AMatch {
     public boolean isMatchStarted() {
         return matchStarted;
     }
+
+    @Override
+    public boolean isUserCountValid(int users) {
+        return users == 2;
+    }
 }

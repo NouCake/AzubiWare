@@ -15,8 +15,6 @@ public interface IGame {
 
     Texture getSplash();
 
-    Screen createStage(AzubiWareGame game, IUser[] opponents);
-
-    IMatchListener createMatchListener(WaitingScreen waitingScreen);
+    IMatchListener createMatchListener(WaitingScreen waitingScreen, AzubiWareGame game, IUser[] opponents);
 
 }

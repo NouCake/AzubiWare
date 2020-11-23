@@ -16,7 +16,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.Matches.VierGewinnt.VGMatch;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.minigames.FourWins;
 import de.united.azubiware.minigames.IGame;
 import de.united.azubiware.minigames.TicTacToe;
 import de.united.azubiware.screens.minigames.WaitingScreen;
@@ -119,7 +121,7 @@ public class MainMenuScreen extends ScreenAdapter {
         if(foundMatch) {
             dispose();
             game.setScreen(waitingScreen = new WaitingScreen(game, iGame, opponents));
-            game.getClient().setMatchListener(iGame.createMatchListener(waitingScreen));
+            game.getClient().setMatchListener(iGame.createMatchListener(waitingScreen, game, opponents));
         }
     }
 
@@ -154,6 +156,8 @@ public class MainMenuScreen extends ScreenAdapter {
         this.opponents = oppponents;
         if(matchType == TTTMatch.MATCH_TYPE){
             iGame = new TicTacToe();
+        } else if(matchType == VGMatch.MATCH_TYPE) {
+            iGame = new FourWins();
         }
     }
 

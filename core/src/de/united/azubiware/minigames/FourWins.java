@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.Matches.VierGewinnt.VGMatch;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.screens.minigames.WaitingScreen;
@@ -13,7 +14,7 @@ import de.united.azubiware.screens.minigames.vg.FourWinsScreen;
 public class FourWins implements IGame{
     @Override
     public int getMatchType() {
-        return 0;
+        return VGMatch.MATCH_TYPE;
     }
 
     @Override
@@ -27,12 +28,7 @@ public class FourWins implements IGame{
     }
 
     @Override
-    public Screen createStage(AzubiWareGame game, IUser[] opponents) {
-        return new FourWinsScreen(game);
-    }
-
-    @Override
-    public IMatchListener createMatchListener(WaitingScreen waitingScreen) {
-        return new FourWinsMatchListener(null, waitingScreen);
+    public IMatchListener createMatchListener(WaitingScreen waitingScreen, AzubiWareGame game, IUser[] opponents) {
+        return new FourWinsMatchListener(new FourWinsScreen(game, opponents[0]), waitingScreen);
     }
 }

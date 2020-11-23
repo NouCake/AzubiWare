@@ -26,6 +26,8 @@ public class WaitingScreen extends ScreenAdapter {
 
     private IUser[] opponents;
 
+    private Screen nextScreen;
+
     public WaitingScreen(AzubiWareGame game, IGame iGame, IUser[] opponents){
         this.game = game;
         this.miniGame = iGame;
@@ -83,8 +85,6 @@ public class WaitingScreen extends ScreenAdapter {
         stage.getBatch().end();
     }
 
-    private boolean switchToMatch = false;
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -94,13 +94,13 @@ public class WaitingScreen extends ScreenAdapter {
         drawBackground();
         stage.draw();
 
-        if(switchToMatch){
+        if(nextScreen != null){
             dispose();
-            game.setScreen(miniGame.createStage(game, opponents));
+            game.setScreen(nextScreen);
         }
     }
 
-    public void setSwitchToMatch(boolean switchToMatch) {
-        this.switchToMatch = switchToMatch;
+    public void setSwitchToMatch(Screen screen) {
+        this.nextScreen = screen;
     }
 }

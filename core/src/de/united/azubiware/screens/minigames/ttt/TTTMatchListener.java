@@ -9,13 +9,13 @@ public class TTTMatchListener implements ITTTListener {
     public WaitingScreen waitingScreen;
     public TicTacToeScreen ticTacToeScreen;
 
-    public TTTMatchListener(WaitingScreen waitingScreen){
+    public TTTMatchListener(WaitingScreen waitingScreen, TicTacToeScreen ticTacToeScreen){
         this.waitingScreen = waitingScreen;
+        this.ticTacToeScreen = ticTacToeScreen;
     }
 
-    public void switchToGameScreen(TicTacToeScreen ticTacToeScreen){
+    public void switchToGameScreen(){
         this.waitingScreen = null;
-        this.ticTacToeScreen = ticTacToeScreen;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TTTMatchListener implements ITTTListener {
     @Override
     public void onMatchReady() {
         if(waitingScreen != null)
-            waitingScreen.setSwitchToMatch(true);
+            waitingScreen.setSwitchToMatch(ticTacToeScreen);
     }
 
     @Override
