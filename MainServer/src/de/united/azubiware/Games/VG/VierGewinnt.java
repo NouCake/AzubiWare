@@ -1,15 +1,14 @@
-package de.united.azubiware.Matches.VierGewinnt;
+package de.united.azubiware.Games.VG;
 
 import java.util.Scanner;
 
 public class VierGewinnt {
 
-    private static final int height = 6;
-    private static final int width = 7;
-    Scanner scanner = new Scanner(System.in);
+    private final int height = 6;
+    private final int width = 8;
     private int VGWinner;
 
-    private static final int[][] field = new int[width][height];
+    private final int[][] field = new int[width][height];
     private int lastPlayer = 0;
 
     public VierGewinnt() {
@@ -101,7 +100,6 @@ public class VierGewinnt {
                     break;
                 }
             }
-            draw();
         }
     }
 
@@ -145,7 +143,7 @@ public class VierGewinnt {
 
         lastPlayer = player;
         addChip(Xinput, player);
-        draw();
+//        draw();
     }
 
     public class IllegalTurnException extends Exception {
@@ -154,8 +152,8 @@ public class VierGewinnt {
         }
     }
 
-    public int getNextPlayer() {
-        return 1 + ((lastPlayer + 1) % 2);
+    public int getNextPlayer(){
+        return 1 + (lastPlayer % 2);
     }
 
 }

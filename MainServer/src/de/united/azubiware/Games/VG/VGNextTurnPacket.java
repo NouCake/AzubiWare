@@ -1,8 +1,10 @@
-package de.united.azubiware.Packets;
+package de.united.azubiware.Games.VG;
 
-public class VGNextTurnPacket implements IPacket{
+import de.united.azubiware.Packets.IPacket;
 
-    public static final int type = 17;
+public class VGNextTurnPacket implements IPacket {
+
+    public static final int type = 18;
 
     private final boolean yourTurn;
 

@@ -1,6 +1,7 @@
 package de.united.azubiware.Connection;
 
 import de.united.azubiware.Connection.WebSocket.IUserListener;
+import de.united.azubiware.Packets.Handler.PacketParser;
 import de.united.azubiware.User.IUserConnection;
 import de.united.azubiware.User.IUserDatabase;
 import de.united.azubiware.Packets.IPacket;
@@ -15,11 +16,16 @@ public class UserConnectionManager implements IConnectionListener{
     private final IUserListener listener;
     private final IUserDatabase manager;
 
+    private PacketParser parser;
+
     public UserConnectionManager(IUserListener listener, IUserDatabase manager) {
         this.listener = listener;
         this.manager = manager;
 
         connectedUsers = new LinkedList<>();
+
+        parser = new PacketParser();
+        parser.addPacketClass(LoginPacket.class);
     }
 
     public IUserConnection getUserFromConnection(IConnection connection){
@@ -43,15 +49,20 @@ public class UserConnectionManager implements IConnectionListener{
     }
 
     @Override
-    public void onMessage(IConnection connection, IPacket packet) {
+    public void onMessage(IConnection connection, String message) {
         IUserConnection user = getUserFromConnection(connection);
 
         if(user == null) { // => User is not logged in
+            IPacket packet = parser.createPacketFromJson(message);
+            if(packet == null){
+                System.out.println("Not a valid login Packet");
+                return;
+            }
             user = tryLogin(connection, packet);
             return;
         }
 
-        listener.onPacket(user, packet);
+        listener.onMessage(user, message);
     }
     @Override
     public void onConnected(IConnection connection) {

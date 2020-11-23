@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
-import de.united.azubiware.Packets.TTTPacket;
+import de.united.azubiware.Games.TTT.TTTPacket;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ResultOverlay;
@@ -45,9 +45,6 @@ public class TicTacToeScreen extends ScreenAdapter {
     public TicTacToeScreen(AzubiWareGame game, IUser[] opponents){
         this.game = game;
 
-        TTTMatchListener tttMatchListener = (TTTMatchListener) game.getClient().getMatchListener();
-        tttMatchListener.switchToGameScreen(this);
-
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
@@ -68,7 +65,7 @@ public class TicTacToeScreen extends ScreenAdapter {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(!leave.isDisabled() && closePopUp.isHidden()){
-                    game.getClient().doMatchOver();
+                    game.getClient().sendMatchLeave();
                     dispose();
                     game.setScreen(new MainMenuScreen(game));
                 }
@@ -87,7 +84,7 @@ public class TicTacToeScreen extends ScreenAdapter {
         turn = new Label("ENEMY TURN", labelStyle);
         turn.setAlignment(Align.center);
         turn.setWidth(stage.getWidth()+1.25f);
-        turn.setFontScale(1.25f);
+        turn.setFontScale(1.15f);
         turn.setPosition(stage.getWidth()/2-turn.getWidth()/2, stage.getHeight()-top.getHeight()/2);
 
         stage.addActor(image);
@@ -127,7 +124,6 @@ public class TicTacToeScreen extends ScreenAdapter {
                 return super.keyDown(event, keycode);
             }
         });
-
     }
 
     public void drawBackground(){
@@ -166,18 +162,14 @@ public class TicTacToeScreen extends ScreenAdapter {
         }
 
         if(switchToMenu || resultOverlay.isSwitchToMenu()){
-            dispose();
-            game.setScreen(new MainMenuScreen(game));
+            //dispose();
+            //game.setScreen(new MainMenuScreen(game));
         }
     }
 
     @Override
     public void dispose() {
         stage.dispose();
-    }
-
-    public void setSwitchToMenu(boolean switchToMenu) {
-        this.switchToMenu = switchToMenu;
     }
 
     public void setYourTurn(boolean yourTurn) {

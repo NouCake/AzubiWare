@@ -12,45 +12,33 @@ import java.util.function.Consumer;
 
 public class PacketParser {
 
-    private static HashMap<Integer, Class<?>> packetClasses = new HashMap<>();
-    private final static Gson gson = new Gson();
-    private static boolean fuJava = collectTypeClasses();
+    private final HashMap<String, Class<?>> packetClasses;
+    private final Gson gson;
 
-    public static int getTypeFromPacketClass(Class<?> c){
-        try {
-            return  c.getField("type").getInt(null);
-        } catch (Exception e) {
-            throw new RuntimeException("Couldn't get typeID from " + c.getSimpleName());
-        }
-    }
-    private static boolean collectTypeClasses(){
-        System.out.println("Start Collecting classes");
-        Reflections r = new Reflections("de.united.azubiware.Packets");
-        Set<Class<? extends IPacket>> classes = r.getSubTypesOf(IPacket.class);
-        System.out.println("Got Classes! " + classes.size());
-        classes.forEach(new Consumer<Class<? extends IPacket>>() {
-            @Override
-            public void accept(Class<? extends IPacket> c) {
-                System.out.println("Calling Consumer with: " + c.getClass());
-                int packetTypeID = getTypeFromPacketClass(c);
-                if(packetClasses.containsKey(packetTypeID))
-                    throw new RuntimeException("Multiple Packets with same TypeID: " + c.getSimpleName());
-                packetClasses.put(packetTypeID, c);
-                System.out.println("PacketParser: register packet " + c.getSimpleName());
-            }
-        });
-        return true;
+    public PacketParser(){
+        packetClasses = new HashMap<>();
+        gson = new Gson();
     }
 
-    public static IPacket createPacketFromJson(String jsonString){
+    public void addPacketClass(Class<? extends IPacket> c){
+        System.out.println("Calling Consumer with: " + c.getClass());
+        String packetType = c.getSimpleName();
+        if(packetClasses.containsKey(packetType))
+            throw new RuntimeException("Multiple Packets with same Class Name: " + c.getSimpleName());
+        packetClasses.put(packetType, c);
+        System.out.println("PacketParser: register packet " + c.getSimpleName());
+    }
+
+    public IPacket createPacketFromJson(String jsonString){
         try{
-            JsonElement json = gson.fromJson(jsonString, JsonElement.class).getAsJsonObject();
+            JsonElement json = gson.fromJson(jsonString, JsonElement.class);
 
-            int packetType = json.getAsJsonObject().get("type").getAsInt();
+            String packetType = json.getAsJsonObject().get("type").getAsString();
             if(!packetClasses.containsKey(packetType)) {
-                System.out.println("PacketParserError: No PacketClass for type: " + packetType);
+                System.out.println("PacketParserError : No PacketClass for type: " + packetType);
                 return null;
             };
+            json.getAsJsonObject().remove("type");
 
             Class<?> packetClass = packetClasses.get(packetType);
             return (IPacket) gson.fromJson(json, packetClass);

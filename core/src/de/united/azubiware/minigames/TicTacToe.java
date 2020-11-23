@@ -1,10 +1,9 @@
 package de.united.azubiware.minigames;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import de.united.azubiware.AzubiWareGame;
-import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.screens.minigames.WaitingScreen;
@@ -19,7 +18,7 @@ public class TicTacToe implements IGame{
     }
 
     @Override
-    public Texture getBackground() {
+    public Texture getWaitingScreenBackground() {
         return new Texture(Gdx.files.internal("backgrounds/backgroundCastles.png"));
     }
 
@@ -29,12 +28,8 @@ public class TicTacToe implements IGame{
     }
 
     @Override
-    public Screen createStage(AzubiWareGame game, IUser[] opponents) {
-        return new TicTacToeScreen(game, opponents);
+    public IMatchListener createMatchListener(WaitingScreen waitingScreen, AzubiWareGame game, IUser[] opponents) {
+        return new TTTMatchListener(waitingScreen, new TicTacToeScreen(game, opponents));
     }
 
-    @Override
-    public IMatchListener createMatchListener(WaitingScreen waitingScreen) {
-        return new TTTMatchListener(waitingScreen);
-    }
 }

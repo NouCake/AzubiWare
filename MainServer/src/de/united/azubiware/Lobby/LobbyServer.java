@@ -1,34 +1,40 @@
 package de.united.azubiware.Lobby;
 
 import de.united.azubiware.Connection.IConnectionManager;
-import de.united.azubiware.Connection.PortManager;
 import de.united.azubiware.Connection.UserConnectionManager;
 import de.united.azubiware.Connection.WebSocket.IUserListener;
 import de.united.azubiware.Connection.WebSocket.WebSocketConnectionManager;
+import de.united.azubiware.Games.TTT.TTTLobbyGame;
+import de.united.azubiware.Games.VG.VGLobbyGame;
+import de.united.azubiware.ILobbyGame;
 import de.united.azubiware.Matches.IMatch;
-import de.united.azubiware.Matches.IMatchListener;
-import de.united.azubiware.Matches.TTT.TTTMatch;
-import de.united.azubiware.Packets.Handler.IPacketHandler;
+import de.united.azubiware.Games.TTT.TTTMatch;
+import de.united.azubiware.Games.VG.VGMatch;
+import de.united.azubiware.Packets.Handler.IMessageHandler;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.WelcomePacket;
 import de.united.azubiware.User.IUserConnection;
 import de.united.azubiware.User.IUserDatabase;
 import de.united.azubiware.User.SimpleUserDatabase;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 public class LobbyServer implements ILobby, IUserListener {
 
-    private List<IUserConnection> queue;
+    private final List<ILobbyGame> games;
 
-    private final IPacketHandler packetHandler;
+    private final IMessageHandler packetHandler;
     private final IUserDatabase userDB;
     private final IConnectionManager connectionManager;
 
     public LobbyServer(){
-        queue = new LinkedList<>();
+
+        games = new LinkedList<>();
+        games.add(new TTTLobbyGame());
+        games.add(new VGLobbyGame());
+
         userDB = new SimpleUserDatabase();
         UserConnectionManager connectionListener = new UserConnectionManager(this, userDB);
         packetHandler = new LobbyPacketHandler(this, connectionListener);
@@ -39,52 +45,25 @@ public class LobbyServer implements ILobby, IUserListener {
         connectionManager.start();
     }
 
-    private void tryMatchmaking(){
-        synchronized (queue){
-            if(queue.size() < 2) return;
-            startMatch(0, queue.get(0), queue.get(1));
+    private int getOnlineCount(){
+        int count = 0;
+
+        for(ILobbyGame g : games){
+            count += g.getQueueCount();
         }
-    }
-    void startMatch(int matchType, IUserConnection...users){
-        if(matchType != 0) throw new RuntimeException("Unsupported Match");
-
-        if(users.length != 2) throw new RuntimeException("Bad User Count");
-        int port;
-
-        try {
-            port = PortManager.ports.getFreePort();
-        } catch (PortManager.NoFreePortException e) {
-            System.out.println("Couldn't start Match: No Free Port");
-            return;
-        } finally {
-            stopQueueing(users);
-        }
-
-        IMatch match = new TTTMatch(port, users[0], users[1]);
-        for(IUserConnection connection : users){
-            connection.send(match.getMatchInfoPacket(connection.getId()));
-        }
-        match.setMatchListener(new IMatchListener() {
-            @Override
-            public void onMatchFinished() {
-            }
-
-            @Override
-            public void onMatchTimedOut() {
-            }
-
-            @Override
-            public void onMatchClose(){
-                PortManager.ports.freePort(port);
-            }
-        });
-        match.start();
+        return count;
     }
 
+    private ILobbyGame getGameByMatchType(int matchType){
+        for(ILobbyGame g : games){
+            if(g.getMatchType() == matchType) return g;
+        }
+        System.out.println("No Valid MatchType :C" + matchType);
+        return null;
+    }
     @Override
-    public void onPacket(IUserConnection user, IPacket packet) {
-        System.out.println("Got Packet " + packet.getClass().getSimpleName());
-        packetHandler.onPacket(user.getConnection(), packet);
+    public void onMessage(IUserConnection user, String message) {
+        packetHandler.onMessage(user.getConnection(), message);
     }
     @Override
     public void onLogin(IUserConnection user) {
@@ -97,22 +76,21 @@ public class LobbyServer implements ILobby, IUserListener {
         stopQueueing(user);
     }
     @Override
-    public void startQueueing(IUserConnection user) {
-        synchronized (queue){
-            queue.add(user);
-        }
-        tryMatchmaking();
+    public void startQueueing(IUserConnection user, int matchType) {
+        ILobbyGame g = getGameByMatchType(matchType);
+        if(g == null) return;
+        g.addToQueue(user);
     }
     @Override
-    public void stopQueueing(IUserConnection ...user) {
-        synchronized (queue){
-            queue.removeAll(Arrays.asList(user.clone()));
-        }
+    public void stopQueueing(IUserConnection ...users) {
+        games.forEach(g -> g.removeFromQueue(users));
     }
     @Override
     public int getUsersInQueue(int matchType) {
         //System.out.println(queue + " | " + queue.size());
-        return queue.size();
+        ILobbyGame g = getGameByMatchType(matchType);
+        if(g == null) return 0;
+        return g.getQueueCount();
     }
 
 }

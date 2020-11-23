@@ -1,11 +1,9 @@
-package de.united.azubiware.Matches.TTT;
+package de.united.azubiware.Games.TTT;
 
 import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.MatchOverPacket;
-import de.united.azubiware.Packets.TTTNextTurnPacket;
-import de.united.azubiware.Packets.TTTPacket;
 import de.united.azubiware.User.IUser;
 
 public class TTTMatch extends AMatch {

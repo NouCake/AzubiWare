@@ -33,6 +33,8 @@ public class SplashScreen implements Screen {
 
         Texture texture = new Texture("splash.png");
         Image image = new Image(texture);
+        image.setWidth(stage.getWidth()*0.75f);
+        image.setHeight(image.getWidth());
         image.setPosition(stage.getWidth()/2f-image.getWidth()/2,stage.getHeight()/2f-image.getHeight()/2);
 
         stage.addActor(image);

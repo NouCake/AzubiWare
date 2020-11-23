@@ -3,13 +3,15 @@ package de.united.azubiware.connection.client;
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
-import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.Games.TTT.TTTMatch;
+import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.Packets.*;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.WebSocketClient;
 import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.connection.match.MatchClient;
 import de.united.azubiware.connection.match.TTTClient;
+import de.united.azubiware.connection.match.VGClient;
 
 import java.net.URI;
 import java.util.UUID;
@@ -24,6 +26,7 @@ public class Client implements IClient {
 
     public Client(){
         client = new WebSocketClient(URI.create("ws://two.noucake.de:12000"));
+        //client = new WebSocketClient(URI.create("ws://localhost:12000"));
         client.setConnectionListener(new PacketListener(new ClientPacketHandler(this)){
             @Override
             public void onConnected(IConnection con) {
@@ -49,6 +52,8 @@ public class Client implements IClient {
         if(listener == null) return;
         if(matchType == TTTMatch.MATCH_TYPE){
             currentMatchClient = new TTTClient(this, adress, matchToken);
+        } else if(matchType == VGMatch.MATCH_TYPE){
+            currentMatchClient = new VGClient(this, adress, matchToken);
         }
 
         listener.onMatchFound(matchType, opponents);
@@ -86,6 +91,11 @@ public class Client implements IClient {
         currentMatchClient.sendPacket(packet);
     }
 
+    @Override
+    public void sendMatchLeave() {
+
+    }
+
     public void updateQueue(int matchType, int queueLength){
         if(listener == null) return;
         listener.onQueueUpdate(matchType, queueLength);
@@ -105,7 +115,7 @@ public class Client implements IClient {
     public void stop() {
         client.stop();
         connection = null;
-        currentMatchClient.stop();
+        if(currentMatchClient != null) currentMatchClient.stop();
     }
 
     @Override

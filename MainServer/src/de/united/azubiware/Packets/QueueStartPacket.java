@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class QueueStartPacket implements IPacket {
 
-    public static final int type = 5;
-
     @SerializedName("matchtype")
     public final int matchType;
 

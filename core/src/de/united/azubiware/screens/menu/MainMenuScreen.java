@@ -15,13 +15,13 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
-import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.Games.TTT.TTTMatch;
+import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.minigames.FourWins;
 import de.united.azubiware.minigames.IGame;
 import de.united.azubiware.minigames.TicTacToe;
 import de.united.azubiware.screens.minigames.WaitingScreen;
-import de.united.azubiware.screens.minigames.ttt.TTTMatchListener;
-import de.united.azubiware.screens.minigames.ttt.TicTacToeScreen;
 import de.united.azubiware.utility.ClosePopUp;
 import de.united.azubiware.utility.Clouds;
 import de.united.azubiware.utility.MiniGamePaginator;
@@ -58,7 +58,7 @@ public class MainMenuScreen extends ScreenAdapter {
         labelStyle.font = game.getFont();
         labelStyle.fontColor = Color.DARK_GRAY;
 
-        label = new Label(new Random().nextInt(10)+1 + " In queue", labelStyle);
+        label = new Label(new Random().nextInt(10)+1 + " in queue", labelStyle);
         label.setAlignment(Align.center);
         label.setWidth(300);
         label.setHeight(40);
@@ -119,7 +119,7 @@ public class MainMenuScreen extends ScreenAdapter {
         if(foundMatch) {
             dispose();
             game.setScreen(waitingScreen = new WaitingScreen(game, iGame, opponents));
-            game.getClient().setMatchListener(iGame.createMatchListener(waitingScreen));
+            game.getClient().setMatchListener(iGame.createMatchListener(waitingScreen, game, opponents));
         }
     }
 
@@ -154,6 +154,8 @@ public class MainMenuScreen extends ScreenAdapter {
         this.opponents = oppponents;
         if(matchType == TTTMatch.MATCH_TYPE){
             iGame = new TicTacToe();
+        } else if(matchType == VGMatch.MATCH_TYPE) {
+            iGame = new FourWins();
         }
     }
 

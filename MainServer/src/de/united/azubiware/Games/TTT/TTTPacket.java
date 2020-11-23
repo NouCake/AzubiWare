@@ -1,6 +1,8 @@
-package de.united.azubiware.Packets;
+package de.united.azubiware.Games.TTT;
 
-public class TTTPacket implements IPacket{
+import de.united.azubiware.Packets.IPacket;
+
+public class TTTPacket implements IPacket {
 
     public static final int type = 10;
 

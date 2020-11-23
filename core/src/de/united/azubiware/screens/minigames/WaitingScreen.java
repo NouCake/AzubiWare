@@ -26,6 +26,8 @@ public class WaitingScreen extends ScreenAdapter {
 
     private IUser[] opponents;
 
+    private Screen nextScreen;
+
     public WaitingScreen(AzubiWareGame game, IGame iGame, IUser[] opponents){
         this.game = game;
         this.miniGame = iGame;
@@ -36,9 +38,10 @@ public class WaitingScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
-        backgroundSprite = new Sprite(iGame.getBackground());
+        backgroundSprite = new Sprite(iGame.getWaitingScreenBackground());
 
         Image image = new Image(iGame.getSplash());
+        image.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
         image.setPosition(stage.getWidth()/2-image.getWidth()/2, stage.getHeight()/2);
         stage.addActor(image);
 
@@ -54,7 +57,7 @@ public class WaitingScreen extends ScreenAdapter {
             int amount = 1;
             for (IUser user : opponents) {
                 Label userLabel = new Label(user.getName(), labelStyle);
-                userLabel.setPosition(stage.getWidth()/2-userLabel.getWidth()/2, opponent.getY()-opponent.getHeight()/2-(amount*userLabel.getHeight()/2));
+                userLabel.setPosition(stage.getWidth()/2-userLabel.getWidth()/2, opponent.getY()-opponent.getHeight()/2-(amount*userLabel.getHeight()/1.5f));
                 stage.addActor(userLabel);
                 amount++;
             }
@@ -82,8 +85,6 @@ public class WaitingScreen extends ScreenAdapter {
         stage.getBatch().end();
     }
 
-    private boolean switchToMatch = false;
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -93,13 +94,13 @@ public class WaitingScreen extends ScreenAdapter {
         drawBackground();
         stage.draw();
 
-        if(switchToMatch){
+        if(nextScreen != null){
             dispose();
-            game.setScreen(miniGame.createStage(game, opponents));
+            game.setScreen(nextScreen);
         }
     }
 
-    public void setSwitchToMatch(boolean switchToMatch) {
-        this.switchToMatch = switchToMatch;
+    public void setSwitchToMatch(Screen screen) {
+        this.nextScreen = screen;
     }
 }

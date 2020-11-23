@@ -54,8 +54,8 @@ public class LoginScreen implements Screen {
         usernameField.setMessageText("username");
         usernameField.setMaxLength(maxUsernameLength);
         usernameField.setAlignment(Align.center);
-        usernameField.setHeight(50);
-        usernameField.setWidth(250);
+        usernameField.setWidth(stage.getWidth()*0.5f);
+
 
         Texture playTexture = new Texture(Gdx.files.internal("buttons/login/button_login.png"));
         Texture playTextureDown = new Texture(Gdx.files.internal("buttons/login/button_login_down.png"));
@@ -69,8 +69,8 @@ public class LoginScreen implements Screen {
 
         this.playButton = new Button(testStyle);
 
-        usernameField.setPosition(stage.getWidth()/2f-125, stage.getHeight()/2f+15);
-        playButton.setPosition(stage.getWidth()/2f-95, stage.getHeight()/2.5f);
+        usernameField.setPosition(stage.getWidth()/2f-usernameField.getWidth()/2, stage.getHeight()/2f+usernameField.getHeight()/2);
+        playButton.setPosition(stage.getWidth()/2f-playButton.getWidth()/2, usernameField.getY()-usernameField.getHeight()/1.5f-playButton.getHeight()/2);
 
         playButton.addListener(new ClickListener(){
             @Override

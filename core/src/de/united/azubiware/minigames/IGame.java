@@ -11,11 +11,10 @@ public interface IGame {
 
     int getMatchType();
 
-    Texture getBackground();
+    Texture getWaitingScreenBackground();
 
     Texture getSplash();
 
-    Screen createStage(AzubiWareGame game, IUser[] opponents);
+    IMatchListener createMatchListener(WaitingScreen waitingScreen, AzubiWareGame game, IUser[] opponents);
 
-    IMatchListener createMatchListener(WaitingScreen waitingScreen);
 }
