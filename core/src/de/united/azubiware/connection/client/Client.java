@@ -24,6 +24,7 @@ public class Client implements IClient {
 
     public Client(){
         client = new WebSocketClient(URI.create("ws://two.noucake.de:12000"));
+        //client = new WebSocketClient(URI.create("ws://localhost:12000"));
         client.setConnectionListener(new PacketListener(new ClientPacketHandler(this)){
             @Override
             public void onConnected(IConnection con) {
@@ -84,6 +85,11 @@ public class Client implements IClient {
             return;
         }
         currentMatchClient.sendPacket(packet);
+    }
+
+    @Override
+    public void sendMatchLeave() {
+
     }
 
     public void updateQueue(int matchType, int queueLength){

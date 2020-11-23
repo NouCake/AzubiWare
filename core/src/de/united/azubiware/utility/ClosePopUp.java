@@ -49,7 +49,6 @@ public class ClosePopUp {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(!isHidden()){
-                    game.getClient().stop();
                     Gdx.app.exit();
                 }
                 return super.touchDown(event, x, y, pointer, button);

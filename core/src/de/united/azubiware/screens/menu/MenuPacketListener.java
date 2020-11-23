@@ -15,7 +15,6 @@ public class MenuPacketListener implements IClientListener {
 
     @Override
     public void onConnected() {
-
     }
 
     @Override
@@ -25,7 +24,6 @@ public class MenuPacketListener implements IClientListener {
 
     @Override
     public void onWelcome(IUser user) {
-
     }
 
     @Override
