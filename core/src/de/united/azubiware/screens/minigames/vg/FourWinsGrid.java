@@ -1,0 +1,123 @@
+package de.united.azubiware.screens.minigames.vg;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import de.united.azubiware.utility.ClickListenerAdapter;
+import de.united.azubiware.utility.IClickListener;
+
+public class FourWinsGrid extends Group implements IClickListener {
+
+    private static final int numRows = 8;
+    private static final int numCols = 6;
+
+    private static final int gridWidth = 128 * numRows;
+    private static final int gridHeight = 128 * numCols;
+
+    private final Image gridOverlay;
+    private final Image gridBg;
+    private final Group stoneLayer;
+
+    private final Texture stonePlayer;
+    private final Texture stoneEnemy;
+
+    private final int[] stonesInRow = new int[numRows];
+
+    private final  Image hoverStone;
+
+    public FourWinsGrid(){
+        setSize(gridWidth, gridHeight);
+
+        stonePlayer = new Texture(Gdx.files.internal("games/vg/stone_1.png"));
+        stoneEnemy = new Texture(Gdx.files.internal("games/vg/stone_2.png"));
+
+        gridOverlay = createOverlay();
+        gridBg = createOverlayBackground(gridOverlay);
+        hoverStone = createHoverStone(stonePlayer, gridOverlay);
+        stoneLayer = new Group();
+
+        addActors();
+        addListener(new ClickListenerAdapter(this));
+    }
+
+    private void addActors(){
+        addActor(gridBg);
+        addActor(stoneLayer);
+        addActor(hoverStone);
+        addActor(gridOverlay);
+    }
+    private Image createOverlayBackground(Actor overlay){
+        Image image = new Image(new Texture(Gdx.files.internal("games/vg/gridBg.png")));
+        image.setPosition(overlay.getX(), overlay.getY());
+        image.setSize(overlay.getWidth(), overlay.getHeight());
+        return image;
+    }
+    private Image createHoverStone(Texture texture,Actor overlay) {
+        Image image = new Image(texture);
+        image.setPosition(0, overlay.getHeight() - image.getHeight() * 0.5f);
+        return image;
+    }
+    private Image createOverlay(){
+        Image image = new Image(new Texture(Gdx.files.internal("games/vg/grid.png")));
+        image.setPosition(gridWidth * 0.5f - image.getWidth()*0.5f, gridHeight*0.5f - image.getHeight()*0.5f);
+        return image;
+    }
+
+    public void addStone(int row){
+        addStone(row, stonePlayer);
+    }
+    public void addEnemyStone(int row){
+        addStone(row, stoneEnemy);
+    }
+    public void setShowHoverStone(boolean hover){
+        hoverStone.setVisible(hover);
+    }
+
+    protected void onRowClicked(int row){
+
+    }
+    private int getStonesInRow(int row){
+        return stonesInRow[row];
+    }
+    private void addStoneInRow(int row){
+        stonesInRow[row]++;
+    }
+    private void updateMouseInput(float x, float y){
+        int cellWidth = (int)(gridWidth / numRows);
+        int mouseRow = (int)(x / cellWidth);
+        if(mouseRow >= 0 && mouseRow < numRows)
+            hoverStone.setPosition(mouseRow * cellWidth, hoverStone.getY());
+    }
+    private void addStone(int row, Texture stone){
+        Image image = new Image(stone);
+        int col = getStonesInRow(row);
+        image.setPosition(row * (getWidth() / numRows), col * (getHeight() / numCols));
+        stoneLayer.addActor(image);
+
+        addStoneInRow(row);
+    }
+
+
+    @Override
+    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        int cellWidth = gridWidth / numRows;
+        int mouseRow = (int)(x / cellWidth);
+        if(mouseRow >= 0 && mouseRow < numRows){
+            onRowClicked(mouseRow);
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public boolean keyDown(InputEvent event, int keycode) {
+        return false;
+    }
+    @Override
+    public boolean mouseMoved(InputEvent event, float x, float y) {
+        updateMouseInput(x, y);
+        return false;
+    }
+}
