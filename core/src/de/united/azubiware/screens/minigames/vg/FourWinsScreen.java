@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
+import de.united.azubiware.Packets.VGPacket;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.screens.minigames.ttt.TicTacToePostition;
@@ -55,6 +56,8 @@ public class FourWinsScreen extends ScreenAdapter {
         grid = createGrid();
         resultOverlay = new ResultOverlay(stage);
         closePopup = new ClosePopUp(stage, game);
+
+        addCloseListener();
     }
 
     private Button createLeaveButton(){
@@ -140,9 +143,29 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(grid);
         return grid;
     }
+    private void addCloseListener(){
+        stage.addListener(new ClickListener(){
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if(keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE){
+                    if(!resultOverlay.isShowResult()) {
+                        if (closePopup.isHidden()) {
+                            closePopup.show();
+                        } else {
+                            closePopup.hide();
+                        }
+                    }
+                }
+                return super.keyDown(event, keycode);
+            }
+        });
+    }
 
     private void onRowClicked(int row){
-
+        if(closePopup.isHidden() && yourTurn){
+            game.getClient().sendMatchPacket(new VGPacket(row));
+            grid.addStone(row);
+        }
     }
 
     @Override

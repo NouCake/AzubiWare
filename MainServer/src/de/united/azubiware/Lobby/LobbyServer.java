@@ -8,14 +8,16 @@ import de.united.azubiware.Connection.WebSocket.WebSocketConnectionManager;
 import de.united.azubiware.Matches.IMatch;
 import de.united.azubiware.Matches.IMatchListener;
 import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.Matches.VierGewinnt.VGMatch;
 import de.united.azubiware.Packets.Handler.IPacketHandler;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.WelcomePacket;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.User.IUserConnection;
 import de.united.azubiware.User.IUserDatabase;
 import de.united.azubiware.User.SimpleUserDatabase;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,6 +34,8 @@ public class LobbyServer implements ILobby, IUserListener {
 
     public LobbyServer(){
         matchClasses = new HashMap<>();
+        matchClasses.put(TTTMatch.MATCH_TYPE, TTTMatch.class);
+        matchClasses.put(VGMatch.MATCH_TYPE, VGMatch.class);
         queue = new LinkedList<>();
         userDB = new SimpleUserDatabase();
         UserConnectionManager connectionListener = new UserConnectionManager(this, userDB);
@@ -46,34 +50,58 @@ public class LobbyServer implements ILobby, IUserListener {
     private void tryMatchmaking(){
         synchronized (queue){
             if(queue.size() < 2) return;
-            startMatch(0, queue.get(0), queue.get(1));
+            startMatch(TTTMatch.MATCH_TYPE, queue.get(0), queue.get(1));
         }
     }
-    void startMatch(int matchType, IUserConnection...users){
-        if(matchClasses.containsKey(matchType)) throw new RuntimeException("Unsupported Match");
+    private void startMatch(int matchType, IUserConnection...users){
+        if(!matchClasses.containsKey(matchType)) throw new RuntimeException("Unsupported Match");
         Class<? extends IMatch> matchClass = matchClasses.get(matchType);
-        ;
-        try {
-            if((Boolean)matchClass.getMethod("isUserCountValid", Integer.class).invoke(null, users.length)) throw new RuntimeException("Bad User Count");
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        if(!isUserCountValid(matchClass, users.length)){
+            System.out.println("Bad User Count!");
             return;
         }
+
+        IMatch match = createMatch(matchType, users);
+        if(match != null){
+            stopQueueing(users);
+        }
+
+        for(IUserConnection connection : users){
+            connection.send(match.getMatchInfoPacket(connection.getId()));
+        }
+        match.start();
+    }
+    private boolean isUserCountValid(Class<? extends IMatch> c, int usercount){
+        try {
+            Method m = c.getMethod("isUserCountValid", Integer.class);
+            boolean usersValid = (Boolean)m.invoke(null, usercount);
+            return usersValid;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    private IMatch createMatch(int matchType, IUser...users) {
         int port;
 
         try {
             port = PortManager.ports.getFreePort();
         } catch (PortManager.NoFreePortException e) {
             System.out.println("Couldn't start Match: No Free Port");
-            return;
-        } finally {
-            stopQueueing(users);
+            return null;
         }
 
-        IMatch match = new TTTMatch(port, users[0], users[1]);
-        for(IUserConnection connection : users){
-            connection.send(match.getMatchInfoPacket(connection.getId()));
+        IMatch match;
+
+        if(matchType == TTTMatch.MATCH_TYPE){
+            match = new TTTMatch(port, users[0], users[1]);
+        } else if(matchType == VGMatch.MATCH_TYPE){
+            match = new VGMatch(port, users[0], users[1]);
+        } else {
+            throw new RuntimeException("Programmer was very lazy :c");
         }
+
         match.setMatchListener(new IMatchListener() {
             @Override
             public void onMatchFinished() {
@@ -88,7 +116,7 @@ public class LobbyServer implements ILobby, IUserListener {
                 PortManager.ports.freePort(port);
             }
         });
-        match.start();
+        return match;
     }
 
     @Override

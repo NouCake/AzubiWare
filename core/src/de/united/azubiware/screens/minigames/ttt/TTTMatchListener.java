@@ -14,10 +14,6 @@ public class TTTMatchListener implements ITTTListener {
         this.ticTacToeScreen = ticTacToeScreen;
     }
 
-    public void switchToGameScreen(){
-        this.waitingScreen = null;
-    }
-
     @Override
     public void onNextTurn(boolean yourTurn) {
         if(ticTacToeScreen != null){

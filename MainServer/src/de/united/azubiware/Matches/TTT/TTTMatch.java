@@ -70,8 +70,7 @@ public class TTTMatch extends AMatch {
         return matchStarted;
     }
 
-    @Override
-    public boolean isUserCountValid(int users) {
+    public static boolean isUserCountValid(Integer users) {
         return users == 2;
     }
 }
