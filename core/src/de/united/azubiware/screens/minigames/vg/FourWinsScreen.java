@@ -200,13 +200,13 @@ public class FourWinsScreen extends ScreenAdapter {
     public void setTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
 
-        grid.setShowHoverStone(yourTurn);
-
         if(yourTurn){
             turn.setText("Your Turn");
         }else{
             turn.setText("Enemy Turn");
         }
+
+        grid.setTurn(yourTurn);
     }
 
     public void doEnemyTurn(int row) {
