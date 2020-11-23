@@ -7,7 +7,7 @@ import de.united.azubiware.Packets.Handler.APacketHandler;
 
 public class VGPacketHandler extends APacketHandler {
 
-    private final de.united.azubiware.Games.TTT.VG.VGMatch match;
+    private final de.united.azubiware.Games.VG.VGMatch match;
 
     public VGPacketHandler(VGMatch match) {
         this.match = match;

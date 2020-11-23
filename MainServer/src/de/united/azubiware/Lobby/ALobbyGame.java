@@ -1,6 +1,8 @@
 package de.united.azubiware.Lobby;
 
 import de.united.azubiware.ILobbyGame;
+import de.united.azubiware.Matches.IMatch;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.User.IUserConnection;
 
 import java.util.Arrays;
@@ -9,16 +11,22 @@ import java.util.List;
 
 public abstract class ALobbyGame implements ILobbyGame {
 
-    private final List<IUserConnection> queue;
-
-    protected ALobbyGame() {
-        queue = new LinkedList<>();
-    }
+    private final List<IUserConnection> queue = new LinkedList<>();
 
     private void tryMatchMaking(){
         if(isUserCounterValid(getQueueCount())){
             synchronized (queue){
-                startMatch(queue.get(0), queue.get(1));
+                IUserConnection[] users = new IUserConnection[]{queue.get(0), queue.get(1)};
+
+                IMatch match = startMatch(users);
+                if(match == null) {
+                    System.out.println("Couldn't start game");
+                    return;
+                }
+
+                removeFromQueue(users);
+                for(IUserConnection u : users)
+                    u.send(match.getMatchInfoPacket(u.getId()));
             }
         }
     }

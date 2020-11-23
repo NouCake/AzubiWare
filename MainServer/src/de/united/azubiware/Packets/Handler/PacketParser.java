@@ -35,9 +35,10 @@ public class PacketParser {
 
             String packetType = json.getAsJsonObject().get("type").getAsString();
             if(!packetClasses.containsKey(packetType)) {
-                System.out.println("PacketParserError: No PacketClass for type: " + packetType);
+                System.out.println("PacketParserError : No PacketClass for type: " + packetType);
                 return null;
             };
+            json.getAsJsonObject().remove("type");
 
             Class<?> packetClass = packetClasses.get(packetType);
             return (IPacket) gson.fromJson(json, packetClass);

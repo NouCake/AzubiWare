@@ -4,14 +4,17 @@ package de.united.azubiware.Packets.Handler;
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Packets.IPacket;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-public abstract class APacketHandler implements IPacketHandler {
+public abstract class APacketHandler implements IMessageHandler {
 
-    private HashMap<Integer, Method> packetHandleMethods;
+    private HashMap<String, Method> packetHandleMethods;
+    private PacketParser parser;
 
     public APacketHandler(){
+        parser = new PacketParser();
         initPacketHandlers();
     }
 
@@ -28,7 +31,8 @@ public abstract class APacketHandler implements IPacketHandler {
             if(!IPacket.class.isAssignableFrom(packetClass)) continue;
             if(packetClass == IPacket.class) continue;
 
-            int packetType = PacketParser.getTypeFromPacketClass(packetClass);
+            parser.addPacketClass((Class<? extends IPacket>) packetClass);
+            String packetType = packetClass.getSimpleName();
             System.out.println("Adding Handler: " + packetType + " " + m.getName());
             packetHandleMethods.put(packetType, m);
         }
@@ -36,19 +40,24 @@ public abstract class APacketHandler implements IPacketHandler {
     }
 
     @Override
-    public void onPacket(IConnection user, IPacket packet) {
-        //System.out.println("onPacket: " + packet.getClass().getSimpleName());
-        int packetType = PacketParser.getTypeFromPacketClass(packet.getClass());
+    public void onMessage(IConnection user, String message) {
+        IPacket packet = parser.createPacketFromJson(message);
+        if(packet == null) {
+            System.out.println(getClass().getSimpleName() + ": Couldn't parse message to Packet!");
+            return;
+        };
+
+        String packetType = packet.getClass().getSimpleName();
 
         if(!packetHandleMethods.containsKey(packetType)) {
-//            System.out.println("No Handler defined in " + getClass().getSimpleName() + " for Packet " + packet.getClass().getSimpleName());
+            System.out.println("No Handler defined in " + getClass().getSimpleName() + " for Packet " + packet.getClass().getSimpleName());
             return;
         }
         Method handler = packetHandleMethods.get(packetType);
         try {
-            //System.out.println("Invoking Method: " + handler.getName());
+            System.out.println("Invoking Method: " + handler.getName());
             handler.invoke(this, user, packet);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             throw new RuntimeException("Error while handling Packet " + packetType);
         }

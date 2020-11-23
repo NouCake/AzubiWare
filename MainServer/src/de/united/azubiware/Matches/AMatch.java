@@ -5,7 +5,7 @@ import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
 import de.united.azubiware.Connection.WebSocket.WebSocketConnectionManager;
 import de.united.azubiware.Packets.*;
-import de.united.azubiware.Packets.Handler.IPacketHandler;
+import de.united.azubiware.Packets.Handler.IMessageHandler;
 import de.united.azubiware.User.IUser;
 
 import java.util.Arrays;
@@ -55,7 +55,7 @@ public abstract class AMatch implements IMatch {
         server.start();
     }
 
-    protected void addPacketHandler(IPacketHandler packetHandler){
+    protected void addPacketHandler(IMessageHandler packetHandler){
         this.packetListener.addPacketHandler(packetHandler);
     }
 

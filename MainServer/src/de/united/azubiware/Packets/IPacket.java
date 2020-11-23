@@ -2,6 +2,7 @@ package de.united.azubiware.Packets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 public interface IPacket {
 
@@ -9,8 +10,9 @@ public interface IPacket {
         GsonBuilder gsonBuilder  = new GsonBuilder();
         gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
         Gson gson = gsonBuilder.create();
-        String json = gson.toJson(this);
-        return json;
+        JsonElement tree = gson.toJsonTree(this);
+        tree.getAsJsonObject().addProperty("type", getClass().getSimpleName());
+        return gson.toJson(tree);
     }
 
 }

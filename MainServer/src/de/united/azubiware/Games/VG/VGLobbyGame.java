@@ -1,16 +1,16 @@
-package de.united.azubiware.Games.TTT;
+package de.united.azubiware.Games.VG;
 
 import de.united.azubiware.Connection.PortManager;
+import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.Lobby.ALobbyGame;
 import de.united.azubiware.Matches.IMatch;
 import de.united.azubiware.Matches.IMatchListener;
 import de.united.azubiware.User.IUser;
-import de.united.azubiware.User.IUserConnection;
 
-public class TTTLobbyGame extends ALobbyGame {
+public class VGLobbyGame extends ALobbyGame {
     @Override
     public int getMatchType() {
-        return TTTMatch.MATCH_TYPE;
+        return VGMatch.MATCH_TYPE;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class TTTLobbyGame extends ALobbyGame {
             return null;
         }
 
-        IMatch match = new TTTMatch(port, users[0], users[1]);
+        IMatch match = new VGMatch(port, users[0], users[1]);
         addMatchListener(match, port);
         return match;
     }
@@ -50,5 +50,4 @@ public class TTTLobbyGame extends ALobbyGame {
             }
         });
     }
-
 }

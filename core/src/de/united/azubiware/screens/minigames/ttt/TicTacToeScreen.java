@@ -162,8 +162,8 @@ public class TicTacToeScreen extends ScreenAdapter {
         }
 
         if(switchToMenu || resultOverlay.isSwitchToMenu()){
-            dispose();
-            game.setScreen(new MainMenuScreen(game));
+            //dispose();
+            //game.setScreen(new MainMenuScreen(game));
         }
     }
 

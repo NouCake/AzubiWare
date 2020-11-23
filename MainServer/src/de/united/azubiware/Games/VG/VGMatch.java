@@ -2,8 +2,6 @@ package de.united.azubiware.Games.VG;
 
 import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Matches.MatchUser;
-import de.united.azubiware.Matches.VierGewinnt.VGPacketHandler;
-import de.united.azubiware.Matches.VierGewinnt.VierGewinnt;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.User.IUser;

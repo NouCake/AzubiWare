@@ -4,7 +4,7 @@ import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
 import de.united.azubiware.Games.TTT.TTTMatch;
-import de.united.azubiware.Games.TTT.VG.VGMatch;
+import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.Packets.*;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.WebSocketClient;

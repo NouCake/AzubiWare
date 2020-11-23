@@ -4,11 +4,13 @@ import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.UserConnectionManager;
 import de.united.azubiware.Connection.WebSocket.IUserListener;
 import de.united.azubiware.Connection.WebSocket.WebSocketConnectionManager;
+import de.united.azubiware.Games.TTT.TTTLobbyGame;
+import de.united.azubiware.Games.VG.VGLobbyGame;
 import de.united.azubiware.ILobbyGame;
 import de.united.azubiware.Matches.IMatch;
 import de.united.azubiware.Games.TTT.TTTMatch;
-import de.united.azubiware.Games.TTT.VG.VGMatch;
-import de.united.azubiware.Packets.Handler.IPacketHandler;
+import de.united.azubiware.Games.VG.VGMatch;
+import de.united.azubiware.Packets.Handler.IMessageHandler;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.WelcomePacket;
 import de.united.azubiware.User.IUserConnection;
@@ -23,17 +25,15 @@ public class LobbyServer implements ILobby, IUserListener {
 
     private final List<ILobbyGame> games;
 
-    private final IPacketHandler packetHandler;
+    private final IMessageHandler packetHandler;
     private final IUserDatabase userDB;
     private final IConnectionManager connectionManager;
-    private final HashMap<Integer, Class<? extends IMatch>> matchClasses;
 
     public LobbyServer(){
-        matchClasses = new HashMap<>();
-        matchClasses.put(TTTMatch.MATCH_TYPE, TTTMatch.class);
-        matchClasses.put(VGMatch.MATCH_TYPE, VGMatch.class);
 
         games = new LinkedList<>();
+        games.add(new TTTLobbyGame());
+        games.add(new VGLobbyGame());
 
         userDB = new SimpleUserDatabase();
         UserConnectionManager connectionListener = new UserConnectionManager(this, userDB);
@@ -58,11 +58,12 @@ public class LobbyServer implements ILobby, IUserListener {
         for(ILobbyGame g : games){
             if(g.getMatchType() == matchType) return g;
         }
+        System.out.println("No Valid MatchType :C" + matchType);
         return null;
     }
     @Override
-    public void onPacket(IUserConnection user, IPacket packet) {
-        packetHandler.onPacket(user.getConnection(), packet);
+    public void onMessage(IUserConnection user, String message) {
+        packetHandler.onMessage(user.getConnection(), message);
     }
     @Override
     public void onLogin(IUserConnection user) {
@@ -76,7 +77,9 @@ public class LobbyServer implements ILobby, IUserListener {
     }
     @Override
     public void startQueueing(IUserConnection user, int matchType) {
-        getGameByMatchType(matchType).addToQueue(user);
+        ILobbyGame g = getGameByMatchType(matchType);
+        if(g == null) return;
+        g.addToQueue(user);
     }
     @Override
     public void stopQueueing(IUserConnection ...users) {
@@ -85,7 +88,9 @@ public class LobbyServer implements ILobby, IUserListener {
     @Override
     public int getUsersInQueue(int matchType) {
         //System.out.println(queue + " | " + queue.size());
-        return getGameByMatchType(matchType).getQueueCount();
+        ILobbyGame g = getGameByMatchType(matchType);
+        if(g == null) return 0;
+        return g.getQueueCount();
     }
 
 }
