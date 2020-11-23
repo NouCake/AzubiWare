@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
 import de.golfgl.gdxgamesvcs.NoGameServiceClient;
 import de.united.azubiware.connection.client.Client;
+import de.united.azubiware.connection.client.IClient;
 import de.united.azubiware.login.ActionResolver;
 import de.united.azubiware.screens.SplashScreen;
 import de.united.azubiware.utility.FontLoader;
 import de.united.azubiware.utility.GpgpClientListener;
 
-import java.util.Random;
 
 public class AzubiWareGame extends Game {
 
@@ -18,7 +18,7 @@ public class AzubiWareGame extends Game {
 	boolean initiatedSignIn = false;
 	boolean isHTML = false;
 	BitmapFont font;
-	Client client;
+	IClient client;
 
 	public IGameServiceClient gsClient;
 
@@ -95,7 +95,7 @@ public class AzubiWareGame extends Game {
 		return font;
 	}
 
-	public Client getClient() {
+	public IClient getClient() {
 		return client;
 	}
 

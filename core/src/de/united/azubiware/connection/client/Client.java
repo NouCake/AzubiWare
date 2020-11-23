@@ -86,6 +86,11 @@ public class Client implements IClient {
         currentMatchClient.sendPacket(packet);
     }
 
+    @Override
+    public void sendMatchLeave() {
+
+    }
+
     public void updateQueue(int matchType, int queueLength){
         if(listener == null) return;
         listener.onQueueUpdate(matchType, queueLength);

@@ -58,7 +58,7 @@ public class MainMenuScreen extends ScreenAdapter {
         labelStyle.font = game.getFont();
         labelStyle.fontColor = Color.DARK_GRAY;
 
-        label = new Label(new Random().nextInt(10)+1 + " In queue", labelStyle);
+        label = new Label(new Random().nextInt(10)+1 + " in queue", labelStyle);
         label.setAlignment(Align.center);
         label.setWidth(300);
         label.setHeight(40);

@@ -68,7 +68,7 @@ public class TicTacToeScreen extends ScreenAdapter {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(!leave.isDisabled() && closePopUp.isHidden()){
-                    game.getClient().doMatchOver();
+                    game.getClient().sendMatchLeave();
                     dispose();
                     game.setScreen(new MainMenuScreen(game));
                 }

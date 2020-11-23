@@ -18,5 +18,6 @@ public interface IClient {
     void setMatchListener(IMatchListener listener);
     IMatchListener getMatchListener();
     void sendMatchPacket(IPacket packet);
+    void sendMatchLeave();
 
 }
