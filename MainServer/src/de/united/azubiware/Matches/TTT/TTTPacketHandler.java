@@ -23,6 +23,10 @@ public class TTTPacketHandler extends APacketHandler {
             return;
         }
         MatchUser user = match.getPlayerFromConnection(connection);
+        if(user == null){
+            System.out.println("Received Packet from Invalid User");
+            return;
+        }
         match.doPlayerTurn(user, packet.getFieldX(), packet.getFieldY());
     }
 

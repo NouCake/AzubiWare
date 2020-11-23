@@ -1,7 +1,7 @@
 package de.united.azubiware.Packets;
 
 public class VGPacket implements IPacket{
-    public static final int type = 16;
+    public static final int type = 17;
 
     private final int fieldX;
 

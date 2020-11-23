@@ -2,7 +2,7 @@ package de.united.azubiware.Packets;
 
 public class VGNextTurnPacket implements IPacket{
 
-    public static final int type = 17;
+    public static final int type = 18;
 
     private final boolean yourTurn;
 

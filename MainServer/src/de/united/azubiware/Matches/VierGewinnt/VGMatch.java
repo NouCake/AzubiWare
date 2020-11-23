@@ -7,6 +7,7 @@ import de.united.azubiware.Matches.TTT.TicTacToe;
 import de.united.azubiware.Matches.VierGewinnt.VGPacketHandler;
 import de.united.azubiware.Matches.VierGewinnt.VierGewinnt;
 import de.united.azubiware.Packets.ErrorResponsePacket;
+import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.Packets.VGNextTurnPacket;
 import de.united.azubiware.Packets.VGPacket;
 import de.united.azubiware.User.IUser;
@@ -52,7 +53,8 @@ public class VGMatch extends AMatch {
     private boolean checkMatchOver(){
         int playerWon = vgGame.getWinner();
         if(playerWon != 0){
-            onMatchOver();
+            setPlayerWon(playerWon);
+            onMatchOver(MatchOverPacket.REASONS.GAME_DONE.ordinal());
             return true;
         }
         return false;

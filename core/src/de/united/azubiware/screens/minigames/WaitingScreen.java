@@ -36,7 +36,7 @@ public class WaitingScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
-        backgroundSprite = new Sprite(iGame.getBackground());
+        backgroundSprite = new Sprite(iGame.getWaitingScreenBackground());
 
         Image image = new Image(iGame.getSplash());
         image.setPosition(stage.getWidth()/2-image.getWidth()/2, stage.getHeight()/2);
