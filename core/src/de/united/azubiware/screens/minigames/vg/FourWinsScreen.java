@@ -166,6 +166,7 @@ public class FourWinsScreen extends ScreenAdapter {
         if(closePopup.isHidden() && yourTurn){
             game.getClient().sendMatchPacket(new VGPacket(row));
             grid.addStone(row);
+            yourTurn = false;
         }
     }
 
