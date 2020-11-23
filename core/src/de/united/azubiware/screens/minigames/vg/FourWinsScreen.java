@@ -55,7 +55,6 @@ public class FourWinsScreen extends ScreenAdapter {
         grid = createGrid();
         resultOverlay = new ResultOverlay(stage);
         closePopup = new ClosePopUp(stage, game);
-
     }
 
     private Button createLeaveButton(){
@@ -73,6 +72,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(btn);
         return btn;
     }
+
     private Label createTurnLabel(){
         if(turn != null) throw new RuntimeException("TurnLabel is already defined!");
         final int padding = 10;
@@ -96,6 +96,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(turn);
         return turn;
     }
+
     private void initBackground(){
         float stageRatio = stage.getWidth() / stage.getHeight();
 
@@ -121,6 +122,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(bg);
         stage.addActor(footer);
     }
+
     private FourWinsGrid createGrid(){
         FourWinsGrid grid = new FourWinsGrid(){
             @Override
@@ -149,6 +151,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.act();
         stage.draw();
     }
+
     @Override
     public void dispose() {
         super.dispose();
