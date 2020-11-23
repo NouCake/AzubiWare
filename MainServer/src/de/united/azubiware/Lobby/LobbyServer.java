@@ -15,7 +15,9 @@ import de.united.azubiware.User.IUserConnection;
 import de.united.azubiware.User.IUserDatabase;
 import de.united.azubiware.User.SimpleUserDatabase;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,8 +28,10 @@ public class LobbyServer implements ILobby, IUserListener {
     private final IPacketHandler packetHandler;
     private final IUserDatabase userDB;
     private final IConnectionManager connectionManager;
+    private final HashMap<Integer, Class<? extends IMatch>> matchClasses;
 
     public LobbyServer(){
+        matchClasses = new HashMap<>();
         queue = new LinkedList<>();
         userDB = new SimpleUserDatabase();
         UserConnectionManager connectionListener = new UserConnectionManager(this, userDB);
@@ -46,9 +50,15 @@ public class LobbyServer implements ILobby, IUserListener {
         }
     }
     void startMatch(int matchType, IUserConnection...users){
-        if(matchType != 0) throw new RuntimeException("Unsupported Match");
-
-        if(users.length != 2) throw new RuntimeException("Bad User Count");
+        if(matchClasses.containsKey(matchType)) throw new RuntimeException("Unsupported Match");
+        Class<? extends IMatch> matchClass = matchClasses.get(matchType);
+        ;
+        try {
+            if((Boolean)matchClass.getMethod("isUserCountValid", Integer.class).invoke(null, users.length)) throw new RuntimeException("Bad User Count");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
         int port;
 
         try {

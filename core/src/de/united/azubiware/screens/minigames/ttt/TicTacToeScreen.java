@@ -46,7 +46,7 @@ public class TicTacToeScreen extends ScreenAdapter {
         this.game = game;
 
         TTTMatchListener tttMatchListener = (TTTMatchListener) game.getClient().getMatchListener();
-        tttMatchListener.switchToGameScreen(this);
+        tttMatchListener.switchToGameScreen();
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);

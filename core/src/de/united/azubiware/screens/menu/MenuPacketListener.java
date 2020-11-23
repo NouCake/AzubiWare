@@ -1,6 +1,7 @@
 package de.united.azubiware.screens.menu;
 
 import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.Matches.VierGewinnt.VGMatch;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.client.IClientListener;
 
@@ -36,7 +37,7 @@ public class MenuPacketListener implements IClientListener {
     @Override
     public void onMatchFound(int matchType, IUser... opponents) {
         if (matchType == menuScreen.paginator.getCurrentMatchType()) {
-            if (matchType == TTTMatch.MATCH_TYPE) {
+            if (matchType == TTTMatch.MATCH_TYPE || matchType == VGMatch.MATCH_TYPE) {
                 menuScreen.startMatch(matchType, opponents);
             }
         }

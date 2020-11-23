@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.screens.minigames.ttt.TicTacToePostition;
 import de.united.azubiware.utility.ClickListenerAdapter;
@@ -41,7 +42,7 @@ public class FourWinsScreen extends ScreenAdapter {
 
     private boolean yourTurn = false;
 
-    public FourWinsScreen(AzubiWareGame game){
+    public FourWinsScreen(AzubiWareGame game, IUser opponent){
         this.game = game;
         batch = new PolygonSpriteBatch();
         stage = new Stage(new ScreenViewport(), batch);
