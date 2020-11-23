@@ -50,8 +50,10 @@ public class FourWinsScreen extends ScreenAdapter {
 
     public FourWinsScreen(AzubiWareGame game, IUser opponent){
         this.game = game;
+
         batch = new PolygonSpriteBatch();
         stage = new Stage(new ScreenViewport(), batch);
+
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
