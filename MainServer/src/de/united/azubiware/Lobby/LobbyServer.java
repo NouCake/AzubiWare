@@ -56,14 +56,17 @@ public class LobbyServer implements ILobby, IUserListener {
 
         List<IUserConnection> q = getQueueForMatch(TTTMatch.MATCH_TYPE);
         synchronized (q){
-            if(q.size() < 2) return;
-            startMatch(TTTMatch.MATCH_TYPE, q.get(0), q.get(1));
+            if(q.size() >= 2){
+                startMatch(TTTMatch.MATCH_TYPE, q.get(0), q.get(1));
+            }
         }
 
          q = getQueueForMatch(VGMatch.MATCH_TYPE);
         synchronized (q){
-            if(q.size() < 2) return;
-            startMatch(VGMatch.MATCH_TYPE, q.get(0), q.get(1));
+            if(q.size() >= 2) {
+                System.out.println("Starting Match");
+                startMatch(VGMatch.MATCH_TYPE, q.get(0), q.get(1));
+            }
         }
     }
     private void startMatch(int matchType, IUserConnection...users){
@@ -78,6 +81,9 @@ public class LobbyServer implements ILobby, IUserListener {
         IMatch match = createMatch(matchType, users);
         if(match != null){
             stopQueueing(users);
+        } else {
+            System.out.println("Not enough Match");
+            return;
         }
 
         for(IUserConnection connection : users){
@@ -140,7 +146,7 @@ public class LobbyServer implements ILobby, IUserListener {
 
     @Override
     public void onPacket(IUserConnection user, IPacket packet) {
-        System.out.println("Got Packet " + packet.getClass().getSimpleName());
+        //System.out.println("Got Packet " + packet.getClass().getSimpleName());
         packetHandler.onPacket(user.getConnection(), packet);
     }
     @Override
