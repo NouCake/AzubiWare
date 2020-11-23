@@ -44,6 +44,8 @@ public class FourWinsScreen extends ScreenAdapter {
     private final Batch batch;
     private final FourWinsGrid grid;
 
+    private long lastHitnSent = System.currentTimeMillis();
+
     private boolean yourTurn = false;
 
     public FourWinsScreen(AzubiWareGame game, IUser opponent){
@@ -140,7 +142,10 @@ public class FourWinsScreen extends ScreenAdapter {
             @Override
             protected void onHintChanged(int row) {
                 super.onHintChanged(row);
-                game.getClient().sendMatchPacket(new VGTurnHint(row));
+                if(System.currentTimeMillis() - lastHitnSent > 1000){
+                    game.getClient().sendMatchPacket(new VGTurnHint(row));
+                    lastHitnSent = System.currentTimeMillis();
+                }
             }
         };
         float padding = 50;
