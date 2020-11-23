@@ -37,16 +37,12 @@ public class AzubiWareGame extends Game {
 
 	@Override
 	public void create() {
-
 		if (gsClient == null)
 			gsClient = new NoGameServiceClient();
 
 		gsClient.resumeSession();
 		gsClient.setListener(new GpgpClientListener());
 		gsClient.logIn();
-
-		System.out.println(gsClient.isConnectionPending());
-		System.out.println(gsClient.getPlayerDisplayName() + "|" + gsClient.getGameServiceId());
 
 		client.start();
 
