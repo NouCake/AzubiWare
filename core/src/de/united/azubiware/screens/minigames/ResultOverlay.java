@@ -88,7 +88,7 @@ public class ResultOverlay {
     }
 
     public boolean isShowResult() {
-        return showResult;
+        return showResult || (TimeUtils.millis() - finished >= 5000);
     }
 
     private Button.ButtonStyle createButtonStyle(){

@@ -24,6 +24,7 @@ import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Packets.TTTPacket;
 import de.united.azubiware.Packets.VGPacket;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.screens.minigames.ttt.TicTacToePostition;
 import de.united.azubiware.utility.ClickListenerAdapter;
@@ -175,6 +176,11 @@ public class FourWinsScreen extends ScreenAdapter {
         super.render(delta);
         stage.act();
         stage.draw();
+
+        if(resultOverlay.isSwitchToMenu()){
+            dispose();
+            game.setScreen(new MainMenuScreen(game));
+        }
     }
 
     @Override
