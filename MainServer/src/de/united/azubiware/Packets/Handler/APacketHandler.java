@@ -37,7 +37,7 @@ public abstract class APacketHandler implements IPacketHandler {
 
     @Override
     public void onPacket(IConnection user, IPacket packet) {
-        System.out.println("onPacket: " + packet.getClass().getSimpleName());
+        //System.out.println("onPacket: " + packet.getClass().getSimpleName());
         int packetType = PacketParser.getTypeFromPacketClass(packet.getClass());
 
         if(!packetHandleMethods.containsKey(packetType)) {
@@ -46,7 +46,7 @@ public abstract class APacketHandler implements IPacketHandler {
         }
         Method handler = packetHandleMethods.get(packetType);
         try {
-            System.out.println("Invoking Method: " + handler.getName());
+            //System.out.println("Invoking Method: " + handler.getName());
             handler.invoke(this, user, packet);
         } catch (Exception e) {
             e.printStackTrace();

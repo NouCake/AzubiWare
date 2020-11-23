@@ -72,7 +72,7 @@ public class VGMatch extends AMatch {
         return matchStarted;
     }
 
-    public boolean isUserCountValid(int users) {
+    public static boolean isUserCountValid(Integer users) {
         return users == 2;
     }
 }

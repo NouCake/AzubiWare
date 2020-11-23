@@ -21,7 +21,7 @@ public class LobbyPacketHandler extends APacketHandler {
 
     public void onQueueStartPacket(IConnection connection, QueueStartPacket packet){
         System.out.println("Queue Start");
-        lobby.startQueueing(connectionManager.getUserFromConnection(connection));
+        lobby.startQueueing(connectionManager.getUserFromConnection(connection), packet.getMatchType());
     }
 
     public void onQueueStopPacket(IConnection connection, QueueStopPacket packet){

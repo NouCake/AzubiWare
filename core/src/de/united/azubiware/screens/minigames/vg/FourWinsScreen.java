@@ -143,6 +143,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(grid);
         return grid;
     }
+
     private void addCloseListener(){
         stage.addListener(new ClickListener(){
             @Override
