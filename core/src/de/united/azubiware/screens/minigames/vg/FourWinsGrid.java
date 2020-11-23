@@ -29,8 +29,6 @@ public class FourWinsGrid extends Group implements IClickListener {
     private final Image hoverStonePlayer;
     private final Image hoverStoneEnemy;
 
-    private Image curHoverStone;
-
     private int curHintPos = 0;
 
     public FourWinsGrid(){
@@ -44,7 +42,6 @@ public class FourWinsGrid extends Group implements IClickListener {
 
         hoverStonePlayer = createHoverStone(stonePlayer, gridOverlay);
         hoverStoneEnemy = createHoverStone(stoneEnemy, gridOverlay);
-        curHoverStone = hoverStonePlayer;
 
         stoneLayer = new Group();
 
@@ -130,8 +127,8 @@ public class FourWinsGrid extends Group implements IClickListener {
         addStoneInRow(row);
     }
     private void updateHoverStonePosition(Image hoverStone, int row){
-        int cellWidth = (int)(gridWidth / numRows);
-        hoverStonePlayer.setPosition(row * cellWidth, hoverStonePlayer.getY());
+        int cellWidth = gridWidth / numRows;
+        hoverStone.setPosition(row * cellWidth, hoverStone.getY());
     }
 
     @Override
