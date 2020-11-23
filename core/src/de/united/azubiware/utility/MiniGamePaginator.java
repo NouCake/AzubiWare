@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.minigames.FourWins;
 import de.united.azubiware.minigames.IGame;
+import de.united.azubiware.minigames.SSP;
 import de.united.azubiware.minigames.TicTacToe;
 
 import java.util.HashMap;
@@ -14,7 +16,7 @@ public class MiniGamePaginator {
     private Stage stage;
 
     private int min = -1;
-    private int max = 0;
+    private int max = 1;
 
     private int current = 0;
     private int finish = 0;
@@ -40,14 +42,21 @@ public class MiniGamePaginator {
         tttImage.setPosition(stage.getWidth()/2f-tttImage.getWidth()/2, stage.getHeight()/2f-((tttImage.getHeight()/2)*0.4f));
         gameImages.put(0, tttImage);
 
-        Texture sspTexture = new Texture("games/ssp/splash.png");
-        Image sspImage = new Image(sspTexture);
+        miniGame.put(-1, new SSP());
+        Image sspImage = new Image(miniGame.get(-1).getSplash());
         sspImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
         sspImage.setPosition(-(sspImage.getWidth()*1.5f), stage.getHeight()/2f-((sspImage.getHeight()/2)*0.4f));
         gameImages.put(-1, sspImage);
 
+        miniGame.put(1,new FourWins());
+        Image vgImage = new Image(miniGame.get(1).getSplash());
+        vgImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
+        vgImage.setPosition(stage.getWidth() + vgImage.getWidth()/2, stage.getHeight()/2f-((vgImage.getHeight()/2)*0.4f));
+        gameImages.put(1, vgImage);
+
         stage.addActor(tttImage);
         stage.addActor(sspImage);
+        stage.addActor(vgImage);
     }
 
     public void paginate(){
