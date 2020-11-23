@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.screens.login.LoginScreen;
 
 public class SplashScreen implements Screen {
 
@@ -30,9 +31,11 @@ public class SplashScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundForest.png"));
         backgroundSprite = new Sprite(backgroundTexture);
 
-        Image splash = new Image(new Texture(Gdx.files.internal("splash.png")));
-        splash.setPosition(stage.getWidth()*0.5f - splash.getWidth()*0.5f, stage.getHeight()*0.5f - splash.getHeight()*0.5f);
-        stage.addActor(splash);
+        Texture texture = new Texture("splash.png");
+        Image image = new Image(texture);
+        image.setPosition(stage.getWidth()/2f-image.getWidth()/2,stage.getHeight()/2f-image.getHeight()/2);
+
+        stage.addActor(image);
     }
 
     @Override
@@ -48,7 +51,7 @@ public class SplashScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if(TimeUtils.millis() - startTime <= 5000) {
+        if(TimeUtils.millis() - startTime <= 1000) {
             Gdx.gl.glClearColor(0, 0, 0, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -56,8 +59,12 @@ public class SplashScreen implements Screen {
             drawBackground();
             stage.draw();
         }else{
-            dispose();
-            game.setScreen(new LoginScreen(game));
+            if(game.getClient().isConnected()) {
+                dispose();
+                game.setScreen(new LoginScreen(game));
+            }else{
+                startTime = TimeUtils.millis();
+            }
         }
     }
 

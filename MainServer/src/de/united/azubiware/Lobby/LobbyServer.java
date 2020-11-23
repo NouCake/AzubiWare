@@ -6,6 +6,7 @@ import de.united.azubiware.Connection.UserConnectionManager;
 import de.united.azubiware.Connection.WebSocket.IUserListener;
 import de.united.azubiware.Connection.WebSocket.WebSocketConnectionManager;
 import de.united.azubiware.Matches.IMatch;
+import de.united.azubiware.Matches.IMatchListener;
 import de.united.azubiware.Matches.TTT.TTTMatch;
 import de.united.azubiware.Packets.Handler.IPacketHandler;
 import de.united.azubiware.Packets.IPacket;
@@ -63,6 +64,20 @@ public class LobbyServer implements ILobby, IUserListener {
         for(IUserConnection connection : users){
             connection.send(match.getMatchInfoPacket(connection.getId()));
         }
+        match.setMatchListener(new IMatchListener() {
+            @Override
+            public void onMatchFinished() {
+            }
+
+            @Override
+            public void onMatchTimedOut() {
+            }
+
+            @Override
+            public void onMatchClose(){
+                PortManager.ports.freePort(port);
+            }
+        });
         match.start();
     }
 

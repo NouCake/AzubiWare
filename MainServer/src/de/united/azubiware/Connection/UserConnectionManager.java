@@ -65,4 +65,9 @@ public class UserConnectionManager implements IConnectionListener{
         listener.onLogout(user);
     }
 
+    @Override
+    public void afterShutdown() {
+
+    }
+
 }

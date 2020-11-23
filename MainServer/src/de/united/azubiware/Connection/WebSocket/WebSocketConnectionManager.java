@@ -7,6 +7,7 @@ import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.Handler.PacketParser;
 import org.java_websocket.WebSocket;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
@@ -48,9 +49,15 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     @Override
     public void sendMessage(IConnection connection, IPacket packet) {
         WebSocketConnection websocket = (WebSocketConnection) connection;
-        websocket.getSocket().send(packet.toJsonString());
+        try {
+            if(websocket.getSocket().isClosing()) throw new WebsocketNotConnectedException();
+            String msg = packet.toJsonString();
+            websocket.getSocket().send(msg);
+            System.out.println("Sending Message: " + msg);
+        } catch (WebsocketNotConnectedException e){
+            System.out.println(connection + " | Couldn't send Message: " + packet.toJsonString());
+        }
     }
-
     @Override
     public String getConnectionAdress() {
         return "ws://two.noucake.de:"+port;
@@ -100,12 +107,25 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
 
     @Override
+    public void start() {
+        super.start();
+    }
+
+    private void doStop() throws IOException, InterruptedException {
+        super.stop();
+    }
+
+    @Override
     public void stop(){
-        try {
-            super.stop();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                doStop();
+                if(listener != null) listener.afterShutdown();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
 }

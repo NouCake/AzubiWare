@@ -103,7 +103,6 @@ project(":html") {
         api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:1.0.2:sources"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core-gamejolt:1.0.2:sources"
-        
     }
 }
 

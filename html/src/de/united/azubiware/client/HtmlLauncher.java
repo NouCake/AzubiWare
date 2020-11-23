@@ -18,6 +18,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new AzubiWareGame(new ActionResolverHtml());
+                return new AzubiWareGame(new ActionResolverHtml(), true);
         }
 }

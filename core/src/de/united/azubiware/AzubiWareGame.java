@@ -1,40 +1,53 @@
 package de.united.azubiware;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import de.united.azubiware.Connection.Client.Client;
+import de.united.azubiware.connection.client.Client;
+import de.united.azubiware.connection.client.IClient;
 import de.united.azubiware.login.ActionResolver;
 import de.united.azubiware.screens.SplashScreen;
+import de.united.azubiware.utility.FontLoader;
 
 public class AzubiWareGame extends Game {
 
 	ActionResolver resolver;
 	boolean initiatedSignIn = false;
+	boolean isHTML = false;
 	BitmapFont font;
+	Client client;
 
 	public AzubiWareGame(ActionResolver resolver){
 		this.resolver = resolver;
+
+		this.client = new Client();
+	}
+
+	public AzubiWareGame(ActionResolver resolver, boolean isHTML){
+		this.resolver = resolver;
+		this.isHTML = isHTML;
+
+		this.client = new Client();
 	}
 
 	@Override
 	public void create() {
-		Client c = new Client();
-		c.start();
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/8-bitArcadeIn.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 32;
-		font = generator.generateFont(parameter);
+		client.start();
+
+		if(!isHTML) {
+			font = new FontLoader().loadFont("fonts/8-bitArcadeIn.ttf");
+		}else{
+			font = new BitmapFont();
+		}
 
 		this.setScreen(new SplashScreen(this));
 	}
 
 	public void render() {
-		super.render(); //important!
+		super.render();
 	}
 
 	public void dispose() {
+		getClient().stop();
 	}
 
 	public void initateSignIn(){
@@ -48,5 +61,9 @@ public class AzubiWareGame extends Game {
 
 	public BitmapFont getFont() {
 		return font;
+	}
+
+	public Client getClient() {
+		return client;
 	}
 }

@@ -43,4 +43,9 @@ public class PacketListener implements IConnectionListener{
     public void onClosed(IConnection connection){
         if(this.listener != null) listener.onClosed(connection);
     }
+
+    @Override
+    public void afterShutdown() {
+        if(this.listener != null) listener.afterShutdown();
+    }
 }

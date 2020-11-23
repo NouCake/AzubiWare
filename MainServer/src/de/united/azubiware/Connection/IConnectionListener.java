@@ -7,5 +7,6 @@ public interface IConnectionListener {
     void onMessage(IConnection connection, IPacket packet);
     void onConnected(IConnection connection);
     void onClosed(IConnection connection);
+    void afterShutdown();
 
 }

@@ -1,4 +1,10 @@
 sourceCompatibility = 11
+dependencies {
+    implementation project(path: ':MainServer')
+    implementation project(path: ':MainServer')
+    implementation project(path: ':MainServer')
+    implementation project(path: ':MainServer')
+}
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 sourceSets.main.java.srcDirs = [ "src/" ]
 

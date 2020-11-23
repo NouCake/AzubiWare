@@ -1,9 +1,9 @@
 package de.united.azubiware.Matches.TTT;
 
-import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.ErrorResponsePacket;
+import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.Packets.TTTNextTurnPacket;
 import de.united.azubiware.Packets.TTTPacket;
 import de.united.azubiware.User.IUser;
@@ -37,7 +37,9 @@ public class TTTMatch extends AMatch {
         }
 
         int otherPlayer = tttGame.getNextPlayer();
+
         MatchUser otherUser = getPlayerFromIndex(otherPlayer);
+        //System.out.println("Current Player: " + user.getPlayerIndex() + " | " + otherUser.getPlayerIndex());
         if(otherUser == null) throw new RuntimeException("Something bad happend :c");
         otherUser.send(new TTTPacket(fieldX, fieldY));
 
@@ -49,10 +51,11 @@ public class TTTMatch extends AMatch {
     private boolean checkMatchOver(){
         int playerWon = tttGame.checkPlayerWin();
         if(playerWon != 0){
-            onMatchOver();
+            setPlayerWon(playerWon);
+            onMatchOver(MatchOverPacket.REASONS.GAME_DONE.ordinal());
             return true;
         }
-        return false;
+        return tttGame.isMatchOver();
     }
 
     private void sendNextTurnPackets(){
