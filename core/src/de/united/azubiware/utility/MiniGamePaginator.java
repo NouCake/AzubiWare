@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import de.united.azubiware.Matches.TTT.TTTMatch;
+import de.united.azubiware.minigames.IGame;
+import de.united.azubiware.minigames.TicTacToe;
 
 import java.util.HashMap;
 
@@ -21,8 +23,8 @@ public class MiniGamePaginator {
 
     private boolean isPaginating = false;
 
-    private HashMap<Integer, Image> miniGames = new HashMap<>();
-    private HashMap<Integer, Integer> matchTypes = new HashMap<>();
+    private HashMap<Integer, IGame> miniGame = new HashMap<>();
+    private HashMap<Integer, Image> gameImages = new HashMap<>();
 
     public MiniGamePaginator(Stage stage){
         this.stage = stage;
@@ -32,18 +34,17 @@ public class MiniGamePaginator {
     }
 
     public void create(){
-        Texture tttTexture = new Texture("games/ttt/splash.png");
-        Image tttImage = new Image(tttTexture);
+        miniGame.put(0, new TicTacToe());
+        Image tttImage = new Image(miniGame.get(0).getSplash());
         tttImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
         tttImage.setPosition(stage.getWidth()/2f-tttImage.getWidth()/2, stage.getHeight()/2f-((tttImage.getHeight()/2)*0.4f));
-        miniGames.put(0, tttImage);
-        matchTypes.put(0, TTTMatch.MATCH_TYPE);
+        gameImages.put(0, tttImage);
 
         Texture sspTexture = new Texture("games/ssp/splash.png");
         Image sspImage = new Image(sspTexture);
         sspImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
         sspImage.setPosition(-(sspImage.getWidth()*1.5f), stage.getHeight()/2f-((sspImage.getHeight()/2)*0.4f));
-        miniGames.put(-1, sspImage);
+        gameImages.put(-1, sspImage);
 
         stage.addActor(tttImage);
         stage.addActor(sspImage);
@@ -51,14 +52,14 @@ public class MiniGamePaginator {
 
     public void paginate(){
         if(isPaginating){
-            float distance = finalX - miniGames.get(finish).getX();
+            float distance = finalX - gameImages.get(finish).getX();
             float speed;
             if(finish < current) {
                 speed = getSpeed(distance);
             }else{
                 speed = getSpeed(distance*-1);
             }
-            for(Image image : miniGames.values()){
+            for(Image image : gameImages.values()){
                 if(finish < current) {
                     image.setX(image.getX()+speed);
                 }else{
@@ -115,7 +116,7 @@ public class MiniGamePaginator {
     float direction = -0.25f;
 
     public void waiting(){
-        Image image = miniGames.get(current);
+        Image image = gameImages.get(current);
         if(direction > 0){
             if(currentY < maxY){
                 currentY+=direction;
@@ -135,7 +136,7 @@ public class MiniGamePaginator {
 
     public void reset(){
         direction = -0.25f;
-        Image image = miniGames.get(current);
+        Image image = gameImages.get(current);
         image.setY(stage.getHeight()/2f-50);
     }
 
@@ -144,6 +145,6 @@ public class MiniGamePaginator {
     }
 
     public int getCurrentMatchType(){
-        return matchTypes.getOrDefault(current, 0);
+        return miniGame.containsKey(current) ? miniGame.get(current).getMatchType() : 0;
     }
 }

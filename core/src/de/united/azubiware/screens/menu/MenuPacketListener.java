@@ -27,14 +27,12 @@ public class MenuPacketListener implements IClientListener {
 
     @Override
     public void onQueueUpdate(int matchType, int usersInQueue) {
-        System.out.println("Queue:" + matchType + "|" + usersInQueue);
         if (matchType == menuScreen.paginator.getCurrentMatchType())
             menuScreen.setWaiting(usersInQueue);
     }
 
     @Override
     public void onMatchFound(int matchType, IUser... opponents) {
-        System.out.println("Found: " + matchType);
         if (matchType == menuScreen.paginator.getCurrentMatchType()) {
             if (matchType == TTTMatch.MATCH_TYPE) {
                 menuScreen.startMatch(matchType, opponents);
