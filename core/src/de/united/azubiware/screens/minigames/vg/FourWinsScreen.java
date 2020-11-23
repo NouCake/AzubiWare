@@ -123,6 +123,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(bg);
         stage.addActor(footer);
     }
+
     private FourWinsGrid createGrid(){
         FourWinsGrid grid = new FourWinsGrid(){
             @Override
@@ -140,6 +141,7 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(grid);
         return grid;
     }
+
     private void addCloseListener(){
         stage.addListener(new ClickListener(){
             @Override

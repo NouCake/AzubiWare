@@ -1,5 +1,6 @@
 package de.united.azubiware.Lobby;
 
+import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PortManager;
 import de.united.azubiware.Connection.UserConnectionManager;
@@ -25,7 +26,8 @@ import java.util.List;
 
 public class LobbyServer implements ILobby, IUserListener {
 
-    private List<IUserConnection> queue;
+    private final List<IUserConnection> tttQueue;
+    private final List<IUserConnection> vgQueue;
 
     private final IPacketHandler packetHandler;
     private final IUserDatabase userDB;
@@ -36,7 +38,10 @@ public class LobbyServer implements ILobby, IUserListener {
         matchClasses = new HashMap<>();
         matchClasses.put(TTTMatch.MATCH_TYPE, TTTMatch.class);
         matchClasses.put(VGMatch.MATCH_TYPE, VGMatch.class);
-        queue = new LinkedList<>();
+
+        tttQueue = new LinkedList<>();
+        vgQueue = new LinkedList<>();
+
         userDB = new SimpleUserDatabase();
         UserConnectionManager connectionListener = new UserConnectionManager(this, userDB);
         packetHandler = new LobbyPacketHandler(this, connectionListener);
@@ -48,9 +53,17 @@ public class LobbyServer implements ILobby, IUserListener {
     }
 
     private void tryMatchmaking(){
-        synchronized (queue){
-            if(queue.size() < 2) return;
-            startMatch(TTTMatch.MATCH_TYPE, queue.get(0), queue.get(1));
+
+        List<IUserConnection> q = getQueueForMatch(TTTMatch.MATCH_TYPE);
+        synchronized (q){
+            if(q.size() < 2) return;
+            startMatch(TTTMatch.MATCH_TYPE, q.get(0), q.get(1));
+        }
+
+         q = getQueueForMatch(VGMatch.MATCH_TYPE);
+        synchronized (q){
+            if(q.size() < 2) return;
+            startMatch(VGMatch.MATCH_TYPE, q.get(0), q.get(1));
         }
     }
     private void startMatch(int matchType, IUserConnection...users){
@@ -119,6 +132,12 @@ public class LobbyServer implements ILobby, IUserListener {
         return match;
     }
 
+    private List<IUserConnection> getQueueForMatch(int matchType){
+        if(matchType == TTTMatch.MATCH_TYPE) return tttQueue;
+        else if(matchType == VGMatch.MATCH_TYPE) return vgQueue;
+        return null;
+    }
+
     @Override
     public void onPacket(IUserConnection user, IPacket packet) {
         System.out.println("Got Packet " + packet.getClass().getSimpleName());
@@ -135,22 +154,26 @@ public class LobbyServer implements ILobby, IUserListener {
         stopQueueing(user);
     }
     @Override
-    public void startQueueing(IUserConnection user) {
-        synchronized (queue){
-            queue.add(user);
+    public void startQueueing(IUserConnection user, int matchType) {
+        List<IUserConnection> q = getQueueForMatch(matchType);
+        synchronized (q){
+            q.add(user);
         }
         tryMatchmaking();
     }
     @Override
     public void stopQueueing(IUserConnection ...user) {
-        synchronized (queue){
-            queue.removeAll(Arrays.asList(user.clone()));
+        synchronized (tttQueue){
+            tttQueue.removeAll(Arrays.asList(user.clone()));
+        }
+        synchronized (vgQueue){
+            vgQueue.removeAll(Arrays.asList(user.clone()));
         }
     }
     @Override
     public int getUsersInQueue(int matchType) {
         //System.out.println(queue + " | " + queue.size());
-        return queue.size();
+        return getQueueForMatch(matchType).size();
     }
 
 }
