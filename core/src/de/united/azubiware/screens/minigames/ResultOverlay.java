@@ -64,6 +64,8 @@ public class ResultOverlay {
         stage.addActor(dark);
         stage.addActor(loseImage);
         stage.addActor(winImage);
+        stage.addActor(drawImage);
+        stage.addActor(leave);
     }
 
 

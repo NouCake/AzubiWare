@@ -39,9 +39,12 @@ public class TicTacToeScreen extends ScreenAdapter {
     private final ResultOverlay resultOverlay;
 
     private boolean yourTurn = false;
+    private IUser opponent;
 
     public TicTacToeScreen(AzubiWareGame game, IUser[] opponents){
         this.game = game;
+
+        opponent = opponents[0];
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -78,7 +81,7 @@ public class TicTacToeScreen extends ScreenAdapter {
         labelStyle.font = game.getFont();
         labelStyle.fontColor =  Color.WHITE;
 
-        turn = new Label("ENEMY TURN", labelStyle);
+        turn = new Label(opponent.getName() + "TURN", labelStyle);
         turn.setAlignment(Align.center);
         turn.setWidth(stage.getWidth()+1.25f);
         turn.setFontScale(1.15f);
@@ -168,7 +171,7 @@ public class TicTacToeScreen extends ScreenAdapter {
         if(yourTurn){
             turn.setText("YOUR TURN");
         }else{
-            turn.setText("ENEMY TURN");
+            turn.setText(opponent.getName() + " TURN");
         }
     }
 

@@ -1,15 +1,9 @@
-package de.united.azubiware.screens.minigames.ttt;
+package de.united.azubiware.utility.adapters;
 
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.client.IClientListener;
 
-public class TicTacToePacketListener implements IClientListener {
-
-    private TicTacToeScreen ticTacToeScreen;
-
-    public TicTacToePacketListener(TicTacToeScreen ticTacToeScreen){
-        this.ticTacToeScreen = ticTacToeScreen;
-    }
+public class ClientListenerAdapter implements IClientListener {
 
     @Override
     public void onConnected() {
@@ -40,5 +34,4 @@ public class TicTacToePacketListener implements IClientListener {
     public void onMatchFound(int matchType, IUser... oponents) {
 
     }
-
 }

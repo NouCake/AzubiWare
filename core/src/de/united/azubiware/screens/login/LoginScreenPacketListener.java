@@ -1,13 +1,14 @@
 package de.united.azubiware.screens.login;
 
 import de.united.azubiware.User.IUser;
-import de.united.azubiware.connection.client.IClientListener;
+import de.united.azubiware.utility.adapters.ClientListenerAdapter;
 
-public class LoginScreenPacketListener implements IClientListener {
+public class LoginScreenPacketListener extends ClientListenerAdapter {
 
-    @Override
-    public void onConnected() {
+    private LoginScreen loginScreen;
 
+    public LoginScreenPacketListener(LoginScreen loginScreen){
+        this.loginScreen = loginScreen;
     }
 
     @Override
@@ -17,22 +18,14 @@ public class LoginScreenPacketListener implements IClientListener {
 
     @Override
     public void onError(String messsage) {
-
+        loginScreen.setState(messsage);
     }
 
     @Override
     public void onWelcome(IUser user) {
-
-    }
-
-    @Override
-    public void onQueueUpdate(int matchType, int usersInQueue) {
-
-    }
-
-    @Override
-    public void onMatchFound(int matchType, IUser... oponents) {
-
+        loginScreen.game.setUser(user);
+        loginScreen.setState("Login Success");
+        loginScreen.setLoginSuccess(true);
     }
 
 }
