@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -29,8 +30,8 @@ public class LoginScreen implements Screen {
 
     TextField usernameField;
     Button playButton;
+    Label label;
 
-    Texture backgroundTexture;
     Sprite backgroundSprite;
 
     Stage stage;
@@ -40,37 +41,11 @@ public class LoginScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundForest.png"));
-        backgroundSprite = new Sprite(backgroundTexture);
+        backgroundSprite = new Sprite(new Texture(Gdx.files.internal("backgrounds/backgroundForest.png")));
 
-        TextField.TextFieldStyle textStyle = new TextField.TextFieldStyle();
-        textStyle.fontColor = Color.DARK_GRAY;
-        textStyle.font = game.getFont();
-        textStyle.messageFont = game.getFont();
-        textStyle.messageFontColor = Color.DARK_GRAY;
-        textStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textfield.png"))));
-
-        this.usernameField = new TextField("", textStyle);
-        usernameField.setMessageText("username");
-        usernameField.setMaxLength(maxUsernameLength);
-        usernameField.setAlignment(Align.center);
-        usernameField.setWidth(stage.getWidth()*0.5f);
-
-
-        Texture playTexture = new Texture(Gdx.files.internal("buttons/login/button_login.png"));
-        Texture playTextureDown = new Texture(Gdx.files.internal("buttons/login/button_login_down.png"));
-        Drawable playDrawable = new TextureRegionDrawable(new TextureRegion(playTexture));
-        Drawable playDrawableDown = new TextureRegionDrawable(new TextureRegion(playTextureDown));
-
-        Button.ButtonStyle testStyle = new Button.ButtonStyle();
-        testStyle.up = playDrawable;
-        testStyle.down = playDrawableDown;
-        testStyle.over = playDrawableDown;
-
-        this.playButton = new Button(testStyle);
-
-        usernameField.setPosition(stage.getWidth()/2f-usernameField.getWidth()/2, stage.getHeight()/2f+usernameField.getHeight()/2);
-        playButton.setPosition(stage.getWidth()/2f-playButton.getWidth()/2, usernameField.getY()-usernameField.getHeight()/1.5f-playButton.getHeight()/2);
+        createUsernameField();
+        createLoginButton();
+        createStateLabel();
 
         playButton.addListener(new ClickListener(){
             @Override
@@ -89,9 +64,57 @@ public class LoginScreen implements Screen {
             }
 
         });
+    }
+
+    public void createUsernameField(){
+        TextField.TextFieldStyle textStyle = new TextField.TextFieldStyle();
+        textStyle.fontColor = Color.DARK_GRAY;
+        textStyle.font = game.getFont();
+        textStyle.messageFont = game.getFont();
+        textStyle.messageFontColor = Color.DARK_GRAY;
+        textStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textfield.png"))));
+
+        usernameField = new TextField("", textStyle);
+        usernameField.setMessageText("username");
+        usernameField.setMaxLength(maxUsernameLength);
+        usernameField.setAlignment(Align.center);
+        usernameField.setWidth(stage.getWidth()*0.5f);
+
+        usernameField.setPosition(stage.getWidth()/2f-usernameField.getWidth()/2, stage.getHeight()/2f+usernameField.getHeight()/2);
 
         stage.addActor(usernameField);
+    }
+
+    public void createLoginButton(){
+        Texture playTexture = new Texture(Gdx.files.internal("buttons/login/button_login.png"));
+        Texture playTextureDown = new Texture(Gdx.files.internal("buttons/login/button_login_down.png"));
+        Drawable playDrawable = new TextureRegionDrawable(new TextureRegion(playTexture));
+        Drawable playDrawableDown = new TextureRegionDrawable(new TextureRegion(playTextureDown));
+
+        Button.ButtonStyle testStyle = new Button.ButtonStyle();
+        testStyle.up = playDrawable;
+        testStyle.down = playDrawableDown;
+        testStyle.over = playDrawableDown;
+
+        playButton = new Button(testStyle);
+
+        playButton.setPosition(stage.getWidth()/2f-playButton.getWidth()/2, usernameField.getY()-usernameField.getHeight()/1.5f-playButton.getHeight()/2);
+
         stage.addActor(playButton);
+    }
+
+    public void createStateLabel(){
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = game.getFont();
+        labelStyle.fontColor = Color.DARK_GRAY;
+
+        label = new Label("", labelStyle);
+        label.setAlignment(Align.center);
+        label.setWidth(300);
+        label.setHeight(40);
+        label.setPosition(stage.getWidth()/2f-label.getWidth()/2, playButton.getY() + label.getHeight()*1.5f);
+
+        stage.addActor(label);
     }
 
     public void drawBackground(){

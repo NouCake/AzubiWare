@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import de.united.azubiware.utility.ClickListenerAdapter;
+import de.united.azubiware.utility.adapters.ClickListenerAdapter;
 import de.united.azubiware.utility.IClickListener;
 
 public class FourWinsGrid extends Group implements IClickListener {

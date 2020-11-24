@@ -17,6 +17,6 @@ public class GpgpClientListener implements IGameServiceListener {
 
     @Override
     public void gsShowErrorToUser(GsErrorType et, String msg, Throwable t) {
-
+        System.out.println(msg);
     }
 }

@@ -1,11 +1,9 @@
 package de.united.azubiware.screens.menu;
 
-import de.united.azubiware.Games.TTT.TTTMatch;
-import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.User.IUser;
-import de.united.azubiware.connection.client.IClientListener;
+import de.united.azubiware.utility.adapters.ClientListenerAdapter;
 
-public class MenuPacketListener implements IClientListener {
+public class MenuPacketListener extends ClientListenerAdapter {
 
     private MainMenuScreen menuScreen;
 
@@ -14,16 +12,8 @@ public class MenuPacketListener implements IClientListener {
     }
 
     @Override
-    public void onConnected() {
-    }
-
-    @Override
     public void onError(String messsage) {
 
-    }
-
-    @Override
-    public void onWelcome(IUser user) {
     }
 
     @Override
