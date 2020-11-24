@@ -137,4 +137,7 @@ public class MinigameBaseScreen extends ScreenAdapter {
         return !closePopup.isHidden();
     }
 
+    public ResultOverlay getResultOverlay() {
+        return resultOverlay;
+    }
 }
