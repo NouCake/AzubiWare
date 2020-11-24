@@ -39,9 +39,11 @@ public class FourWinsScreen extends ScreenAdapter {
     private long lastHitnSent = System.currentTimeMillis();
 
     private boolean yourTurn = false;
+    private IUser opponent;
 
     public FourWinsScreen(AzubiWareGame game, IUser opponent){
         this.game = game;
+        this.opponent = opponent;
 
         batch = new PolygonSpriteBatch();
         stage = new Stage(new ScreenViewport(), batch);
@@ -101,7 +103,7 @@ public class FourWinsScreen extends ScreenAdapter {
         labelStyle.font = game.getFont();
         labelStyle.fontColor =  Color.WHITE;
 
-        Label turn = new Label("ENEMY TURN", labelStyle);
+        Label turn = new Label(opponent.getName() + " TURN", labelStyle);
         turn.setAlignment(Align.center);
         turn.setWidth(topper.getWidth() * topperScale - 2 * padding);
         turn.setFontScale(1.25f);
@@ -216,7 +218,7 @@ public class FourWinsScreen extends ScreenAdapter {
         if(yourTurn){
             turn.setText("Your Turn");
         }else{
-            turn.setText("Enemy Turn");
+            turn.setText(opponent.getName() + " Turn");
         }
 
         grid.setTurn(yourTurn);

@@ -2,12 +2,8 @@ package de.united.azubiware;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.utils.Array;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
-import de.golfgl.gdxgamesvcs.MockGameServiceClient;
 import de.golfgl.gdxgamesvcs.NoGameServiceClient;
-import de.golfgl.gdxgamesvcs.achievement.IAchievement;
-import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.connection.client.IClient;
@@ -71,7 +67,7 @@ public class AzubiWareGame extends Game {
 		gsClient.resumeSession();
 	}
 
-	public void initateSignIn(){
+	public void initiateSignIn(){
 		initiatedSignIn = true;
 		resolver.signIn();
 	}

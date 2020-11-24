@@ -8,7 +8,6 @@ import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.screens.menu.buttonlistener.LeftButtonListener;
 import de.united.azubiware.screens.menu.buttonlistener.PlayButtonListener;
 import de.united.azubiware.screens.menu.buttonlistener.RightButtonListener;
-import de.united.azubiware.utility.MiniGamePaginator;
 
 public class MenuButtonManager {
 

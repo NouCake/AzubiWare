@@ -1,9 +1,7 @@
 package de.united.azubiware.desktop;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import de.golfgl.gdxgamesvcs.GpgsClient;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.desktop.login.ActionResolverDesktop;
 
@@ -20,7 +18,7 @@ public class DesktopLauncher {
 		new Lwjgl3Application(new AzubiWareGame(actionResolverDesktop){
 			@Override
 			public void create() {
-				gsClient = new GpgsClient().initialize("TestLoginApp", Gdx.files.internal("gpgs-client_secret.json"), true);
+				//gsClient = new GpgsClient().initialize("TestLoginApp", Gdx.files.internal("gpgs-client_secret.json"), true);
 				super.create();
 			}
 		}, config);

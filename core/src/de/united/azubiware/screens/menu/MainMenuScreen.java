@@ -20,7 +20,6 @@ import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.screens.minigames.WaitingScreen;
 import de.united.azubiware.utility.ClosePopUp;
 import de.united.azubiware.utility.Clouds;
-import de.united.azubiware.utility.MiniGamePaginator;
 
 public class MainMenuScreen extends ScreenAdapter {
 
