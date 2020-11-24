@@ -2,6 +2,7 @@ package de.united.azubiware.screens.login;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,11 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 
-public class LoginScreen implements Screen {
+public class LoginScreen extends ScreenAdapter {
 
     final AzubiWareGame game;
 
@@ -36,10 +38,17 @@ public class LoginScreen implements Screen {
 
     Stage stage;
 
+    private long loginTime;
+
+    private boolean triedLogin = false;
+    private boolean loginSuccess = false;
+
     public LoginScreen(final AzubiWareGame game){
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+        game.getClient().setClientLister(new LoginScreenPacketListener(this));
 
         backgroundSprite = new Sprite(new Texture(Gdx.files.internal("backgrounds/backgroundForest.png")));
 
@@ -55,8 +64,11 @@ public class LoginScreen implements Screen {
                     sound.play();
                     if(usernameField.getText().length() >= minUsernameLength && usernameField.getText().length() < usernameField.getMaxLength()){
                         game.getClient().sendLogin(usernameField.getText());
-                        dispose();
-                        game.setScreen(new MainMenuScreen(game));
+                        usernameField.setDisabled(true);
+                        playButton.setDisabled(true);
+
+                        loginTime = TimeUtils.millis();
+                        triedLogin = true;
                     }
                     return true;
                 }
@@ -64,6 +76,10 @@ public class LoginScreen implements Screen {
             }
 
         });
+
+        stage.addActor(playButton);
+        stage.addActor(usernameField);
+        stage.addActor(label);
     }
 
     public void createUsernameField(){
@@ -79,10 +95,9 @@ public class LoginScreen implements Screen {
         usernameField.setMaxLength(maxUsernameLength);
         usernameField.setAlignment(Align.center);
         usernameField.setWidth(stage.getWidth()*0.5f);
+        usernameField.setDisabled(false);
 
         usernameField.setPosition(stage.getWidth()/2f-usernameField.getWidth()/2, stage.getHeight()/2f+usernameField.getHeight()/2);
-
-        stage.addActor(usernameField);
     }
 
     public void createLoginButton(){
@@ -99,8 +114,6 @@ public class LoginScreen implements Screen {
         playButton = new Button(testStyle);
 
         playButton.setPosition(stage.getWidth()/2f-playButton.getWidth()/2, usernameField.getY()-usernameField.getHeight()/1.5f-playButton.getHeight()/2);
-
-        stage.addActor(playButton);
     }
 
     public void createStateLabel(){
@@ -112,20 +125,13 @@ public class LoginScreen implements Screen {
         label.setAlignment(Align.center);
         label.setWidth(300);
         label.setHeight(40);
-        label.setPosition(stage.getWidth()/2f-label.getWidth()/2, playButton.getY() + label.getHeight()*1.5f);
-
-        stage.addActor(label);
+        label.setPosition(stage.getWidth()/2f-label.getWidth()/2, playButton.getY() - label.getHeight()*1.5f);
     }
 
     public void drawBackground(){
         stage.getBatch().begin();
         stage.getBatch().draw(backgroundSprite, 0, 0, stage.getWidth(), stage.getHeight());
         stage.getBatch().end();
-    }
-
-    @Override
-    public void show() {
-
     }
 
     @Override
@@ -136,26 +142,15 @@ public class LoginScreen implements Screen {
         stage.act();
         drawBackground();
         stage.draw();
-    }
 
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
+        if(triedLogin){
+            if(TimeUtils.millis() - loginTime >= 2000) {
+                dispose();
+                game.setScreen(new MainMenuScreen(game));
+            }else if(!loginSuccess) {
+                loginTime = TimeUtils.millis();;
+            }
+        }
     }
 
     @Override
@@ -163,4 +158,11 @@ public class LoginScreen implements Screen {
         stage.dispose();
     }
 
+    public void setState(String state){
+        label.setText(state);
+    }
+
+    public void setLoginSuccess(boolean loginSuccess) {
+        this.loginSuccess = loginSuccess;
+    }
 }

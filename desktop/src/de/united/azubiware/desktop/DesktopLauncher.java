@@ -17,12 +17,10 @@ public class DesktopLauncher {
 		config.setResizable(false);
 		config.setWindowedMode(800, 720);
 
-		GpgsClient gpgsClient = new GpgsClient();
-
 		new Lwjgl3Application(new AzubiWareGame(actionResolverDesktop){
 			@Override
 			public void create() {
-				gsClient = gpgsClient.initialize("AzWare", Gdx.files.internal("gpgs-client_secret.json"), false);
+				gsClient = new GpgsClient().initialize("TestLoginApp", Gdx.files.internal("gpgs-client_secret.json"), true);
 				super.create();
 			}
 		}, config);

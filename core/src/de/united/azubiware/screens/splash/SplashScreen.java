@@ -50,7 +50,7 @@ public class SplashScreen extends ScreenAdapter {
         labelStyle.font = game.getFont();
         labelStyle.fontColor = Color.DARK_GRAY;
 
-        label = new Label("Connecting", labelStyle);
+        label = new Label("Connecting to server", labelStyle);
         label.setAlignment(Align.center);
         label.setWidth(300);
         label.setHeight(40);

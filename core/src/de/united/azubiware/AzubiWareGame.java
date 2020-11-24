@@ -2,8 +2,13 @@ package de.united.azubiware;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.utils.Array;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
+import de.golfgl.gdxgamesvcs.MockGameServiceClient;
 import de.golfgl.gdxgamesvcs.NoGameServiceClient;
+import de.golfgl.gdxgamesvcs.achievement.IAchievement;
+import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.connection.client.IClient;
 import de.united.azubiware.login.ActionResolver;
@@ -22,7 +27,7 @@ public class AzubiWareGame extends Game {
 	IClient client;
 
 	private GameManager gameManager;
-
+	private IUser user;
 	public IGameServiceClient gsClient;
 
 	public AzubiWareGame(ActionResolver resolver){
@@ -52,8 +57,6 @@ public class AzubiWareGame extends Game {
 
 	public void dispose() {
 		client.stop();
-		gsClient.logOff();
-		gsClient.pauseSession();
 	}
 
 	@Override
@@ -65,7 +68,6 @@ public class AzubiWareGame extends Game {
 	@Override
 	public void resume() {
 		super.resume();
-
 		gsClient.resumeSession();
 	}
 
@@ -88,5 +90,13 @@ public class AzubiWareGame extends Game {
 
 	public GameManager getGameManager() {
 		return gameManager;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	public IUser getUser() {
+		return user;
 	}
 }

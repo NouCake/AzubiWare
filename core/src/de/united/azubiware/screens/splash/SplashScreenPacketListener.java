@@ -12,7 +12,7 @@ public class SplashScreenPacketListener extends ClientListenerAdapter {
 
     @Override
     public void onConnected() {
-        splashScreen.setState("Connected");
+        splashScreen.setState("Connected successfully");
     }
 
     @Override
