@@ -40,6 +40,8 @@ public class SSPScreen extends ScreenAdapter {
 
         labelStyle.font = game.getFont();
         labelStyle.fontColor = Color.WHITE;
+
+        roundLabel = new Label("Round " + round, labelStyle);
     }
 
     public void drawBackground(){
@@ -53,5 +55,9 @@ public class SSPScreen extends ScreenAdapter {
         stage.act();
         drawBackground();
         stage.draw();
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 }
