@@ -1,7 +1,9 @@
 package de.united.azubiware.connection.match;
 
 import de.united.azubiware.Connection.IConnection;
-import de.united.azubiware.Packets.*;
+import de.united.azubiware.Games.VG.VGNextTurnPacket;
+import de.united.azubiware.Games.VG.VGPacket;
+import de.united.azubiware.Games.VG.VGTurnHint;
 import de.united.azubiware.Packets.Handler.APacketHandler;
 
 public class VGClientPacketHandler extends APacketHandler {

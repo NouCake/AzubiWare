@@ -4,13 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -21,17 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
-import de.united.azubiware.Packets.TTTPacket;
-import de.united.azubiware.Packets.VGPacket;
-import de.united.azubiware.Packets.VGTurnHint;
+import de.united.azubiware.Games.VG.VGPacket;
+import de.united.azubiware.Games.VG.VGTurnHint;
 import de.united.azubiware.User.IUser;
-import de.united.azubiware.minigames.FourWins;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ResultOverlay;
-import de.united.azubiware.screens.minigames.ttt.TicTacToePostition;
-import de.united.azubiware.utility.ClickListenerAdapter;
 import de.united.azubiware.utility.ClosePopUp;
-import de.united.azubiware.utility.IClickListener;
 
 public class FourWinsScreen extends ScreenAdapter {
 

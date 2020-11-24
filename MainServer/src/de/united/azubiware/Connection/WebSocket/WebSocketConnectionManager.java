@@ -53,7 +53,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
             if(websocket.getSocket().isClosing()) throw new WebsocketNotConnectedException();
             String msg = packet.toJsonString();
             websocket.getSocket().send(msg);
-            //System.out.println("Sending Message: " + msg);
+            System.out.println("Sending Message: " + msg);
         } catch (WebsocketNotConnectedException e){
             System.out.println(connection + " | Couldn't send Message: " + packet.toJsonString());
         }
@@ -72,7 +72,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
         }
 
         if(listener != null) listener.onConnected(connection);
-        System.out.println("Connected");
+//        System.out.println("Connected");
     }
     @Override
     public void onClose(WebSocket socket, int code, String reason, boolean remote) {
@@ -81,20 +81,13 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
             connectedSockets.remove(connection);
         }
         if(listener != null) listener.onClosed(connection);
-        System.out.println("Closed");
+//        System.out.println("Closed");
     }
     @Override
     public void onMessage(WebSocket socket, String message) {
-        //System.out.println("Got Message: " + message);
+        System.out.println("Got Message: " + message);
         WebSocketConnection connection = getConnectionFromSocket(socket);
-
-        IPacket packet = PacketParser.createPacketFromJson(message);
-        if(packet == null){
-            connection.send(new ErrorResponsePacket("Error while parsing the Package"));
-            return;
-        }
-
-        if(listener != null) this.listener.onMessage(connection, packet);
+        if(listener != null) this.listener.onMessage(connection, message);
     }
     @Override
     public void onError(WebSocket conn, Exception ex) {

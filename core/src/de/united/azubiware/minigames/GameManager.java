@@ -1,7 +1,7 @@
 package de.united.azubiware.minigames;
 
-import de.united.azubiware.Matches.TTT.TTTMatch;
-import de.united.azubiware.Matches.VierGewinnt.VGMatch;
+import de.united.azubiware.Games.TTT.TTTMatch;
+import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.minigames.interfaces.IGameManager;
 

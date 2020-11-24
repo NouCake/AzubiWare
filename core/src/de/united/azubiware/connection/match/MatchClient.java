@@ -5,7 +5,7 @@ import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
-import de.united.azubiware.Packets.Handler.IPacketHandler;
+import de.united.azubiware.Packets.Handler.IMessageHandler;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.MatchLoginPacket;
 import de.united.azubiware.connection.WebSocketClient;
@@ -86,7 +86,7 @@ public class MatchClient{
     private void onMatchConnected(){
         connection.send(new MatchLoginPacket(matchToken.toString()));
     }
-    protected void addPacketHandler(IPacketHandler handler){
+    protected void addPacketHandler(IMessageHandler handler){
         this.listener.addPacketHandler(handler);
     }
 

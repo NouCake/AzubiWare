@@ -1,4 +1,4 @@
-package de.united.azubiware.Matches.TTT;
+package de.united.azubiware.Games.TTT;
 
 public class TicTacToe {
 
@@ -66,7 +66,7 @@ public class TicTacToe {
 
         lastPlayer = player;
         field[y][x] = player;
-        draw();
+//        draw();
     }
 
     public boolean isMatchOver(){

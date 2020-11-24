@@ -4,8 +4,8 @@ package de.united.azubiware.Packets.Handler;
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Packets.IPacket;
 
-public interface IPacketHandler {
+public interface IMessageHandler {
 
-    void onPacket(IConnection connection, IPacket packet);
+    void onMessage(IConnection connection, String message);
 
 }

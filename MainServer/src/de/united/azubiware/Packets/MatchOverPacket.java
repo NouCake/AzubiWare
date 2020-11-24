@@ -10,7 +10,6 @@ public class MatchOverPacket implements IPacket {
         ABORTED
     }
 
-    public static final int type = 16;
     private final int reason;
 
     public MatchOverPacket(int reason) {

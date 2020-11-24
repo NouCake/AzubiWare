@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
-import de.united.azubiware.Packets.TTTPacket;
+import de.united.azubiware.Games.TTT.TTTPacket;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ResultOverlay;
@@ -162,8 +162,8 @@ public class TicTacToeScreen extends ScreenAdapter {
         }
 
         if(switchToMenu || resultOverlay.isSwitchToMenu()){
-            dispose();
-            game.setScreen(new MainMenuScreen(game));
+            //dispose();
+            //game.setScreen(new MainMenuScreen(game));
         }
     }
 

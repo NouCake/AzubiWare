@@ -1,7 +1,7 @@
 package de.united.azubiware.screens.menu;
 
-import de.united.azubiware.Matches.TTT.TTTMatch;
-import de.united.azubiware.Matches.VierGewinnt.VGMatch;
+import de.united.azubiware.Games.TTT.TTTMatch;
+import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.client.IClientListener;
 
