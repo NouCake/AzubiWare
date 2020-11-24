@@ -11,50 +11,21 @@ import de.united.azubiware.Games.VG.VGPacket;
 import de.united.azubiware.Games.VG.VGTurnHint;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.minigames.MinigameBaseScreen;
+import de.united.azubiware.screens.minigames.TurnBasedMinigameScreen;
 
-public class FourWinsScreen extends MinigameBaseScreen {
+public class FourWinsScreen extends TurnBasedMinigameScreen {
 
     private final int hintUpdateTime = 200;
-
-    private Label turn;
     private final FourWinsGrid grid;
-
     private long lastHitnSent = System.currentTimeMillis();
 
-    private boolean yourTurn = false;
-    private IUser opponent;
 
     public FourWinsScreen(AzubiWareGame game, IUser opponent){
         super(game, opponent);
-        this.opponent = opponent;
 
-        turn = createTurnLabel();
         grid = createGrid();
     }
 
-    private Label createTurnLabel(){
-        if(turn != null) throw new RuntimeException("TurnLabel is already defined!");
-        final int padding = 10;
-        final float topperScale = 1.1f;
-
-        Image topper = new Image(new Texture(Gdx.files.internal("games/ttt_top.png")));
-        topper.setScale(topperScale);
-        topper.setPosition(getStage().getWidth()*0.5f - topper.getWidth()*0.5f*topperScale, getStage().getHeight() - topper.getHeight() * topperScale - padding);
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-
-        labelStyle.font = getGame().getFont();
-        labelStyle.fontColor =  Color.WHITE;
-
-        Label turn = new Label(opponent.getName() + " TURN", labelStyle);
-        turn.setAlignment(Align.center);
-        turn.setWidth(topper.getWidth() * topperScale - 2 * padding);
-        turn.setFontScale(1.25f);
-        turn.setPosition(topper.getX() + padding, topper.getY() + topper.getHeight()*0.5f*topperScale - turn.getHeight()*0.5f*topperScale);
-
-        getStage().addActor(topper);
-        getStage().addActor(turn);
-        return turn;
-    }
     private FourWinsGrid createGrid(){
         FourWinsGrid grid = new FourWinsGrid(){
             @Override
@@ -82,29 +53,21 @@ public class FourWinsScreen extends MinigameBaseScreen {
         return grid;
     }
     private void onRowClicked(int row){
-        if(!isInputBlocked() && yourTurn){
+        if(!isInputBlocked() && isMyTurn()){
             getGame().getClient().sendMatchPacket(new VGPacket(row));
             grid.addStone(row);
-            yourTurn = false;
+            setTurn(false);
         }
     }
 
-
+    @Override
     public void setTurn(boolean yourTurn) {
-        this.yourTurn = yourTurn;
-
-        if(yourTurn){
-            turn.setText("Your Turn");
-        }else{
-            turn.setText(opponent.getName() + " Turn");
-        }
-
+        super.setTurn(yourTurn);
         grid.setTurn(yourTurn);
     }
     public void doEnemyTurn(int row) {
         grid.addEnemyStone(row);
     }
-
     public void onHint(int row) {
         grid.setEnemyHint(row);
     }
