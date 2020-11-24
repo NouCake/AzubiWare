@@ -53,7 +53,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
             if(websocket.getSocket().isClosing()) throw new WebsocketNotConnectedException();
             String msg = packet.toJsonString();
             websocket.getSocket().send(msg);
-            System.out.println("Sending Message: " + msg);
+            //System.out.println("Sending Message: " + msg);
         } catch (WebsocketNotConnectedException e){
             System.out.println(connection + " | Couldn't send Message: " + packet.toJsonString());
         }
@@ -85,7 +85,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
     @Override
     public void onMessage(WebSocket socket, String message) {
-        System.out.println("Got Message: " + message);
+        //System.out.println("Got Message: " + message);
         WebSocketConnection connection = getConnectionFromSocket(socket);
         if(listener != null) this.listener.onMessage(connection, message);
     }

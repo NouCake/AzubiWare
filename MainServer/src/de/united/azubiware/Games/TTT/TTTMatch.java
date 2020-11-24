@@ -53,7 +53,13 @@ public class TTTMatch extends AMatch {
             onMatchOver(MatchOverPacket.REASONS.GAME_DONE.ordinal());
             return true;
         }
-        return tttGame.isMatchOver();
+
+        if(tttGame.isMatchOver()){
+            onMatchOver(MatchOverPacket.REASONS.GAME_DONE.ordinal());
+            return true;
+        }
+
+        return false;
     }
 
     private void sendNextTurnPackets(){

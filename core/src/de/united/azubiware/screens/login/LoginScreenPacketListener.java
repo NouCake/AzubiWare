@@ -12,6 +12,11 @@ public class LoginScreenPacketListener extends ClientListenerAdapter {
     }
 
     @Override
+    public void onClosed() {
+
+    }
+
+    @Override
     public void onError(String messsage) {
         loginScreen.setState(messsage);
     }

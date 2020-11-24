@@ -16,6 +16,7 @@ public class TicTacToe {
     }
 
     public void draw() {
+        System.out.println("TTT Game: " + isMatchOver() + " " + checkPlayerWin() );
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
                 System.out.print(field[j][i]);
@@ -66,13 +67,13 @@ public class TicTacToe {
 
         lastPlayer = player;
         field[y][x] = player;
-//        draw();
+        draw();
     }
 
     public boolean isMatchOver(){
         for(int x = 0; x < field.length; x++){
             for(int y = 0; y < field[x].length; y++){
-                if(field[x][y] != 0) return false;
+                if(field[x][y] == 0) return false;
             }
         }
         return true;

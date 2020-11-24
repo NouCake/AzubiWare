@@ -12,6 +12,15 @@ public class MenuPacketListener extends ClientListenerAdapter {
     }
 
     @Override
+    public void onConnected() {
+    }
+
+    @Override
+    public void onClosed() {
+
+    }
+
+    @Override
     public void onError(String messsage) {
 
     }
@@ -32,4 +41,3 @@ public class MenuPacketListener extends ClientListenerAdapter {
     }
 
 }
-
