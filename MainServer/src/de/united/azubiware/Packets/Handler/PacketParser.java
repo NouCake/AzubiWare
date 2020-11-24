@@ -26,7 +26,7 @@ public class PacketParser {
         if(packetClasses.containsKey(packetType))
             throw new RuntimeException("Multiple Packets with same Class Name: " + c.getSimpleName());
         packetClasses.put(packetType, c);
-        System.out.println("PacketParser: register packet " + c.getSimpleName());
+        //System.out.println("PacketParser: register packet " + c.getSimpleName());
     }
 
     public IPacket createPacketFromJson(String jsonString){
@@ -35,7 +35,7 @@ public class PacketParser {
 
             String packetType = json.getAsJsonObject().get("type").getAsString();
             if(!packetClasses.containsKey(packetType)) {
-                System.out.println("PacketParserError : No PacketClass for type: " + packetType);
+                //System.out.println("PacketParserError : No PacketClass for type: " + packetType);
                 return null;
             };
             json.getAsJsonObject().remove("type");

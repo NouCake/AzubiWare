@@ -27,6 +27,8 @@ import de.united.azubiware.utility.ClosePopUp;
 
 public class FourWinsScreen extends ScreenAdapter {
 
+    private final int hintUpdateTime = 200;
+
     private final Stage stage;
     private final AzubiWareGame game;
     private Label turn;
@@ -87,7 +89,6 @@ public class FourWinsScreen extends ScreenAdapter {
 
         return btn;
     }
-
     private Label createTurnLabel(){
         if(turn != null) throw new RuntimeException("TurnLabel is already defined!");
         final int padding = 10;
@@ -111,7 +112,6 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(turn);
         return turn;
     }
-
     private void initBackground(){
         float stageRatio = stage.getWidth() / stage.getHeight();
 
@@ -137,7 +137,6 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(bg);
         stage.addActor(footer);
     }
-
     private FourWinsGrid createGrid(){
         FourWinsGrid grid = new FourWinsGrid(){
             @Override
@@ -149,7 +148,7 @@ public class FourWinsScreen extends ScreenAdapter {
             @Override
             protected void onHintChanged(int row) {
                 super.onHintChanged(row);
-                if(System.currentTimeMillis() - lastHitnSent > 1000){
+                if(System.currentTimeMillis() - lastHitnSent > hintUpdateTime){
                     game.getClient().sendMatchPacket(new VGTurnHint(row));
                     lastHitnSent = System.currentTimeMillis();
                 }
@@ -164,7 +163,6 @@ public class FourWinsScreen extends ScreenAdapter {
         stage.addActor(grid);
         return grid;
     }
-
     private void addCloseListener(){
         stage.addListener(new ClickListener(){
             @Override
@@ -182,7 +180,6 @@ public class FourWinsScreen extends ScreenAdapter {
             }
         });
     }
-
     private void onRowClicked(int row){
         if(closePopup.isHidden() && yourTurn){
             game.getClient().sendMatchPacket(new VGPacket(row));
@@ -209,7 +206,6 @@ public class FourWinsScreen extends ScreenAdapter {
         super.dispose();
         stage.dispose();
     }
-
     public void setTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
 
@@ -221,11 +217,9 @@ public class FourWinsScreen extends ScreenAdapter {
 
         grid.setTurn(yourTurn);
     }
-
     public void doEnemyTurn(int row) {
         grid.addEnemyStone(row);
     }
-
     public ResultOverlay getResultOverlay() {
         return resultOverlay;
     }
