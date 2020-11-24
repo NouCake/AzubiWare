@@ -17,6 +17,11 @@ public class TicTacToePacketListener implements IClientListener {
     }
 
     @Override
+    public void onClosed() {
+
+    }
+
+    @Override
     public void onError(String messsage) {
 
     }

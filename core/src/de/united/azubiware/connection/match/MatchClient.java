@@ -87,7 +87,7 @@ public class MatchClient{
         connection.send(new MatchLoginPacket(matchToken.toString()));
     }
     protected void addPacketHandler(IMessageHandler handler){
-        this.listener.addPacketHandler(handler);
+        listener.addPacketHandler(handler);
     }
 
     public IMatchListener getMatchListener() {

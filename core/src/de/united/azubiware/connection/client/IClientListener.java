@@ -5,6 +5,7 @@ import de.united.azubiware.User.IUser;
 public interface IClientListener {
 
     void onConnected();
+    void onClosed();
     void onError(String messsage);
 
     void onWelcome(IUser user);
