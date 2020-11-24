@@ -30,16 +30,14 @@ public class TicTacToeScreen extends ScreenAdapter {
 
     final AzubiWareGame game;
 
-    private Texture backgroundTexture;
-    private Sprite backgroundSprite;
-    private Label turn;
+    private final Sprite backgroundSprite;
+    private final Label turn;
 
-    private Stage stage;
-    private TicTacToeField ticTacToeField;
-    private ClosePopUp closePopUp;
-    private ResultOverlay resultOverlay;
+    private final Stage stage;
+    private final TicTacToeField ticTacToeField;
+    private final ClosePopUp closePopUp;
+    private final ResultOverlay resultOverlay;
 
-    private boolean switchToMenu = false;
     private boolean yourTurn = false;
 
     public TicTacToeScreen(AzubiWareGame game, IUser[] opponents){
@@ -49,8 +47,7 @@ public class TicTacToeScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
-        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundCastles.png"));
-        backgroundSprite = new Sprite(backgroundTexture);
+        backgroundSprite = new Sprite(new Texture(Gdx.files.internal("backgrounds/backgroundCastles.png")));
 
         ticTacToeField = new TicTacToeField(stage);
 
@@ -155,15 +152,9 @@ public class TicTacToeScreen extends ScreenAdapter {
         drawBackground();
         stage.draw();
 
-        if(resultOverlay.isShowResult()){
-            if(TimeUtils.millis() - resultOverlay.getFinished() >= 5000){
-                switchToMenu = true;
-            }
-        }
-
-        if(switchToMenu || resultOverlay.isSwitchToMenu()){
-            //dispose();
-            //game.setScreen(new MainMenuScreen(game));
+        if(resultOverlay.isSwitchToMenu()){
+            dispose();
+            game.setScreen(new MainMenuScreen(game));
         }
     }
 

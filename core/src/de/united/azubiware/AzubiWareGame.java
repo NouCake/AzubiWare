@@ -7,6 +7,7 @@ import de.golfgl.gdxgamesvcs.NoGameServiceClient;
 import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.connection.client.IClient;
 import de.united.azubiware.login.ActionResolver;
+import de.united.azubiware.minigames.GameManager;
 import de.united.azubiware.screens.SplashScreen;
 import de.united.azubiware.utility.FontLoader;
 import de.united.azubiware.utility.GpgpClientListener;
@@ -20,11 +21,13 @@ public class AzubiWareGame extends Game {
 	BitmapFont font;
 	IClient client;
 
+	private GameManager gameManager;
+
 	public IGameServiceClient gsClient;
 
 	public AzubiWareGame(ActionResolver resolver){
 		this.resolver = resolver;
-
+		this.gameManager = new GameManager();
 		this.client = new Client();
 	}
 
@@ -84,4 +87,7 @@ public class AzubiWareGame extends Game {
 		return client;
 	}
 
+	public GameManager getGameManager() {
+		return gameManager;
+	}
 }
