@@ -15,18 +15,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
-import de.united.azubiware.Games.TTT.TTTMatch;
-import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.User.IUser;
-import de.united.azubiware.minigames.FourWins;
 import de.united.azubiware.minigames.interfaces.IGame;
-import de.united.azubiware.minigames.TicTacToe;
 import de.united.azubiware.screens.minigames.WaitingScreen;
 import de.united.azubiware.utility.ClosePopUp;
 import de.united.azubiware.utility.Clouds;
 import de.united.azubiware.utility.MiniGamePaginator;
-
-import java.util.Random;
 
 public class MainMenuScreen extends ScreenAdapter {
 
@@ -54,18 +48,7 @@ public class MainMenuScreen extends ScreenAdapter {
         backgroundTexture = new Texture(Gdx.files.internal("backgrounds/backgroundForest.png"));
         backgroundSprite = new Sprite(backgroundTexture);
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = game.getFont();
-        labelStyle.fontColor = Color.DARK_GRAY;
-
-        label = new Label(new Random().nextInt(10)+1 + " in queue", labelStyle);
-        label.setAlignment(Align.center);
-        label.setWidth(300);
-        label.setHeight(40);
-        label.setPosition(stage.getWidth()/2f-label.getWidth()/2, stage.getHeight()/4.5f-55);
-        label.setVisible(false);
-
-        stage.addActor(label);
+        createWaitingLabel();
         paginator = new MiniGamePaginator(stage);
         buttonManager = new MenuButtonManager(stage, paginator, game);
         clouds = new Clouds(stage);
@@ -88,6 +71,21 @@ public class MainMenuScreen extends ScreenAdapter {
         game.getClient().setClientLister(new MenuPacketListener(this));
     }
 
+    public void createWaitingLabel(){
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = game.getFont();
+        labelStyle.fontColor = Color.DARK_GRAY;
+
+        label = new Label("0 players online", labelStyle);
+        label.setAlignment(Align.center);
+        label.setWidth(300);
+        label.setHeight(40);
+        label.setPosition(stage.getWidth()/2f-label.getWidth()/2, stage.getHeight()/4.5f-55);
+        label.setVisible(false);
+
+        stage.addActor(label);
+    }
+
     public void drawBackground(){
         stage.getBatch().begin();
         stage.getBatch().draw(backgroundSprite, 0, 0, stage.getWidth(), stage.getHeight());
@@ -107,6 +105,9 @@ public class MainMenuScreen extends ScreenAdapter {
             paginator.waiting();
         }else if(label.isVisible()){
             label.setVisible(false);
+            if(waiting != 0){
+                waiting = 0;
+            }
         }
 
         stage.act();
@@ -144,18 +145,22 @@ public class MainMenuScreen extends ScreenAdapter {
     public void updateWaiting(){
         if(TimeUtils.millis()-lastUpdated >= 1000){
             game.getClient().sendQueuePoll(paginator.getCurrentMatchType());
-            label.setText(waiting + " in queue");
+            if(waiting > 1){
+                label.setText(waiting + " players online");
+            }else{
+                label.setText(waiting + " player online");
+            }
             lastUpdated = TimeUtils.millis();
         }
     }
 
     public void startMatch(int matchType, IUser[] oppponents){
         foundMatch = true;
-        this.opponents = oppponents;
-        if(matchType == TTTMatch.MATCH_TYPE){
-            iGame = new TicTacToe();
-        } else if(matchType == VGMatch.MATCH_TYPE) {
-            iGame = new FourWins();
+        opponents = oppponents;
+        if(game.getGameManager().getGameByMatchType(matchType) != null){
+            iGame = game.getGameManager().getGameByMatchType(matchType);
+        }else{
+            foundMatch = false;
         }
     }
 

@@ -106,6 +106,6 @@ public class ResultOverlay {
     }
 
     public boolean isSwitchToMenu() {
-        return ((TimeUtils.millis() - finished) >= 5000) || switchToMenu;
+        return ((showResult && (TimeUtils.millis() - finished) >= 5000)) || switchToMenu;
     }
 }
