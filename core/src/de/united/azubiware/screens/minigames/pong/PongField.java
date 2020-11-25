@@ -57,6 +57,10 @@ public class PongField extends Group {
         updatePlayer(1);
     }
 
+    protected void onPlayerUpdated(float x){
+
+    }
+
     public void updateBall(float relativeX, float relativeY){
         ball.setPosition(fieldWidth * relativeX, fieldHeight * relativeY, Align.center);
     }
@@ -67,6 +71,7 @@ public class PongField extends Group {
 
     public void updatePlayer(float relativeX){
         updateBar(player, relativeX);
+        onPlayerUpdated(relativeX);
     }
 
     private void updateBar(Actor bar, float relativeX){

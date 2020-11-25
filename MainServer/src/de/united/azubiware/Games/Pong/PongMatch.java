@@ -15,8 +15,8 @@ public class PongMatch extends AMatch implements IPongScoreListener{
     private final Pong game;
     private boolean matchRunning = false;
 
-    public PongMatch(int matchType, int port, IUser opponent) {
-        super(matchType, port, opponent);
+    public PongMatch(int port, IUser ...opponents) {
+        super(MATCH_TYPE, port, opponents);
         this.game = new Pong();
     }
 
