@@ -48,7 +48,7 @@ public class MainMenuScreen extends ScreenAdapter {
         backgroundSprite = new Sprite(backgroundTexture);
 
         createWaitingLabel();
-        paginator = new MiniGamePaginator(stage);
+        paginator = new MiniGamePaginator(stage, game.getGameManager());
         buttonManager = new MenuButtonManager(stage, paginator, game);
         clouds = new Clouds(stage);
 

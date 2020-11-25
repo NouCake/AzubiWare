@@ -5,9 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.minigames.FourWins;
+import de.united.azubiware.minigames.GameManager;
 import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.minigames.SSP;
 import de.united.azubiware.minigames.TicTacToe;
+import de.united.azubiware.minigames.interfaces.IGameManager;
 
 import java.util.HashMap;
 
@@ -28,14 +30,35 @@ public class MiniGamePaginator extends Group {
     private HashMap<Integer, IGame> miniGame = new HashMap<>();
     private HashMap<Integer, Image> gameImages = new HashMap<>();
 
-    public MiniGamePaginator(Stage stage){
+    public MiniGamePaginator(Stage stage, IGameManager gameManager){
         this.stage = stage;
         this.finalX = (stage.getWidth()/2f-(stage.getWidth()*0.25f));
 
-        create();
+        create(gameManager);
     }
 
-    public void create(){
+    public void create(IGameManager gameManager){
+        int counter = min;
+        for(IGame game : gameManager.getGames()){
+            miniGame.put(counter, game);
+
+            Image image = new Image(game.getSplash());
+            image.setSize(stage.getWidth()/2, stage.getHeight()/2);
+
+            if(counter == 0){
+                image.setPosition(stage.getWidth()/2f-image.getWidth()/2, stage.getHeight()/2f-((image.getHeight()/2)*0.4f));
+            }else if(counter > 0){
+                image.setPosition(counter*stage.getWidth() + image.getWidth()/2, stage.getHeight()/2f-((image.getHeight()/2)*0.4f));
+            }else{
+                image.setPosition(counter*(image.getWidth()*1.5f), stage.getHeight()/2f-((image.getHeight()/2)*0.4f));
+            }
+            gameImages.put(counter, image);
+            stage.addActor(image);
+
+            counter++;
+        }
+
+        /*
         miniGame.put(0, new TicTacToe());
         Image tttImage = new Image(miniGame.get(0).getSplash());
         tttImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
@@ -57,6 +80,7 @@ public class MiniGamePaginator extends Group {
         stage.addActor(tttImage);
         stage.addActor(sspImage);
         stage.addActor(vgImage);
+         */
     }
 
     public void paginate(){
@@ -145,6 +169,7 @@ public class MiniGamePaginator extends Group {
 
     public void reset(){
         direction = -0.25f;
+
         Image image = gameImages.get(current);
         image.setY(stage.getHeight()/2f-50);
     }

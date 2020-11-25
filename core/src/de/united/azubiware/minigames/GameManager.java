@@ -33,10 +33,9 @@ public class GameManager implements IGameManager {
         miniGamesById.put(1, fourWins);
         miniGamesByMatchType.put(VGMatch.MATCH_TYPE, fourWins);
 
-
         SSP ssp = new SSP();
         miniGamesById.put(-1, ssp);
-        miniGamesByMatchType.put(0, ssp);
+        miniGamesByMatchType.put(3, ssp);
     }
 
     @Override
