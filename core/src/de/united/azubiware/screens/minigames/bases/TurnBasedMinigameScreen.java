@@ -32,7 +32,7 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
         if(yourTurn){
             turn.setText("Your Turn");
         }else{
-            turn.setText(opponent.getName() + " Turn");
+            turn.setText("Enemy Turn");
         }
     }
 
@@ -49,7 +49,7 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
         labelStyle.font = getGame().getFont();
         labelStyle.fontColor =  Color.WHITE;
 
-        Label turn = new Label(opponent.getName() + " TURN", labelStyle);
+        Label turn = new Label("Enemy Turn", labelStyle);
         turn.setAlignment(Align.center);
         turn.setWidth(topper.getWidth() * topperScale - 2 * padding);
         turn.setFontScale(1.25f);
