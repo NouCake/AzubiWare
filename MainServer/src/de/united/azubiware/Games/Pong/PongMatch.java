@@ -69,9 +69,7 @@ public class PongMatch extends AMatch implements IPongScoreListener{
             }
 
             //Update Player GamePackets
-            System.out.println("Time: " + curTime + " | " + lastPlayerUpdate);
             if(curTime - lastPlayerUpdate > playerUpdateTime){
-                System.out.println("Sending PongUpdate");
                 lastPlayerUpdate = curTime;
                 sendGameUpdate();
             }
