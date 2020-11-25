@@ -12,6 +12,7 @@ import de.united.azubiware.screens.minigames.pong.PongListener;
 import de.united.azubiware.screens.minigames.pong.PongScreen;
 
 public class Pong implements IGame {
+
     @Override
     public int getMatchType() {
         return PongMatch.MATCH_TYPE;

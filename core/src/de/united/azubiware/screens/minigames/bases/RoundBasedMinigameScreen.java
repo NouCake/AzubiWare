@@ -17,11 +17,7 @@ public class RoundBasedMinigameScreen extends MinigameBaseScreen{
     private int currentRound = 1;
 
     public RoundBasedMinigameScreen(AzubiWareGame game, IUser... opponents) {
-        super(game, opponents);
-
-        this.opponents = opponents;
-
-        roundLabel = createRoundLabel();
+        this(game, "Castles", opponents);
     }
 
     public RoundBasedMinigameScreen(AzubiWareGame game, String background, IUser... opponents) {
@@ -38,7 +34,7 @@ public class RoundBasedMinigameScreen extends MinigameBaseScreen{
         final int padding = 10;
         final float topperScale = 1.1f;
 
-        Image topper = new Image(new Texture(Gdx.files.internal("games/ttt_top.png")));
+        Image topper = new Image(new Texture(Gdx.files.internal("games/topper.png")));
         topper.setScale(topperScale);
         topper.setPosition(getStage().getWidth()*0.5f - topper.getWidth()*0.5f*topperScale, getStage().getHeight() - topper.getHeight() * topperScale - padding);
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -67,7 +63,4 @@ public class RoundBasedMinigameScreen extends MinigameBaseScreen{
         roundLabel.setText("ROUND " + currentRound);
     }
 
-    public void doNextRound(){
-        setRound(currentRound++);
-    }
 }

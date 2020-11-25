@@ -27,16 +27,19 @@ public class GameManager implements IGameManager {
     private void initGames(){
         TicTacToe ticTacToe = new TicTacToe();
         miniGamesById.put(0, ticTacToe);
-        miniGamesByMatchType.put(TTTMatch.MATCH_TYPE, ticTacToe);
+        miniGamesByMatchType.put(ticTacToe.getMatchType(), ticTacToe);
 
         FourWins fourWins = new FourWins();
         miniGamesById.put(1, fourWins);
-        miniGamesByMatchType.put(VGMatch.MATCH_TYPE, fourWins);
-
+        miniGamesByMatchType.put(fourWins.getMatchType(), fourWins);
 
         SSP ssp = new SSP();
         miniGamesById.put(-1, ssp);
         miniGamesByMatchType.put(0, ssp);
+
+        Pong pong = new Pong();
+        miniGamesById.put(2, pong);
+        miniGamesByMatchType.put(pong.getMatchType(), pong);
     }
 
     @Override

@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class ResultOverlay extends Group {
@@ -37,20 +37,20 @@ public class ResultOverlay extends Group {
         dark.setPosition(stageWidth/2-dark.getWidth()/2, stageHeight/2-dark.getHeight()/2);
         dark.setVisible(false);
 
-        winImage = new Image(new Texture(Gdx.files.internal("games/win_overlay.png")));
-        winImage.setPosition(stageWidth/2-winImage.getWidth()/2, stageHeight/2+winImage.getWidth()/2.5f);
+        winImage = new Image(new Texture(Gdx.files.internal("games/overlays/win_overlay.png")));
+        winImage.setPosition(stageWidth/2, stageHeight/2, Align.center | Align.bottom);
         winImage.setVisible(false);
 
-        loseImage = new Image(new Texture(Gdx.files.internal("games/lose_overlay.png")));
-        loseImage.setPosition(stageWidth/2-loseImage.getWidth()/2, stageHeight/2+loseImage.getHeight()/2.5f);
+        loseImage = new Image(new Texture(Gdx.files.internal("games/overlays/lose_overlay.png")));
+        loseImage.setPosition(stageWidth/2, stageHeight/2, Align.center | Align.bottom);
         loseImage.setVisible(false);
 
-        drawImage = new Image(new Texture(Gdx.files.internal("games/draw_overlay.png")));
-        drawImage.setPosition(stageWidth/2-drawImage.getWidth()/2, stageHeight/2+drawImage.getHeight()/2.5f);
+        drawImage = new Image(new Texture(Gdx.files.internal("games/overlays/draw_overlay.png")));
+        drawImage.setPosition(stageWidth/2, stageHeight/2, Align.center | Align.bottom);
         drawImage.setVisible(false);
 
         leave = new Button(createButtonStyle());
-        leave.setPosition(stageWidth/2f - leave.getWidth(),stageHeight/2f-leave.getHeight());
+        leave.setPosition(stageWidth/2f ,stageHeight/2f, Align.center | Align.top);
         leave.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

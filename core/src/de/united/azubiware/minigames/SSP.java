@@ -7,6 +7,8 @@ import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.screens.minigames.WaitingScreen;
+import de.united.azubiware.screens.minigames.ssp.SSPMatchListener;
+import de.united.azubiware.screens.minigames.ssp.SSPScreen;
 
 public class SSP implements IGame {
     @Override
@@ -26,6 +28,6 @@ public class SSP implements IGame {
 
     @Override
     public IMatchListener createMatchListener(WaitingScreen waitingScreen, AzubiWareGame game, IUser[] opponents) {
-        return null;
+        return new SSPMatchListener(waitingScreen, new SSPScreen(game, opponents[0]));
     }
 }

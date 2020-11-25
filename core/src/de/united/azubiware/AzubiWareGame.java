@@ -5,13 +5,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
 import de.golfgl.gdxgamesvcs.NoGameServiceClient;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.User.SimpleUser;
 import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.connection.client.IClient;
 import de.united.azubiware.login.ActionResolver;
 import de.united.azubiware.minigames.GameManager;
+import de.united.azubiware.screens.menu.MainMenuScreen;
+import de.united.azubiware.screens.minigames.ssp.SSPScreen;
 import de.united.azubiware.screens.splash.SplashScreen;
 import de.united.azubiware.utility.FontLoader;
 import de.united.azubiware.utility.GpgpClientListener;
+
 
 public class AzubiWareGame extends Game {
 
