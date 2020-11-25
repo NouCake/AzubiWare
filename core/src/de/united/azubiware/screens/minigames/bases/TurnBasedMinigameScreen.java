@@ -39,7 +39,7 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
     private Label createTurnLabel(){
         if(turn != null) throw new RuntimeException("TurnLabel is already defined!");
         final int padding = 10;
-        final float topperScale = 1.1f;
+        final float topperScale = 1.25f;
 
         Image topper = new Image(new Texture(Gdx.files.internal("games/ttt_top.png")));
         topper.setScale(topperScale);

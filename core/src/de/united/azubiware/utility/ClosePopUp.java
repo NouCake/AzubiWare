@@ -3,6 +3,7 @@ package de.united.azubiware.utility;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -13,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import de.united.azubiware.AzubiWareGame;
 
-public class ClosePopUp {
+public class ClosePopUp extends Group {
 
     private Image dark;
     private Image background;
@@ -24,25 +25,25 @@ public class ClosePopUp {
 
     private boolean hidden;
 
-    public ClosePopUp(Stage stage, AzubiWareGame game){
+    public ClosePopUp(float stageWidth, float stageHeight){
         hidden = true;
 
         dark = new Image(new Texture(Gdx.files.internal("popup_dark.png")));
-        dark.setWidth(stage.getWidth());
-        dark.setHeight(stage.getHeight());
-        dark.setPosition(stage.getWidth()/2-dark.getWidth()/2, stage.getHeight()/2-dark.getHeight()/2);
+        dark.setWidth(stageWidth);
+        dark.setHeight(stageHeight);
+        dark.setPosition(stageWidth/2-dark.getWidth()/2, stageHeight/2-dark.getHeight()/2);
         dark.setVisible(false);
-        stage.addActor(dark);
+        addActor(dark);
 
         background = new Image(new Texture(Gdx.files.internal("popup_background.png")));
-        background.setWidth(stage.getWidth()/2);
-        background.setHeight((stage.getWidth()/2)*0.8f);
-        background.setPosition(stage.getWidth()/2-background.getWidth()/2, stage.getHeight()/2-background.getHeight()/2);
+        background.setWidth(stageWidth/2);
+        background.setHeight((stageWidth/2)*0.8f);
+        background.setPosition(stageWidth/2-background.getWidth()/2, stageHeight/2-background.getHeight()/2);
         background.setVisible(false);
-        stage.addActor(background);
+        addActor(background);
 
-        exit = new Button(createButtonStyle("exit"));
-        exit.setPosition(stage.getWidth()/2-exit.getWidth()/2, stage.getHeight()/2-exit.getHeight()*1.75f);
+        exit = new Button(creatButtonStyle("exit"));
+        exit.setPosition(stageWidth/2-exit.getWidth()/2, stageHeight/2-exit.getHeight()*1.75f);
         exit.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -53,10 +54,10 @@ public class ClosePopUp {
             }
         });
         exit.setVisible(false);
-        stage.addActor(exit);
+        addActor(exit);
 
-        stay = new Button(createButtonStyle("stay"));
-        stay.setPosition(stage.getWidth()/2-stay.getWidth()/2, stage.getHeight()/2 - stay.getHeight()/2);
+        stay = new Button(creatButtonStyle("stay"));
+        stay.setPosition(stageWidth/2-stay.getWidth()/2, stageHeight/2 - stay.getHeight()/2);
         stay.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -67,7 +68,7 @@ public class ClosePopUp {
             }
         });
         stay.setVisible(false);
-        stage.addActor(stay);
+        addActor(stay);
     }
 
     public Button.ButtonStyle createButtonStyle(String type){
