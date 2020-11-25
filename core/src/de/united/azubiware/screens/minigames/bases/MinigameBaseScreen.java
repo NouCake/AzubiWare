@@ -22,33 +22,26 @@ import de.united.azubiware.utility.ClosePopUp;
 public class MinigameBaseScreen extends ScreenAdapter {
 
     private final AzubiWareGame game;
-    private final Stage stage;
-    private final ResultOverlay resultOverlay;
-    private final ClosePopUp closePopup;
-    private final Button btnLeave;
+    private Stage stage;
+    private ResultOverlay resultOverlay;
+    private ClosePopUp closePopup;
+    private Button btnLeave;
     private String background = "Castles";
 
     public MinigameBaseScreen(AzubiWareGame game, IUser ...opponents) {
         this.game = game;
 
-        stage = new Stage(new ScreenViewport());
-        addCloseListener();
-
-        Gdx.input.setInputProcessor(stage);
-        Gdx.input.setCatchKey(Input.Keys.BACK, true);
-
-
-        addBackground();
-
-        resultOverlay = new ResultOverlay(stage);
-        closePopup = new ClosePopUp(stage, game);
-        btnLeave = createLeaveButton();
+        init();
     }
 
     public MinigameBaseScreen(AzubiWareGame game, String background, IUser ...opponents) {
         this.game = game;
         this.background = background;
 
+        init();
+    }
+
+    private void init(){
         stage = new Stage(new ScreenViewport());
         addCloseListener();
 
