@@ -11,14 +11,22 @@ import de.united.azubiware.screens.minigames.bases.MinigameBaseScreen;
 
 public class PongScreen extends MinigameBaseScreen {
 
+    private final static long playerUpdateTime = 100;
     private final static float paddingTB = 100;
 
     private final PongField field;
+    private long lastPlayerUpdate = System.currentTimeMillis();
 
     public PongScreen(AzubiWareGame game, IUser... oponents) {
         super(game, oponents);
 
-        field = new PongField();
+        field = new PongField(){
+            @Override
+            protected void onPlayerUpdated(float x) {
+                super.onPlayerUpdated(x);
+                PongScreen.this.onPlayerUpdated(x);
+            }
+        };
         initFieldPosition();
         getStage().addActor(field);
         reorderOverlays();
@@ -29,7 +37,11 @@ public class PongScreen extends MinigameBaseScreen {
     }
 
     private void onPlayerUpdated(float relativeX){
-        getGame().getClient().sendMatchPacket(new PongPlayerUpdatePacket(relativeX));
+        long curTime = System.currentTimeMillis();
+        if(curTime - lastPlayerUpdate > playerUpdateTime){
+            getGame().getClient().sendMatchPacket(new PongPlayerUpdatePacket(relativeX));
+            lastPlayerUpdate = curTime;
+        }
     }
 
     public void updateEnemy(float relativeX){
