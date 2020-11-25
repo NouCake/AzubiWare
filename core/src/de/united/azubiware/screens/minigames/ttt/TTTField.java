@@ -39,7 +39,7 @@ public class TTTField {
         linePoints = new HashMap<>();
 
         float centerX = stage.getWidth()/2;
-        float centerY = stage.getHeight()/1.5f;
+        float centerY = stage.getHeight()/1.75f;
 
         linePoints.put(new Vector2(centerX-lineLength/2+(lineThickness/2), centerY-(fieldSize/2+lineThickness/2)), new Vector2(lineLength, lineThickness));
         linePoints.put(new Vector2(centerX-lineLength/2+(lineThickness/2), centerY+(fieldSize/2+lineThickness/2)), new Vector2(lineLength, lineThickness));
@@ -53,7 +53,7 @@ public class TTTField {
         positionList = new ArrayList<>();
 
         float centerX = stage.getWidth()/2;
-        float centerY = stage.getHeight()/1.5f;
+        float centerY = stage.getHeight()/1.75f;
 
         for (int y = 0; y < 3; y++) {
             HashMap<Integer, TTTTPostition> xPositions = new HashMap<>();
