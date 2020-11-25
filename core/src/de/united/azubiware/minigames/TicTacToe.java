@@ -9,7 +9,7 @@ import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.screens.minigames.WaitingScreen;
 import de.united.azubiware.screens.minigames.ttt.TTTMatchListener;
-import de.united.azubiware.screens.minigames.ttt.TicTacToeScreen;
+import de.united.azubiware.screens.minigames.ttt.TTTScreen;
 
 public class TicTacToe implements IGame {
 
@@ -30,7 +30,7 @@ public class TicTacToe implements IGame {
 
     @Override
     public IMatchListener createMatchListener(WaitingScreen waitingScreen, AzubiWareGame game, IUser[] opponents) {
-        return new TTTMatchListener(waitingScreen, new TicTacToeScreen(game, opponents[0]));
+        return new TTTMatchListener(waitingScreen, new TTTScreen(game, opponents[0]));
     }
 
 }

@@ -4,7 +4,7 @@ import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Games.VG.VGPacket;
 import de.united.azubiware.Games.VG.VGTurnHint;
 import de.united.azubiware.User.IUser;
-import de.united.azubiware.screens.minigames.TurnBasedMinigameScreen;
+import de.united.azubiware.screens.minigames.bases.TurnBasedMinigameScreen;
 
 public class FourWinsScreen extends TurnBasedMinigameScreen {
 

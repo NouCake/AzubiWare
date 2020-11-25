@@ -1,4 +1,4 @@
-package de.united.azubiware.screens.minigames;
+package de.united.azubiware.screens.minigames.bases;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

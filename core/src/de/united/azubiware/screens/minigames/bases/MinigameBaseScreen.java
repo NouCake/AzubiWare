@@ -1,4 +1,4 @@
-package de.united.azubiware.screens.minigames;
+package de.united.azubiware.screens.minigames.bases;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.menu.MainMenuScreen;
+import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.utility.ClosePopUp;
 
 public class MinigameBaseScreen extends ScreenAdapter {
@@ -109,7 +110,7 @@ public class MinigameBaseScreen extends ScreenAdapter {
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
-        
+
         return btn;
     }
 

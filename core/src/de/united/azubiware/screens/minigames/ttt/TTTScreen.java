@@ -2,24 +2,24 @@ package de.united.azubiware.screens.minigames.ttt;
 
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.User.IUser;
-import de.united.azubiware.screens.minigames.TurnBasedMinigameScreen;
+import de.united.azubiware.screens.minigames.bases.TurnBasedMinigameScreen;
 
-public class TicTacToeScreen extends TurnBasedMinigameScreen {
+public class TTTScreen extends TurnBasedMinigameScreen {
 
     final AzubiWareGame game;
 
-    private final TicTacToeField ticTacToeField;
+    private final TTTField ticTacToeField;
 
     private IUser opponent;
 
-    public TicTacToeScreen(AzubiWareGame game, IUser opponent){
+    public TTTScreen(AzubiWareGame game, IUser opponent){
         super(game, opponent);
 
         this.game = game;
 
         this.opponent = opponent;
 
-        ticTacToeField = new TicTacToeField(getStage());
+        ticTacToeField = new TTTField(getStage());
 
     }
 
@@ -29,7 +29,7 @@ public class TicTacToeScreen extends TurnBasedMinigameScreen {
         ticTacToeField.draw();
     }
 
-    public TicTacToeField getTicTacToeField() {
+    public TTTField getTicTacToeField() {
         return ticTacToeField;
     }
 

@@ -7,9 +7,9 @@ import de.united.azubiware.screens.minigames.WaitingScreen;
 public class TTTMatchListener implements ITTTListener {
 
     public WaitingScreen waitingScreen;
-    public TicTacToeScreen ticTacToeScreen;
+    public TTTScreen ticTacToeScreen;
 
-    public TTTMatchListener(WaitingScreen waitingScreen, TicTacToeScreen ticTacToeScreen){
+    public TTTMatchListener(WaitingScreen waitingScreen, TTTScreen ticTacToeScreen){
         this.waitingScreen = waitingScreen;
         this.ticTacToeScreen = ticTacToeScreen;
     }
@@ -31,7 +31,7 @@ public class TTTMatchListener implements ITTTListener {
     @Override
     public void onEnemyTurn(int x, int y) {
         if(ticTacToeScreen != null){
-            TicTacToePostition position = ticTacToeScreen.getTicTacToeField().findPositionByVector(x, y);
+            TTTTPostition position = ticTacToeScreen.getTicTacToeField().findPositionByVector(x, y);
             if(position != null){
                 ticTacToeScreen.getTicTacToeField().findPositionByVector(x, y).setState(-1);
             }
