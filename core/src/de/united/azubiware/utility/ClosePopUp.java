@@ -1,8 +1,6 @@
 package de.united.azubiware.utility;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -43,7 +41,7 @@ public class ClosePopUp {
         background.setVisible(false);
         stage.addActor(background);
 
-        exit = new Button(creatButtonStyle("exit"));
+        exit = new Button(createButtonStyle("exit"));
         exit.setPosition(stage.getWidth()/2-exit.getWidth()/2, stage.getHeight()/2-exit.getHeight()*1.75f);
         exit.addListener(new ClickListener(){
             @Override
@@ -57,7 +55,7 @@ public class ClosePopUp {
         exit.setVisible(false);
         stage.addActor(exit);
 
-        stay = new Button(creatButtonStyle("stay"));
+        stay = new Button(createButtonStyle("stay"));
         stay.setPosition(stage.getWidth()/2-stay.getWidth()/2, stage.getHeight()/2 - stay.getHeight()/2);
         stay.addListener(new ClickListener(){
             @Override
@@ -72,7 +70,7 @@ public class ClosePopUp {
         stage.addActor(stay);
     }
 
-    public Button.ButtonStyle creatButtonStyle(String type){
+    public Button.ButtonStyle createButtonStyle(String type){
         Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
 
         Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/" + type + "/button_" + type + "_up.png"))));

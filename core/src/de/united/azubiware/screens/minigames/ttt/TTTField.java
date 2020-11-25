@@ -95,6 +95,7 @@ public class TTTField {
                 return ticTacToeField.getState() != 0;
             }
         }).collect(Collectors.toList());
+
         for(TTTTPosition position : positionList){
             if(position.getState() == 1){
                 stage.getBatch().draw(cross, position.getCenter().x-(fieldSize/2-lineThickness), position.getCenter().y-(fieldSize/2-lineThickness), fieldSize-lineThickness*2, fieldSize-lineThickness*2);

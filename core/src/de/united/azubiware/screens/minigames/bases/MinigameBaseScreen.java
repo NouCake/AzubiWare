@@ -30,16 +30,18 @@ public class MinigameBaseScreen extends ScreenAdapter {
 
     public MinigameBaseScreen(AzubiWareGame game, IUser ...opponents) {
         this.game = game;
+
         stage = new Stage(new ScreenViewport());
-        resultOverlay = new ResultOverlay(stage);
-        closePopup = new ClosePopUp(stage, game);
+        addCloseListener();
 
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
 
         addBackground();
-        addCloseListener();
+
+        resultOverlay = new ResultOverlay(stage);
+        closePopup = new ClosePopUp(stage, game);
         btnLeave = createLeaveButton();
     }
 
@@ -48,15 +50,17 @@ public class MinigameBaseScreen extends ScreenAdapter {
         this.background = background;
 
         stage = new Stage(new ScreenViewport());
-        resultOverlay = new ResultOverlay(stage);
-        closePopup = new ClosePopUp(stage, game);
+        addCloseListener();
 
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
 
         addBackground();
-        addCloseListener();
+
+        resultOverlay = new ResultOverlay(stage);
+        closePopup = new ClosePopUp(stage, game);
+
         btnLeave = createLeaveButton();
     }
 
