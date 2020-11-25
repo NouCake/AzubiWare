@@ -47,6 +47,7 @@ project(":MainServer"){
         implementation "org.java-websocket:Java-WebSocket:1.5.1"
         implementation 'com.google.code.gson:gson:2.8.6'
         implementation group: 'org.reflections', name: 'reflections', version: '0.9.10'
+        implementation 'org.dyn4j:dyn4j:4.0.2'
     }
 }
 

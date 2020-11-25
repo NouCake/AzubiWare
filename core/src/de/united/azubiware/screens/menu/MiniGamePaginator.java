@@ -18,7 +18,7 @@ public class MiniGamePaginator extends Group {
     private Stage stage;
 
     private int min = -1;
-    private int max = 1;
+    private int max = 2;
 
     private int current = 0;
     private int finish = 0;
@@ -65,7 +65,7 @@ public class MiniGamePaginator extends Group {
         tttImage.setPosition(stage.getWidth()/2f-tttImage.getWidth()/2, stage.getHeight()/2f-((tttImage.getHeight()/2)*0.4f));
         gameImages.put(0, tttImage);
 
-        miniGame.put(-1, new SSP());
+        miniGame.put(-1, new Pong());
         Image sspImage = new Image(miniGame.get(-1).getSplash());
         sspImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
         sspImage.setPosition(-(sspImage.getWidth()*1.5f), stage.getHeight()/2f-((sspImage.getHeight()/2)*0.4f));

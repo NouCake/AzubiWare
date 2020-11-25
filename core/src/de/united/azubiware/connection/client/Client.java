@@ -3,6 +3,7 @@ package de.united.azubiware.connection.client;
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
+import de.united.azubiware.Games.Pong.PongMatch;
 import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.Packets.*;
@@ -12,6 +13,7 @@ import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.connection.match.MatchClient;
 import de.united.azubiware.connection.match.TTTClient;
 import de.united.azubiware.connection.match.VGClient;
+import de.united.azubiware.connection.match.pong.PongClient;
 
 import java.net.URI;
 import java.util.UUID;
@@ -58,6 +60,8 @@ public class Client implements IClient {
             currentMatchClient = new TTTClient(this, adress, matchToken);
         } else if(matchType == VGMatch.MATCH_TYPE){
             currentMatchClient = new VGClient(this, adress, matchToken);
+        } else if(matchType == PongMatch.MATCH_TYPE){
+            currentMatchClient = new PongClient(this, adress, matchToken);
         }
 
         listener.onMatchFound(matchType, opponents);
