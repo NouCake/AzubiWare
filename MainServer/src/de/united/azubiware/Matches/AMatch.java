@@ -121,7 +121,7 @@ public abstract class AMatch implements IMatch {
         server.stop();
     }
     protected void onUserConnected(IConnection connection, UUID userMatchToken){
-        System.out.println("MatchUser Connected");
+        System.out.println("MatchUser Login Try");
         MatchUser user = getPlayerFromMatchToken(userMatchToken);
         if(user == null) {
             connection.send(new ErrorResponsePacket("Token probably Wrong!"));
@@ -171,6 +171,7 @@ public abstract class AMatch implements IMatch {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("Checking for Timeout!");
             for (MatchUser user : users) {
                 if (!user.isConnected()) {
                     onMatchTimedOut();

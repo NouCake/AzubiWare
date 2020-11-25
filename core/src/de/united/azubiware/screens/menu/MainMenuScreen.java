@@ -155,11 +155,13 @@ public class MainMenuScreen extends ScreenAdapter {
     }
 
     public void startMatch(int matchType, IUser[] oppponents){
+        System.out.println("Starting match!");
         foundMatch = true;
         opponents = oppponents;
         if(game.getGameManager().getGameByMatchType(matchType) != null){
             iGame = game.getGameManager().getGameByMatchType(matchType);
-        }else{
+        } else{
+            System.out.println("Weird stuff");
             foundMatch = false;
         }
     }

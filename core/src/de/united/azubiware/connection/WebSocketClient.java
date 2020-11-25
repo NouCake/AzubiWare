@@ -52,7 +52,6 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     @Override
     public void setConnectionListener(IConnectionListener listener) {
         this.listener = listener;
-        System.out.println("Setting Listener!");
     }
 
     @Override

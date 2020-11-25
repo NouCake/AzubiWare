@@ -4,6 +4,8 @@ import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.User.IUser;
 
+import javax.swing.*;
+
 public class PongMatch extends AMatch implements IPongScoreListener{
 
     public final static int MATCH_TYPE = 3;
@@ -17,6 +19,7 @@ public class PongMatch extends AMatch implements IPongScoreListener{
 
     public PongMatch(int port, IUser ...opponents) {
         super(MATCH_TYPE, port, opponents);
+        addPacketHandler(new PongPacketHandler(this));
         this.game = new Pong();
     }
 
@@ -52,7 +55,8 @@ public class PongMatch extends AMatch implements IPongScoreListener{
         final long startTime = System.currentTimeMillis();
 
         sendGameUpdate();
-        float lastPlayerUpdate = System.currentTimeMillis();
+        long lastPlayerUpdate = System.currentTimeMillis();
+        System.out.println();
         while(matchRunning){
             Thread.sleep((long)(Pong.updateTime*1000));
             game.step();
@@ -64,7 +68,9 @@ public class PongMatch extends AMatch implements IPongScoreListener{
             }
 
             //Update Player GamePackets
+            System.out.println("Time: " + curTime + " | " + lastPlayerUpdate);
             if(curTime - lastPlayerUpdate > playerUpdateTime){
+                System.out.println("Sending PongUpdate");
                 lastPlayerUpdate = curTime;
                 sendGameUpdate();
             }
@@ -76,7 +82,7 @@ public class PongMatch extends AMatch implements IPongScoreListener{
         float ballX = (float)game.getRelativeBallPosition().x;
         float ballY = (float)game.getRelativeBallPosition().y;
         getPlayerFromIndex(1).send(new PongGameUpdatePacket(game.getRelativeP2Pos(), ballX, ballY));
-        getPlayerFromIndex(2).send(new PongGameUpdatePacket(game.getRelativeP1Pos(), ballX, ballY));
+        getPlayerFromIndex(2).send(new PongGameUpdatePacket(game.getRelativeP1Pos(), ballX, 1-ballY));
     }
 
     @Override

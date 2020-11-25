@@ -16,8 +16,8 @@ public class Pong {
     public static final float updateTime = 0.016f;
     private static final float stepTime = 0.016f;
 
-    private final static int worldWidth = 100;
-    private final static int worldHeight = 200;
+    public static final int worldWidth = 150;
+    public static final int worldHeight = 200;
 
     private final static int playerBarWidth = 40;
     private final static int playerBarHeight = 5;
@@ -55,8 +55,8 @@ public class Pong {
 
         p1 = createPlayerBody((float)Math.PI);
         p2 = createPlayerBody(0);
-        p1.translate(0, playerBarHeight);
-        p2.translate(0, worldHeight - playerBarHeight);
+        p1.translate(0, playerBarHeight * 0.5f);
+        p2.translate(0, worldHeight - playerBarHeight * 0.5f);
 
         world.addBody(p1);
         world.addBody(p2);

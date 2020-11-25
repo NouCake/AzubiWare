@@ -36,7 +36,11 @@ public class MenuPacketListener extends ClientListenerAdapter {
         if (matchType == menuScreen.paginator.getCurrentMatchType()) {
             if (menuScreen.game.getGameManager().isValidMatchType(matchType)) {
                 menuScreen.startMatch(matchType, opponents);
+            } else {
+                System.out.println("Got Match with invalid MatchType");
             }
+        } else {
+            System.out.println("What?!");
         }
     }
 
