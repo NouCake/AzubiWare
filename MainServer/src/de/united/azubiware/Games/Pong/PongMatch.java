@@ -22,7 +22,6 @@ public class PongMatch extends AMatch implements IPongScoreListener{
         super(MATCH_TYPE, port, opponents);
         addPacketHandler(new PongPacketHandler(this));
         this.game = new Pong();
-        Main.StartPongDebug(game);
     }
 
     public void onPlayerUpdate(int playerIndex, float x){

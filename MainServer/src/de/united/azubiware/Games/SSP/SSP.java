@@ -22,7 +22,7 @@ public class SSP {
 
         SSPFigure playerOne = playerFigure.get(1);
         SSPFigure playerTwo = playerFigure.get(2);
-
+/*
         if(playerOne != playerTwo){
             if(playerOne.win.contains(playerTwo)){
                 result = 1;
@@ -33,6 +33,7 @@ public class SSP {
         }else{
             givePoint(1 | 2);
         }
+        */
 
         if(result != 0)
             givePoint(result);
