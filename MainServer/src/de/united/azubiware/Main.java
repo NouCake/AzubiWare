@@ -21,8 +21,14 @@ import java.util.UUID;
 public class Main{
 
     public static void main(String[] args) {
-        //new LobbyServer();
-        Pong pong = new Pong();
+        new LobbyServer();
+    }
+
+    private static void testMatchInfoPacket(){
+
+    }
+
+    public static void StartPongDebug(Pong pong){
         JFrame frame = new JFrame("Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -55,18 +61,17 @@ public class Main{
         frame.setVisible(true);
 
         frame.pack();
-        while(true){
-            frame.repaint();
-            try {
-                Thread.sleep((long)(Pong.updateTime*1000));
-                pong.step();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        new Thread(() -> {
+            while(true){
+                frame.repaint();
+                try {
+                    Thread.sleep((long)(Pong.updateTime*1000));
+                    pong.step();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-    }
-
-    private static void testMatchInfoPacket(){
+        }).start();
 
     }
 

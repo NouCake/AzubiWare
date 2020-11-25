@@ -1,5 +1,6 @@
 package de.united.azubiware.Games.Pong;
 
+import de.united.azubiware.Main;
 import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.User.IUser;
@@ -18,6 +19,7 @@ public class PongMatch extends AMatch implements IPongScoreListener{
     public PongMatch(int matchType, int port, IUser opponent) {
         super(matchType, port, opponent);
         this.game = new Pong();
+        Main.StartPongDebug(game);
     }
 
     public void onPlayerUpdate(int playerIndex, float x){
