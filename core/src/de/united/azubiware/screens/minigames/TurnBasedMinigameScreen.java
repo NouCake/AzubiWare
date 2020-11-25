@@ -15,8 +15,15 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
     private IUser opponent;
     private boolean yourTurn = false;
 
-    public TurnBasedMinigameScreen(AzubiWareGame game, IUser oponent) {
-        super(game, oponent);
+    public TurnBasedMinigameScreen(AzubiWareGame game, IUser opponent) {
+        super(game, opponent);
+        this.opponent = opponent;
+
+        turn = createTurnLabel();
+    }
+
+    public TurnBasedMinigameScreen(AzubiWareGame game, IUser opponent, String background) {
+        super(game, background, opponent);
         this.opponent = opponent;
 
         turn = createTurnLabel();
@@ -53,6 +60,7 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
 
         getStage().addActor(topper);
         getStage().addActor(turn);
+
         return turn;
     }
 

@@ -17,7 +17,7 @@ public class TTTMatchListener implements ITTTListener {
     @Override
     public void onNextTurn(boolean yourTurn) {
         if(ticTacToeScreen != null){
-            ticTacToeScreen.setYourTurn(yourTurn);
+            ticTacToeScreen.setTurn(yourTurn);
         }
     }
 

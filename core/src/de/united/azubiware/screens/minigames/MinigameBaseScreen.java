@@ -25,9 +25,27 @@ public class MinigameBaseScreen extends ScreenAdapter {
     private final ResultOverlay resultOverlay;
     private final ClosePopUp closePopup;
     private final Button btnLeave;
+    private String background = "Castles";
 
-    public MinigameBaseScreen(AzubiWareGame game, IUser ...oponents) {
+    public MinigameBaseScreen(AzubiWareGame game, IUser ...opponents) {
         this.game = game;
+        stage = new Stage(new ScreenViewport());
+        resultOverlay = new ResultOverlay(stage);
+        closePopup = new ClosePopUp(stage, game);
+
+        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
+
+        addBackground();
+        addCloseListener();
+        btnLeave = createLeaveButton();
+    }
+
+    public MinigameBaseScreen(AzubiWareGame game, String background, IUser ...opponents) {
+        this.game = game;
+        this.background = background;
+
         stage = new Stage(new ScreenViewport());
         resultOverlay = new ResultOverlay(stage);
         closePopup = new ClosePopUp(stage, game);
@@ -44,7 +62,7 @@ public class MinigameBaseScreen extends ScreenAdapter {
     private void addBackground(){
         float stageRatio = stage.getWidth() / stage.getHeight();
 
-        Image bg = new Image(new Texture(Gdx.files.internal("backgrounds/backgroundCastles.png")));
+        Image bg = new Image(new Texture(Gdx.files.internal("backgrounds/background" + background + ".png")));
         float bgRatio = bg.getWidth() / bg.getHeight();
 
         System.out.println(stage.getWidth() + " | " + stage.getHeight());
@@ -91,8 +109,10 @@ public class MinigameBaseScreen extends ScreenAdapter {
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
+        
         return btn;
     }
+
     private void addCloseListener(){
         stage.addListener(new ClickListener(){
             @Override
@@ -110,7 +130,9 @@ public class MinigameBaseScreen extends ScreenAdapter {
             }
         });
     }
-    @Override public void render(float delta) {
+
+    @Override
+    public void render(float delta) {
         stage.act();
         stage.draw();
 
@@ -121,7 +143,9 @@ public class MinigameBaseScreen extends ScreenAdapter {
 
         super.render(delta);
     }
-    @Override public void dispose() {
+
+    @Override
+    public void dispose() {
         super.dispose();
         stage.dispose();
     }

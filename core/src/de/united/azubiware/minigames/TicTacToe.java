@@ -30,7 +30,7 @@ public class TicTacToe implements IGame {
 
     @Override
     public IMatchListener createMatchListener(WaitingScreen waitingScreen, AzubiWareGame game, IUser[] opponents) {
-        return new TTTMatchListener(waitingScreen, new TicTacToeScreen(game, opponents));
+        return new TTTMatchListener(waitingScreen, new TicTacToeScreen(game, opponents[0]));
     }
 
 }
