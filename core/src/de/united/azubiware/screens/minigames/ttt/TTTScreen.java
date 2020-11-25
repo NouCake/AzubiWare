@@ -22,7 +22,7 @@ public class TTTScreen extends TurnBasedMinigameScreen {
         this.opponent = opponent;
 
         ticTacToeField = new TTTField(getStage());
-
+        getStage().addActor(ticTacToeField);
         getStage().addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -33,15 +33,14 @@ public class TTTScreen extends TurnBasedMinigameScreen {
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
+
+        reorderOverlays();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
 
-        getStage().getBatch().begin();
-        ticTacToeField.draw();
-        getStage().getBatch().end();
     }
 
     public TTTField getTicTacToeField() {

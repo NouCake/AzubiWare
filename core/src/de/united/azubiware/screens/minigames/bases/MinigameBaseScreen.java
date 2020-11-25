@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -19,6 +20,8 @@ import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.utility.ClosePopUp;
 
+import java.util.Comparator;
+
 public class MinigameBaseScreen extends ScreenAdapter {
 
     private final AzubiWareGame game;
@@ -26,21 +29,10 @@ public class MinigameBaseScreen extends ScreenAdapter {
     private final ResultOverlay resultOverlay;
     private final ClosePopUp closePopup;
     private final Button btnLeave;
-    private String background = "Castles";
+    private String background;
 
     public MinigameBaseScreen(AzubiWareGame game, IUser ...opponents) {
-        this.game = game;
-        stage = new Stage(new ScreenViewport());
-        resultOverlay = new ResultOverlay(stage);
-        closePopup = new ClosePopUp(stage, game);
-
-        Gdx.input.setInputProcessor(stage);
-        Gdx.input.setCatchKey(Input.Keys.BACK, true);
-
-
-        addBackground();
-        addCloseListener();
-        btnLeave = createLeaveButton();
+        this(game, "Castles", opponents);
     }
 
     public MinigameBaseScreen(AzubiWareGame game, String background, IUser ...opponents) {
@@ -48,16 +40,31 @@ public class MinigameBaseScreen extends ScreenAdapter {
         this.background = background;
 
         stage = new Stage(new ScreenViewport());
-        resultOverlay = new ResultOverlay(stage);
-        closePopup = new ClosePopUp(stage, game);
-
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
-
         addBackground();
-        addCloseListener();
+        resultOverlay = new ResultOverlay(stage.getWidth(), stage.getHeight());
+        stage.addActor(resultOverlay);
+        closePopup = new ClosePopUp(stage.getWidth(), stage.getHeight());
+        stage.addActor(closePopup);
         btnLeave = createLeaveButton();
+
+        addCloseListener();
+    }
+
+    protected void reorderOverlays(){
+        var list = stage.getActors();
+        list.sort((o1, o2) -> {
+            if(o1 == closePopup || o1 == resultOverlay) {
+
+                return 1;
+            };
+            if(o2 == closePopup || o2 == resultOverlay){
+                return -1;
+            }
+            return 0;
+        });
     }
 
     private void addBackground(){

@@ -2,7 +2,9 @@ package de.united.azubiware.screens.minigames.ttt;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class TTTField {
+public class TTTField extends Group {
 
     private Stage stage;
 
@@ -78,6 +80,12 @@ public class TTTField {
             }
             postitions.put(y, xPositions);
         }
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        draw();
     }
 
     public void draw(){

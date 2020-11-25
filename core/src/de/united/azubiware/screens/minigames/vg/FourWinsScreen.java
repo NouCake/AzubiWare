@@ -17,6 +17,7 @@ public class FourWinsScreen extends TurnBasedMinigameScreen {
         super(game, opponent, "Forest");
 
         grid = createGrid();
+        reorderOverlays();
     }
 
     private FourWinsGrid createGrid(){
