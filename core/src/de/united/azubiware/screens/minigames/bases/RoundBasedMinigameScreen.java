@@ -17,11 +17,7 @@ public class RoundBasedMinigameScreen extends MinigameBaseScreen{
     private int currentRound = 1;
 
     public RoundBasedMinigameScreen(AzubiWareGame game, IUser... opponents) {
-        super(game, opponents);
-
-        this.opponents = opponents;
-
-        roundLabel = createRoundLabel();
+        this(game, "Castles", opponents);
     }
 
     public RoundBasedMinigameScreen(AzubiWareGame game, String background, IUser... opponents) {

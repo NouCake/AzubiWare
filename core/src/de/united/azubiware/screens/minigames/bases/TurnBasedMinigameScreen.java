@@ -16,10 +16,7 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
     private boolean yourTurn = false;
 
     public TurnBasedMinigameScreen(AzubiWareGame game, IUser opponent) {
-        super(game, opponent);
-        this.opponent = opponent;
-
-        turn = createTurnLabel();
+        this(game, opponent, "Castles");
     }
 
     public TurnBasedMinigameScreen(AzubiWareGame game, IUser opponent, String background) {
