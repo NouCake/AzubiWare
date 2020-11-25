@@ -63,7 +63,4 @@ public class RoundBasedMinigameScreen extends MinigameBaseScreen{
         roundLabel.setText("ROUND " + currentRound);
     }
 
-    public void doNextRound(){
-        setRound(currentRound++);
-    }
 }

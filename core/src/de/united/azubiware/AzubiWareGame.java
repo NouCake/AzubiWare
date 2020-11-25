@@ -10,13 +10,11 @@ import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.connection.client.IClient;
 import de.united.azubiware.login.ActionResolver;
 import de.united.azubiware.minigames.GameManager;
+import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ssp.SSPScreen;
-import de.united.azubiware.screens.minigames.ttt.TTTScreen;
 import de.united.azubiware.screens.splash.SplashScreen;
 import de.united.azubiware.utility.FontLoader;
 import de.united.azubiware.utility.GpgpClientListener;
-
-import java.util.UUID;
 
 
 public class AzubiWareGame extends Game {
@@ -49,7 +47,9 @@ public class AzubiWareGame extends Game {
 
 		font = new FontLoader().loadFont("fonts/8-bitArcadeIn.ttf");
 
-		this.setScreen(new SplashScreen(this));
+		this.setScreen(new MainMenuScreen(this));
+		//user = new SimpleUser(null, "Ancozockt");
+		//this.setScreen(new SSPScreen(this, new SimpleUser(null, "NouCake")));
 	}
 
 	public void render() {

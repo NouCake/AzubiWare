@@ -65,8 +65,8 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
         Image topper = new Image(new Texture(Gdx.files.internal("games/topper.png")));
         topper.setScale(topperScale);
         topper.setPosition(getStage().getWidth()*0.5f - topper.getWidth()*0.5f*topperScale, getStage().getHeight() - topper.getHeight() * topperScale - padding);
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
 
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = getGame().getFont();
         labelStyle.fontColor =  Color.WHITE;
 

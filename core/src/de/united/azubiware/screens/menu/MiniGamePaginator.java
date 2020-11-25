@@ -1,7 +1,9 @@
 package de.united.azubiware.screens.menu;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.minigames.FourWins;
 import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.minigames.SSP;
@@ -9,7 +11,7 @@ import de.united.azubiware.minigames.TicTacToe;
 
 import java.util.HashMap;
 
-public class MiniGamePaginator {
+public class MiniGamePaginator extends Group {
 
     private Stage stage;
 
@@ -154,4 +156,5 @@ public class MiniGamePaginator {
     public int getCurrentMatchType(){
         return miniGame.containsKey(current) ? miniGame.get(current).getMatchType() : 0;
     }
+
 }

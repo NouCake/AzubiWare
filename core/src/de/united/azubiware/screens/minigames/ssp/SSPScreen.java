@@ -1,137 +1,131 @@
 package de.united.azubiware.screens.minigames.ssp;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.TimeUtils;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.minigames.bases.RoundBasedMinigameScreen;
+import de.united.azubiware.utility.topper.PlayerLabel;
 
 public class SSPScreen extends RoundBasedMinigameScreen {
 
-    private final Button scissors;
-    private final Button rock;
-    private final Button paper;
+    private PlayerLabel userLabel;
+    private PlayerLabel opponentLabel;
 
-    public SSPScreen(AzubiWareGame game, IUser[] opponents){
-        super(game, "Desert", opponents);
+    private final SSPChooseButtons chooseButtons;
+    private final SSPResultImages resultImages;
 
-        rock = createRockButton();
-        scissors = createScissorsButton();
-        paper = createPaperButton();
+    private long countdownTime = -1L;
+    private int countdown = 5 ;
+    private Label countdownLabel;
+
+    private int pickType = 0;
+
+    public SSPScreen(AzubiWareGame game, IUser opponent){
+        super(game, "Desert", opponent);
+
+        createPlayerLabels();
+
+        chooseButtons = new SSPChooseButtons(getStage().getWidth(), getStage().getHeight(), this);
+        chooseButtons.setPosition(getStage().getWidth()/2, getStage().getHeight()/2, Align.center | Align.bottom);
+        getStage().addActor(chooseButtons);
+
+        resultImages = new SSPResultImages(getStage().getWidth(), getStage().getHeight());
+        resultImages.setPosition(getStage().getWidth()/2, getStage().getHeight()/2, Align.center | Align.bottom);
+        resultImages.setVisible(false);
+        getStage().addActor(resultImages);
+
+        countdownLabel = createCountdownLabel();
 
         reorderOverlays();
     }
 
-    private final float paddingX = 15;
+    private void createPlayerLabels(){
+        final int padding = 10;
+        final float topperScale = 1.25f;
 
-    private Button createScissorsButton(){
-        Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("games/ssp/scissors_button_up.png"))));
-        Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("games/ssp/scissors_button_down.png"))));
+        userLabel = new PlayerLabel(getGame().getUser().getName(), "user", getGame().getFont());
+        userLabel.setPosition(padding, getStage().getHeight() - userLabel.getHeight() * topperScale - padding);
 
-        Button.ButtonStyle style = new Button.ButtonStyle();
+        opponentLabel = new PlayerLabel(getOpponents()[0].getName(), "enemy", getGame().getFont());
+        opponentLabel.setPosition(getStage().getWidth() - (padding + opponentLabel.getWidth() * 1.25f), getStage().getHeight() - opponentLabel.getHeight() * topperScale - padding);
 
-        style.up = drawableUp;
-        style.down = drawableDown;
-        style.checked = drawableDown;
-        style.over = drawableDown;
+        getStage().addActor(userLabel);
+        getStage().addActor(opponentLabel);
+    }
 
-        Button btn =  new Button(style);
+    private Label createCountdownLabel(){
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = getGame().getFont();
+        labelStyle.fontColor =  Color.DARK_GRAY;
 
-        btn.setWidth(0.25f*getStage().getWidth());
-        btn.setHeight(btn.getWidth());
+        Label turn = new Label(countdown + " seconds left", labelStyle);
+        turn.setAlignment(Align.center);
+        turn.setWidth(turn.getWidth() * 1.25f - 2 * 10);
+        turn.setFontScale(1.25f);
+        turn.setPosition(getStage().getWidth()/2 - (turn.getWidth()/2), userLabel.getY()-userLabel.getHeight()-10-turn.getHeight()/2);
 
-        btn.setPosition(rock.getX() - paddingX - btn.getWidth(), getStage().getHeight()/2);
+        getStage().addActor(turn);
 
-        btn.addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(!btn.isChecked() && !btn.isDisabled()){
-                    rock.setChecked(false);
-                    paper.setChecked(false);
-                    // Send Choose to server
+        return turn;
+    }
+
+    public void updateCountdown(){
+        if(countdown > 0) {
+            countdownLabel.setText(countdown + " seconds left");
+        }else{
+            countdownLabel.setText("Time is over");
+        }
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+
+        if(countdownTime != -1){
+            if(countdown > 0){
+                if(TimeUtils.millis() - countdownTime >= 1000){
+                    countdownTime = TimeUtils.millis();
+                    countdown--;
+                    updateCountdown();
                 }
-                return super.touchDown(event, x, y, pointer, button);
+            }else{
+                countdownTime = -1;
+                // Send Pick to Server
+                chooseButtons.disableButtons();
             }
-        });
+        }
+    }
 
-        getStage().addActor(btn);
+    public void showRoundResult(int enemyPick, boolean won){
+        chooseButtons.setVisible(false);
+        resultImages.show(pickType, enemyPick);
+        resultImages.setVisible(true);
 
-        return btn;
+        if(won){
+            countdownLabel.setText("ROUND WON");
+        }else{
+            countdownLabel.setText("ROUND LOST");
+        }
+    }
+
+    public void startRound(int round){
+        setRound(round);
+
+        countdown = 5;
+        countdownTime = TimeUtils.millis();
+
+        resultImages.setVisible(false);
+        resultImages.hide();
+
+        chooseButtons.setVisible(true);
+        chooseButtons.enableButtons();
     }
 
 
-    private Button createRockButton(){
-        Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("games/ssp/rock_button_up.png"))));
-        Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("games/ssp/rock_button_down.png"))));
-
-        Button.ButtonStyle style = new Button.ButtonStyle();
-
-        style.up = drawableUp;
-        style.down = drawableDown;
-        style.checked = drawableDown;
-        style.over = drawableDown;
-
-        Button btn =  new Button(style);
-
-        btn.setWidth(0.25f*getStage().getWidth());
-        btn.setHeight(btn.getWidth());
-        btn.setPosition(getStage().getWidth()/2 - btn.getWidth()/2, getStage().getHeight()/2);
-
-        btn.addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(!btn.isChecked() && !btn.isDisabled()){
-                    scissors.setChecked(false);
-                    paper.setChecked(false);
-                    // Send Choose to server
-                }
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
-
-        getStage().addActor(btn);
-
-        return btn;
+    public void setPickType(int pickType) {
+        this.pickType = pickType;
     }
-
-    private Button createPaperButton(){
-        Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("games/ssp/paper_button_up.png"))));
-        Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("games/ssp/paper_button_down.png"))));
-
-        Button.ButtonStyle style = new Button.ButtonStyle();
-
-        style.up = drawableUp;
-        style.down = drawableDown;
-        style.checked = drawableDown;
-        style.over = drawableDown;
-
-        Button btn =  new Button(style);
-
-        btn.setWidth(0.25f*getStage().getWidth());
-        btn.setHeight(btn.getWidth());
-        btn.setPosition(getStage().getWidth()/2 + paddingX + btn.getWidth()/2, getStage().getHeight()/2);
-
-        btn.addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(!btn.isChecked() && !btn.isDisabled()){
-                    scissors.setChecked(false);
-                    rock.setChecked(false);
-                    // Send Choose to server
-                }
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
-
-        getStage().addActor(btn);
-
-        return btn;
-    }
-
 }
