@@ -79,7 +79,7 @@ public class MinigameBaseScreen extends ScreenAdapter {
 
         Image footer = new Image(new Texture(Gdx.files.internal("games/ttt_bottom.png")));
         footer.setScale(stage.getWidth() / footer.getWidth());
-        footer.setPosition(0, 0);
+        footer.setPosition(0, -footer.getHeight()/4.5f);
 
 
         stage.addActor(bg);

@@ -13,7 +13,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.login.LoginScreen;
+import de.united.azubiware.screens.minigames.ssp.SSPScreen;
 
 public class SplashScreen extends ScreenAdapter {
 
