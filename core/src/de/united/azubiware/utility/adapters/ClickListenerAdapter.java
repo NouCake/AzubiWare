@@ -1,7 +1,8 @@
-package de.united.azubiware.utility;
+package de.united.azubiware.utility.adapters;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import de.united.azubiware.utility.IClickListener;
 
 public class ClickListenerAdapter extends ClickListener {
 

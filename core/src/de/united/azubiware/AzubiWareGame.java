@@ -4,14 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
 import de.golfgl.gdxgamesvcs.NoGameServiceClient;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.connection.client.IClient;
 import de.united.azubiware.login.ActionResolver;
 import de.united.azubiware.minigames.GameManager;
-import de.united.azubiware.screens.SplashScreen;
+import de.united.azubiware.screens.splash.SplashScreen;
 import de.united.azubiware.utility.FontLoader;
 import de.united.azubiware.utility.GpgpClientListener;
-
 
 public class AzubiWareGame extends Game {
 
@@ -22,7 +22,7 @@ public class AzubiWareGame extends Game {
 	IClient client;
 
 	private GameManager gameManager;
-
+	private IUser user;
 	public IGameServiceClient gsClient;
 
 	public AzubiWareGame(ActionResolver resolver){
@@ -36,9 +36,8 @@ public class AzubiWareGame extends Game {
 		if (gsClient == null)
 			gsClient = new NoGameServiceClient();
 
-		gsClient.resumeSession();
 		gsClient.setListener(new GpgpClientListener());
-		gsClient.logIn();
+		gsClient.resumeSession();
 
 		client.start();
 
@@ -53,8 +52,6 @@ public class AzubiWareGame extends Game {
 
 	public void dispose() {
 		client.stop();
-		gsClient.logOff();
-		gsClient.pauseSession();
 	}
 
 	@Override
@@ -66,11 +63,10 @@ public class AzubiWareGame extends Game {
 	@Override
 	public void resume() {
 		super.resume();
-
 		gsClient.resumeSession();
 	}
 
-	public void initateSignIn(){
+	public void initiateSignIn(){
 		initiatedSignIn = true;
 		resolver.signIn();
 	}
@@ -89,5 +85,13 @@ public class AzubiWareGame extends Game {
 
 	public GameManager getGameManager() {
 		return gameManager;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	public IUser getUser() {
+		return user;
 	}
 }

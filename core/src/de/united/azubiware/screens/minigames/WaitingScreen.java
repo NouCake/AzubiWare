@@ -63,7 +63,8 @@ public class WaitingScreen extends ScreenAdapter {
             }
         }
 
-        popUp = new ClosePopUp(stage, game);
+        popUp = new ClosePopUp(stage.getWidth(), stage.getHeight());
+        stage.addActor(popUp);
         stage.addListener(new ClickListener(){
             @Override
             public boolean keyDown(InputEvent event, int keycode) {

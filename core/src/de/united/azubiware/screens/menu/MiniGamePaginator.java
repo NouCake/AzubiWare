@@ -1,4 +1,4 @@
-package de.united.azubiware.utility;
+package de.united.azubiware.screens.menu;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;

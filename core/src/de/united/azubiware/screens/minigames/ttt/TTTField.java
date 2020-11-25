@@ -2,7 +2,9 @@ package de.united.azubiware.screens.minigames.ttt;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
@@ -11,19 +13,19 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class TicTacToeField {
+public class TTTField extends Group {
 
     private Stage stage;
 
     private HashMap<Vector2, Vector2> linePoints;
-    private HashMap<Integer, HashMap<Integer, TicTacToePostition>> postitions;
-    private ArrayList<TicTacToePostition> positionList;
+    private HashMap<Integer, HashMap<Integer, TTTTPosition>> postitions;
+    private ArrayList<TTTTPosition> positionList;
 
     private float lineLength;
     private float lineThickness;
     private float fieldSize;
 
-    public TicTacToeField(Stage stage){
+    public TTTField(Stage stage){
         this.stage = stage;
 
         lineLength = stage.getWidth()*0.45f;
@@ -32,14 +34,14 @@ public class TicTacToeField {
         lineThickness = 5f;
 
         generateLines();
-        generatePostitions();
+        generatePositions();
     }
 
     public void generateLines(){
         linePoints = new HashMap<>();
 
         float centerX = stage.getWidth()/2;
-        float centerY = stage.getHeight()/1.5f;
+        float centerY = stage.getHeight()/1.75f;
 
         linePoints.put(new Vector2(centerX-lineLength/2+(lineThickness/2), centerY-(fieldSize/2+lineThickness/2)), new Vector2(lineLength, lineThickness));
         linePoints.put(new Vector2(centerX-lineLength/2+(lineThickness/2), centerY+(fieldSize/2+lineThickness/2)), new Vector2(lineLength, lineThickness));
@@ -48,15 +50,15 @@ public class TicTacToeField {
         linePoints.put(new Vector2(centerX+(fieldSize/2+lineThickness/2), centerY-lineLength/2+(lineThickness/2)), new Vector2(lineThickness, lineLength));
     }
 
-    public void generatePostitions(){
+    public void generatePositions(){
         postitions = new HashMap<>();
         positionList = new ArrayList<>();
 
         float centerX = stage.getWidth()/2;
-        float centerY = stage.getHeight()/1.5f;
+        float centerY = stage.getHeight()/1.75f;
 
         for (int y = 0; y < 3; y++) {
-            HashMap<Integer, TicTacToePostition> xPositions = new HashMap<>();
+            HashMap<Integer, TTTTPosition> xPositions = new HashMap<>();
             float fieldLineY = (1 - y) * (fieldSize / 2 + lineThickness);
             float fieldSizeDivY = (1 - y) * (fieldSize / 2);
             float posY = centerY + fieldLineY + fieldSizeDivY;
@@ -72,12 +74,18 @@ public class TicTacToeField {
                 Vector2 max = new Vector2(posX + fieldSize / 2, posY + fieldSize / 2);
                 Vector2 min = new Vector2(posX - fieldSize / 2, posY - fieldSize / 2);
 
-                TicTacToePostition ticTacToePostition = new TicTacToePostition(min, max, center, x, y);
+                TTTTPosition ticTacToePostition = new TTTTPosition(min, max, center, x, y);
                 xPositions.put(x, ticTacToePostition);
                 positionList.add(ticTacToePostition);
             }
             postitions.put(y, xPositions);
         }
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        draw();
     }
 
     public void draw(){
@@ -89,27 +97,27 @@ public class TicTacToeField {
 
         Texture cross = new Texture(Gdx.files.internal("games/ttt/blue_cross.png"));
         Texture circle = new Texture(Gdx.files.internal("games/ttt/red_circle.png"));
-        List<TicTacToePostition> positionList = this.positionList.stream().filter(new Predicate<TicTacToePostition>() {
+        List<TTTTPosition> positionList = this.positionList.stream().filter(new Predicate<TTTTPosition>() {
             @Override
-            public boolean test(TicTacToePostition ticTacToeField) {
+            public boolean test(TTTTPosition ticTacToeField) {
                 return ticTacToeField.getState() != 0;
             }
         }).collect(Collectors.toList());
-        for(TicTacToePostition postition : positionList){
-            if(postition.getState() == 1){
-                stage.getBatch().draw(cross, postition.getCenter().x-(fieldSize/2-lineThickness), postition.getCenter().y-(fieldSize/2-lineThickness), fieldSize-lineThickness*2, fieldSize-lineThickness*2);
+        for(TTTTPosition position : positionList){
+            if(position.getState() == 1){
+                stage.getBatch().draw(cross, position.getCenter().x-(fieldSize/2-lineThickness), position.getCenter().y-(fieldSize/2-lineThickness), fieldSize-lineThickness*2, fieldSize-lineThickness*2);
             }else{
-                stage.getBatch().draw(circle, postition.getCenter().x-(fieldSize/2-lineThickness), postition.getCenter().y-(fieldSize/2-lineThickness), fieldSize-lineThickness*2, fieldSize-lineThickness*2);
+                stage.getBatch().draw(circle, position.getCenter().x-(fieldSize/2-lineThickness), position.getCenter().y-(fieldSize/2-lineThickness), fieldSize-lineThickness*2, fieldSize-lineThickness*2);
             }
         }
     }
 
-    public TicTacToePostition findPosition(float inputX, float inputY){
-        TicTacToePostition result = null;
+    public TTTTPosition findPosition(float inputX, float inputY){
+        TTTTPosition result = null;
 
-        List<TicTacToePostition> filterdPositionList = positionList.stream().filter(new Predicate<TicTacToePostition>() {
+        List<TTTTPosition> filterdPositionList = positionList.stream().filter(new Predicate<TTTTPosition>() {
             @Override
-            public boolean test(TicTacToePostition ticTacToeField) {
+            public boolean test(TTTTPosition ticTacToeField) {
                 float fieldMaxX = ticTacToeField.getMax().x;
                 float fieldMaxY = ticTacToeField.getMax().y;
                 float fieldMinX = ticTacToeField.getMin().x;
@@ -126,8 +134,8 @@ public class TicTacToeField {
         return result;
     }
 
-    public TicTacToePostition findPositionByVector(int posX, int posY){
-        HashMap<Integer, TicTacToePostition> xPostitions = postitions.getOrDefault(posY, null);
+    public TTTTPosition findPositionByVector(int posX, int posY){
+        HashMap<Integer, TTTTPosition> xPostitions = postitions.getOrDefault(posY, null);
         if(xPostitions != null){
             return xPostitions.getOrDefault(posX, null);
         }

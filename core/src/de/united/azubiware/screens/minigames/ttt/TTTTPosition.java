@@ -2,7 +2,7 @@ package de.united.azubiware.screens.minigames.ttt;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class TicTacToePostition {
+public class TTTTPosition {
 
     private Vector2 min;
     private Vector2 max;
@@ -13,7 +13,7 @@ public class TicTacToePostition {
 
     private int state;
 
-    public TicTacToePostition(Vector2 min, Vector2 max, Vector2 center, int posX, int posY){
+    public TTTTPosition(Vector2 min, Vector2 max, Vector2 center, int posX, int posY){
         this.min = min;
         this.max = max;
         this.center = center;

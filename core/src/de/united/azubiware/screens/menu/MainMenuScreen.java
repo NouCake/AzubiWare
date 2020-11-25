@@ -20,7 +20,6 @@ import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.screens.minigames.WaitingScreen;
 import de.united.azubiware.utility.ClosePopUp;
 import de.united.azubiware.utility.Clouds;
-import de.united.azubiware.utility.MiniGamePaginator;
 
 public class MainMenuScreen extends ScreenAdapter {
 
@@ -53,7 +52,8 @@ public class MainMenuScreen extends ScreenAdapter {
         buttonManager = new MenuButtonManager(stage, paginator, game);
         clouds = new Clouds(stage);
 
-        closePopUp = new ClosePopUp(stage, game);
+        closePopUp = new ClosePopUp(stage.getWidth(), stage.getHeight());
+        stage.addActor(closePopUp);
         stage.addListener(new ClickListener(){
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
