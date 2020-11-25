@@ -5,14 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import de.united.azubiware.AzubiWareGame;
 
 public class ClosePopUp extends Group {
 
@@ -42,7 +40,7 @@ public class ClosePopUp extends Group {
         background.setVisible(false);
         addActor(background);
 
-        exit = new Button(creatButtonStyle("exit"));
+        exit = new Button(createButtonStyle("exit"));
         exit.setPosition(stageWidth/2-exit.getWidth()/2, stageHeight/2-exit.getHeight()*1.75f);
         exit.addListener(new ClickListener(){
             @Override
@@ -56,7 +54,7 @@ public class ClosePopUp extends Group {
         exit.setVisible(false);
         addActor(exit);
 
-        stay = new Button(creatButtonStyle("stay"));
+        stay = new Button(createButtonStyle("stay"));
         stay.setPosition(stageWidth/2-stay.getWidth()/2, stageHeight/2 - stay.getHeight()/2);
         stay.addListener(new ClickListener(){
             @Override
