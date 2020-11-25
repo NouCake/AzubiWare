@@ -8,8 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.utility.topper.PlayerLabel;
 
 public class TurnBasedMinigameScreen extends MinigameBaseScreen{
+
+    private PlayerLabel userLabel;
+    private PlayerLabel opponentLabel;
 
     private Label turn;
     private IUser opponent;
@@ -24,6 +28,8 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
         this.opponent = opponent;
 
         turn = createTurnLabel();
+
+        createPlayerLabels();
     }
 
     public void setTurn(boolean yourTurn) {
@@ -36,12 +42,26 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
         }
     }
 
-    private Label createTurnLabel(){
-        if(turn != null) throw new RuntimeException("TurnLabel is already defined!");
+    private void createPlayerLabels(){
         final int padding = 10;
         final float topperScale = 1.25f;
 
-        Image topper = new Image(new Texture(Gdx.files.internal("games/ttt_top.png")));
+        userLabel = new PlayerLabel(getGame().getUser().getName(), "user", getGame().getFont());
+        userLabel.setPosition(padding, getStage().getHeight() - userLabel.getHeight() * topperScale - padding);
+        opponentLabel = new PlayerLabel(opponent.getName(), "opponent", getGame().getFont());
+        opponentLabel.setPosition(getStage().getWidth() - (padding + opponentLabel.getWidth()), getStage().getHeight() - opponentLabel.getHeight() * topperScale - padding);
+
+        getStage().addActor(userLabel);
+        getStage().addActor(opponentLabel);
+    }
+
+    private Label createTurnLabel(){
+        if(turn != null) throw new RuntimeException("TurnLabel is already defined!");
+
+        final int padding = 10;
+        final float topperScale = 1.25f;
+
+        Image topper = new Image(new Texture(Gdx.files.internal("games/topper.png")));
         topper.setScale(topperScale);
         topper.setPosition(getStage().getWidth()*0.5f - topper.getWidth()*0.5f*topperScale, getStage().getHeight() - topper.getHeight() * topperScale - padding);
         Label.LabelStyle labelStyle = new Label.LabelStyle();

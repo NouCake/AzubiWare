@@ -24,6 +24,8 @@ public class SSPScreen extends RoundBasedMinigameScreen {
         rock = createRockButton();
         scissors = createScissorsButton();
         paper = createPaperButton();
+
+        reorderOverlays();
     }
 
     private final float paddingX = 15;

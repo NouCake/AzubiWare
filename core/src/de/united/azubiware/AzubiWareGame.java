@@ -48,18 +48,7 @@ public class AzubiWareGame extends Game {
 
 		font = new FontLoader().loadFont("fonts/8-bitArcadeIn.ttf");
 
-		//this.setScreen(new SplashScreen(this));
-		this.setScreen(new TTTScreen(this, new IUser() {
-			@Override
-			public UUID getId() {
-				return UUID.randomUUID();
-			}
-
-			@Override
-			public String getName() {
-				return "Test";
-			}
-		}));
+		this.setScreen(new SplashScreen(this));
 	}
 
 	public void render() {

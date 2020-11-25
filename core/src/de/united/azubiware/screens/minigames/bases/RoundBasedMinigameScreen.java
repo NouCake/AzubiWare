@@ -34,7 +34,7 @@ public class RoundBasedMinigameScreen extends MinigameBaseScreen{
         final int padding = 10;
         final float topperScale = 1.1f;
 
-        Image topper = new Image(new Texture(Gdx.files.internal("games/ttt_top.png")));
+        Image topper = new Image(new Texture(Gdx.files.internal("games/topper.png")));
         topper.setScale(topperScale);
         topper.setPosition(getStage().getWidth()*0.5f - topper.getWidth()*0.5f*topperScale, getStage().getHeight() - topper.getHeight() * topperScale - padding);
         Label.LabelStyle labelStyle = new Label.LabelStyle();

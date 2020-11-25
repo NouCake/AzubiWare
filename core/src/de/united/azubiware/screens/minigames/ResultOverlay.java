@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -37,15 +36,15 @@ public class ResultOverlay extends Group {
         dark.setPosition(stageWidth/2-dark.getWidth()/2, stageHeight/2-dark.getHeight()/2);
         dark.setVisible(false);
 
-        winImage = new Image(new Texture(Gdx.files.internal("games/win_overlay.png")));
+        winImage = new Image(new Texture(Gdx.files.internal("games/overlays/win_overlay.png")));
         winImage.setPosition(stageWidth/2-winImage.getWidth()/2, stageHeight/2+winImage.getWidth()/2.5f);
         winImage.setVisible(false);
 
-        loseImage = new Image(new Texture(Gdx.files.internal("games/lose_overlay.png")));
+        loseImage = new Image(new Texture(Gdx.files.internal("games/overlays/lose_overlay.png")));
         loseImage.setPosition(stageWidth/2-loseImage.getWidth()/2, stageHeight/2+loseImage.getHeight()/2.5f);
         loseImage.setVisible(false);
 
-        drawImage = new Image(new Texture(Gdx.files.internal("games/draw_overlay.png")));
+        drawImage = new Image(new Texture(Gdx.files.internal("games/overlays/draw_overlay.png")));
         drawImage.setPosition(stageWidth/2-drawImage.getWidth()/2, stageHeight/2+drawImage.getHeight()/2.5f);
         drawImage.setVisible(false);
 

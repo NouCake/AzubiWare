@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -19,8 +18,7 @@ import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ResultOverlay;
 import de.united.azubiware.utility.ClosePopUp;
-
-import java.util.Comparator;
+import de.united.azubiware.utility.topper.PlayerLabel;
 
 public class MinigameBaseScreen extends ScreenAdapter {
 
@@ -84,7 +82,7 @@ public class MinigameBaseScreen extends ScreenAdapter {
             bg.setPosition(stage.getWidth()*0.5f - bg.getWidth()*0.5f*scaling, stage.getHeight()*0.5f - bg.getHeight()*0.5f*scaling);
         }
 
-        Image footer = new Image(new Texture(Gdx.files.internal("games/ttt_bottom.png")));
+        Image footer = new Image(new Texture(Gdx.files.internal("games/bottom.png")));
         footer.setScale(stage.getWidth() / footer.getWidth());
         footer.setPosition(0, -footer.getHeight()/4.5f);
 
@@ -92,6 +90,7 @@ public class MinigameBaseScreen extends ScreenAdapter {
         stage.addActor(bg);
         stage.addActor(footer);
     }
+
     private Button createLeaveButton(){
         Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/leave/button_leave_up.png"))));
         Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("buttons/leave/button_leave_down.png"))));
