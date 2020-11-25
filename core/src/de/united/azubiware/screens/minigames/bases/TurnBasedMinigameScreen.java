@@ -48,8 +48,9 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
 
         userLabel = new PlayerLabel(getGame().getUser().getName(), "user", getGame().getFont());
         userLabel.setPosition(padding, getStage().getHeight() - userLabel.getHeight() * topperScale - padding);
-        opponentLabel = new PlayerLabel(opponent.getName(), "opponent", getGame().getFont());
-        opponentLabel.setPosition(getStage().getWidth() - (padding + opponentLabel.getWidth()), getStage().getHeight() - opponentLabel.getHeight() * topperScale - padding);
+
+        opponentLabel = new PlayerLabel(opponent.getName(), "enemy", getGame().getFont());
+        opponentLabel.setPosition(getStage().getWidth() - (padding + opponentLabel.getWidth() * 1.25f), getStage().getHeight() - opponentLabel.getHeight() * topperScale - padding);
 
         getStage().addActor(userLabel);
         getStage().addActor(opponentLabel);

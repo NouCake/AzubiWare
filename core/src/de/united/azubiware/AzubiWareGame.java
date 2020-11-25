@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
 import de.golfgl.gdxgamesvcs.NoGameServiceClient;
 import de.united.azubiware.User.IUser;
+import de.united.azubiware.User.SimpleUser;
 import de.united.azubiware.connection.client.Client;
 import de.united.azubiware.connection.client.IClient;
 import de.united.azubiware.login.ActionResolver;

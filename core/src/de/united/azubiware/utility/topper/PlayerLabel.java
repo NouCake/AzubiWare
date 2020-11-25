@@ -25,6 +25,8 @@ public class PlayerLabel extends Group {
         background = createBackground(type);
         setSize(background.getWidth(), background.getHeight());
         label = createLabel(font);
+
+        addActors();
     }
 
     private void addActors(){
