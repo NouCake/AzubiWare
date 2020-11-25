@@ -1,4 +1,4 @@
-package de.united.azubiware.screens.minigames;
+package de.united.azubiware.screens.minigames.bases;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -15,8 +15,15 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
     private IUser opponent;
     private boolean yourTurn = false;
 
-    public TurnBasedMinigameScreen(AzubiWareGame game, IUser oponent) {
-        super(game, oponent);
+    public TurnBasedMinigameScreen(AzubiWareGame game, IUser opponent) {
+        super(game, opponent);
+        this.opponent = opponent;
+
+        turn = createTurnLabel();
+    }
+
+    public TurnBasedMinigameScreen(AzubiWareGame game, IUser opponent, String background) {
+        super(game, background, opponent);
         this.opponent = opponent;
 
         turn = createTurnLabel();
@@ -35,7 +42,7 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
     private Label createTurnLabel(){
         if(turn != null) throw new RuntimeException("TurnLabel is already defined!");
         final int padding = 10;
-        final float topperScale = 1.1f;
+        final float topperScale = 1.25f;
 
         Image topper = new Image(new Texture(Gdx.files.internal("games/ttt_top.png")));
         topper.setScale(topperScale);
@@ -53,6 +60,7 @@ public class TurnBasedMinigameScreen extends MinigameBaseScreen{
 
         getStage().addActor(topper);
         getStage().addActor(turn);
+
         return turn;
     }
 

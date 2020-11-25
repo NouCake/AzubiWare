@@ -1,17 +1,10 @@
 package de.united.azubiware.screens.minigames.vg;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Align;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Games.VG.VGPacket;
 import de.united.azubiware.Games.VG.VGTurnHint;
 import de.united.azubiware.User.IUser;
-import de.united.azubiware.screens.minigames.MinigameBaseScreen;
-import de.united.azubiware.screens.minigames.TurnBasedMinigameScreen;
+import de.united.azubiware.screens.minigames.bases.TurnBasedMinigameScreen;
 
 public class FourWinsScreen extends TurnBasedMinigameScreen {
 
@@ -21,9 +14,10 @@ public class FourWinsScreen extends TurnBasedMinigameScreen {
 
 
     public FourWinsScreen(AzubiWareGame game, IUser opponent){
-        super(game, opponent);
+        super(game, opponent, "Forest");
 
         grid = createGrid();
+        reorderOverlays();
     }
 
     private FourWinsGrid createGrid(){

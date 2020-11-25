@@ -52,7 +52,8 @@ public class MainMenuScreen extends ScreenAdapter {
         buttonManager = new MenuButtonManager(stage, paginator, game);
         clouds = new Clouds(stage);
 
-        closePopUp = new ClosePopUp(stage, game);
+        closePopUp = new ClosePopUp(stage.getWidth(), stage.getHeight());
+        stage.addActor(closePopUp);
         stage.addListener(new ClickListener(){
             @Override
             public boolean keyDown(InputEvent event, int keycode) {

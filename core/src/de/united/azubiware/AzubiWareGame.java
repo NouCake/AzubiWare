@@ -13,7 +13,6 @@ import de.united.azubiware.screens.splash.SplashScreen;
 import de.united.azubiware.utility.FontLoader;
 import de.united.azubiware.utility.GpgpClientListener;
 
-
 public class AzubiWareGame extends Game {
 
 	ActionResolver resolver;
