@@ -62,17 +62,17 @@ public class Client implements IClient {
             currentMatchClient = new VGClient(this, adress, matchToken);
         } else if(matchType == PongMatch.MATCH_TYPE){
             currentMatchClient = new PongClient(this, adress, matchToken);
+        } else {
+            System.err.println("No Client found for Match!!");
         }
 
         listener.onMatchFound(matchType, opponents);
     }
     public void doMatchOver(){
-        if(currentMatchClient != null){
-            currentMatchClient.stop();
-            currentMatchClient = null;
-        }
+        if(currentMatchClient == null) return;
+        currentMatchClient.stop();
+        currentMatchClient = null;
     }
-
     public void updateQueue(int matchType, int queueLength){
         if(listener == null) return;
         listener.onQueueUpdate(matchType, queueLength);
@@ -84,6 +84,7 @@ public class Client implements IClient {
             return;
         }
 
+        System.out.println("Setting MatchListener " + listener.getClass().getSimpleName());
         currentMatchClient.setMatchListener(listener);
         currentMatchClient.start();
     }
@@ -98,9 +99,7 @@ public class Client implements IClient {
         currentMatchClient.sendPacket(packet);
     }
     @Override public void sendMatchLeave() {
-        if(currentMatchClient == null) return;
-        currentMatchClient.stop();
-        currentMatchClient = null;
+        doMatchOver();
     }
 
     @Override public void start() {

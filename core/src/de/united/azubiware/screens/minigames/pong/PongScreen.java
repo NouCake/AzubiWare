@@ -11,7 +11,7 @@ import de.united.azubiware.screens.minigames.bases.MinigameBaseScreen;
 
 public class PongScreen extends MinigameBaseScreen {
 
-    private final static long playerUpdateTime = 100;
+    private final static long playerUpdateTime = 32;
     private final static float paddingTB = 100;
 
     private final PongField field;
@@ -45,7 +45,7 @@ public class PongScreen extends MinigameBaseScreen {
     }
 
     public void updateEnemy(float relativeX){
-        field.updatePlayer(relativeX);
+        field.updateEnemy(relativeX);
     }
 
     public void updateScore(int p1, int p2){

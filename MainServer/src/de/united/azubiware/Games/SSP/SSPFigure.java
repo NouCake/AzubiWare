@@ -1,9 +1,11 @@
 package de.united.azubiware.Games.SSP;
 
-public class SSPFigure {
+import java.util.Arrays;
+import java.util.List;
 
-    public SSPFigure(SSPFigureType type){
+public enum SSPFigure {
 
-    }
-
+    SCISSORS,
+    ROCK,
+    PAPER;
 }

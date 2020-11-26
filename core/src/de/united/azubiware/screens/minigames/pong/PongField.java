@@ -2,6 +2,7 @@ package de.united.azubiware.screens.minigames.pong;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,14 +15,14 @@ public class PongField extends Group {
     private final int fieldWidth;
     private final int fieldHeight;
 
-    private final Image ball;
+    private final NetworkUpdateImage ball;
     private final Image bg;
     private final Image player;
     private final Image enemy;
 
     public PongField() {
         bg = new Image(new Texture(Gdx.files.internal("games/pong/bg.png")));
-        ball = new Image(new Texture(Gdx.files.internal("games/pong/ball.png")));
+        ball = new NetworkUpdateImage(new Texture(Gdx.files.internal("games/pong/ball.png")), Align.center);
         player = new Image(new Texture(Gdx.files.internal("games/pong/player.png")));
         enemy = new Image(new Texture(Gdx.files.internal("games/pong/enemy.png")));
 
@@ -62,21 +63,65 @@ public class PongField extends Group {
     }
 
     public void updateBall(float relativeX, float relativeY){
-        ball.setPosition(fieldWidth * relativeX, fieldHeight * relativeY, Align.center);
+        ball.updatePosition(fieldWidth * relativeX, fieldHeight * relativeY);
     }
-
     public void updateEnemy(float relativeX){
         updateBar(enemy, relativeX);
     }
-
     public void updatePlayer(float relativeX){
         updateBar(player, relativeX);
         onPlayerUpdated(relativeX);
     }
-
     private void updateBar(Actor bar, float relativeX){
         relativeX = Math.min(1, Math.max(0, relativeX));
         bar.setPosition(bar.getWidth()*0.5f + (fieldWidth - bar.getWidth()) * relativeX, bar.getY(), Align.center | Align.bottom);
+    }
+
+    private static class NetworkUpdateImage extends Image{
+
+        private float lastX;
+        private float lastY;
+        private float targetX;
+        private float targetY;
+        private long lastUpdate;
+        private long curDelay;
+
+        private final Interpolation ipo = Interpolation.linear;
+        private final int alignment;
+
+        public NetworkUpdateImage(Texture texture, int alignment) {
+            super(texture);
+            this.alignment = alignment;
+
+            lastX = targetX = 0;
+            lastY = targetY = 0;
+            lastUpdate = System.currentTimeMillis();
+
+        }
+
+        @Override
+        public void act(float delta){
+            super.act(delta);
+            long timeSinceLastUpdate = System.currentTimeMillis() - lastUpdate;
+            System.out.println(timeSinceLastUpdate + " | " + curDelay);
+
+            float time = timeSinceLastUpdate / (float)curDelay;
+            float x = ipo.apply(lastX, targetX, time);
+            float y = ipo.apply(lastY, targetY, time);
+            this.setPosition(x, y, alignment);
+        }
+
+        public void updatePosition(float x, float y){
+            lastX = targetX;
+            lastY = targetY;
+
+            targetX = x;
+            targetY = y;
+
+            curDelay = System.currentTimeMillis() - lastUpdate;
+            lastUpdate = System.currentTimeMillis();
+        }
+
     }
 
 }
