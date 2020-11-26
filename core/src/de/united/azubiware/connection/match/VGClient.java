@@ -10,7 +10,6 @@ public class VGClient extends MatchClient {
 
     public VGClient(Client client, String adress, UUID matchToken) {
         super(client, adress, matchToken);
-
     }
 
     @Override
