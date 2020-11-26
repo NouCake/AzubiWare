@@ -11,7 +11,7 @@ public class PongMatch extends AMatch implements IPongScoreListener{
 
     public final static int MATCH_TYPE = 3;
 
-    private final static int playerUpdateTime = 100;
+    private final static int playerUpdateTime = 50;
     private final static float maxMatchTimeSec = 180;
     private final static int matchWaitTime = 3000;
     private final static int maxPoint = 5;
@@ -21,7 +21,7 @@ public class PongMatch extends AMatch implements IPongScoreListener{
     public PongMatch(int port, IUser ...opponents) {
         super(MATCH_TYPE, port, opponents);
         addPacketHandler(new PongPacketHandler(this));
-        this.game = new Pong();
+        this.game = new Pong(this);
     }
 
     public void onPlayerUpdate(int playerIndex, float x){

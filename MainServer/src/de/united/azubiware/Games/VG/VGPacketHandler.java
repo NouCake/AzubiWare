@@ -23,6 +23,10 @@ public class VGPacketHandler extends APacketHandler {
     }
 
     public void onHint(IConnection connection, VGTurnHint packet){
+        if(!match.isMatchStarted()){
+            connection.send(new ErrorResponsePacket("not so fast my young friend!"));
+            return;
+        }
         MatchUser user = match.getPlayerFromConnection(connection);
         int otherPlayerIndex = (user.getPlayerIndex() % 2) + 1;
         match.getPlayerFromIndex(otherPlayerIndex).send(packet);

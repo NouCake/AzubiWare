@@ -26,7 +26,7 @@ public class PongListener implements IPongListener {
 
     @Override
     public void onBallMoved(float x, float y) {
-        screen.updateBall(x, y);
+        screen.updateBall(x*1.05f - 0.025f, y*1.05f - 0.025f);
     }
 
     @Override
