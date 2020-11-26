@@ -30,7 +30,8 @@ public class SSP {
                 result = 2;
             }
         }else{
-            givePoint(1 | 2);
+            givePoint(1);
+            givePoint(2);
         }
 
         if(result != 0)
@@ -42,8 +43,8 @@ public class SSP {
     public int getMatchResult(){
         int result = 0;
 
-        int playerOnePoints = playerPoints.get(1);
-        int playerTwoPoints = playerPoints.get(2);
+        int playerOnePoints = playerPoints.getOrDefault(1, 0);
+        int playerTwoPoints = playerPoints.getOrDefault(2, 0);
 
         if(playerOnePoints != playerTwoPoints){
             if(playerOnePoints > playerTwoPoints)

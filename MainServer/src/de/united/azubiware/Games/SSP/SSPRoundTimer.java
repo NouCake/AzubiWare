@@ -5,38 +5,44 @@ public class SSPRoundTimer {
     private long roundTimeout = 6000;
     private long waitTimeout = 2000;
     private SSPMatch sspMatch;
-    private Thread thread;
+
+    private Thread roundThread;
+    private Thread waitThread;
 
     public SSPRoundTimer(SSPMatch sspMatch){
         this.sspMatch = sspMatch;
     }
 
-    public void startRoundTimer(){
-        thread = new Thread(){
+    private void init(){
+        roundThread = new Thread(){
 
             @Override
             public void run() {
                 try {
-                    thread.sleep(roundTimeout);
+                    roundThread.sleep(roundTimeout);
                 } catch (InterruptedException ignored) { }
                 sspMatch.sendRoundOver();
             }
         };
-        thread.start();
-    }
 
-    public void startWaitTimer(){
-        thread = new Thread(){
+        waitThread = new Thread(){
 
             @Override
             public void run() {
                 try {
-                    thread.sleep(waitTimeout);
+                    waitThread.sleep(waitTimeout);
                 } catch (InterruptedException ignored) { }
                 sspMatch.startNewRound();
             }
         };
-        thread.start();
+    }
+
+    public void startRoundTimer(){
+        roundThread.start();
+    }
+
+    public void startWaitTimer(){
+        waitThread.start();
     }
 
 }
