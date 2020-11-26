@@ -11,10 +11,9 @@ public class SSPRoundTimer {
 
     public SSPRoundTimer(SSPMatch sspMatch){
         this.sspMatch = sspMatch;
-        init();
     }
 
-    private void init(){
+    public void startRoundTimer(){
         roundThread = new Thread(){
 
             @Override
@@ -25,7 +24,10 @@ public class SSPRoundTimer {
                 sspMatch.sendRoundOver();
             }
         };
+        roundThread.start();
+    }
 
+    public void startWaitTimer(){
         waitThread = new Thread(){
 
             @Override
@@ -36,13 +38,6 @@ public class SSPRoundTimer {
                 sspMatch.startNewRound();
             }
         };
-    }
-
-    public void startRoundTimer(){
-        roundThread.start();
-    }
-
-    public void startWaitTimer(){
         waitThread.start();
     }
 
