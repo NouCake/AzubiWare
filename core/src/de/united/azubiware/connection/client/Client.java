@@ -7,6 +7,7 @@ import de.united.azubiware.Games.Pong.PongMatch;
 import de.united.azubiware.Games.SSP.SSPMatch;
 import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.Games.VG.VGMatch;
+import de.united.azubiware.Main;
 import de.united.azubiware.Packets.*;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.WebSocketClient;
@@ -25,7 +26,7 @@ public class Client implements IClient {
     private MatchClient currentMatchClient;
 
     public Client(){
-        client = new WebSocketClient(URI.create("ws://two.noucake.de:12000"));
+        client = new WebSocketClient(URI.create("ws://"+ Main.SERVER_DOMAIN+":12000"));
         client.setConnectionListener(new PacketListener(new ClientPacketHandler(this)){
             @Override
             public void onConnected(IConnection con) {

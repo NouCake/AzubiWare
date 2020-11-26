@@ -1,14 +1,18 @@
 package de.united.azubiware.screens.minigames.pong;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import de.united.azubiware.AzubiWareGame;
 
 public class PongField extends Group {
 
@@ -20,14 +24,18 @@ public class PongField extends Group {
     private final Image player;
     private final Image enemy;
 
-    public PongField() {
+    private final Label scoreLabel;
+
+    public PongField(BitmapFont font) {
         bg = new Image(new Texture(Gdx.files.internal("games/pong/bg.png")));
         ball = new NetworkUpdateImage(new Texture(Gdx.files.internal("games/pong/ball.png")), Align.center);
         player = new Image(new Texture(Gdx.files.internal("games/pong/player.png")));
         enemy = new Image(new Texture(Gdx.files.internal("games/pong/enemy.png")));
+        scoreLabel = new Label("0:0", createLabelStyle(font));
 
 
         addActor(bg);
+        addActor(scoreLabel);
         addActor(ball);
         addActor(player);
         addActor(enemy);
@@ -37,6 +45,19 @@ public class PongField extends Group {
         setSize(fieldWidth, fieldHeight);
 
         initComponentPositions();
+    }
+
+    private Label.LabelStyle createLabelStyle(BitmapFont font){
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+
+        labelStyle.font = font;
+        labelStyle.fontColor =  Color.BLACK;
+
+        return labelStyle;
+    }
+
+    public void updateScore(int p1, int p2){
+        scoreLabel.setText(p1 + " vs " + p2);
     }
 
     private void initComponentPositions(){
@@ -56,6 +77,8 @@ public class PongField extends Group {
             }
         });
         updatePlayer(1);
+
+        scoreLabel.setPosition(bg.getX() + bg.getWidth()*0.5f, bg.getY() + bg.getHeight()*0.5f - 100, Align.center);
     }
 
     protected void onPlayerUpdated(float x){
