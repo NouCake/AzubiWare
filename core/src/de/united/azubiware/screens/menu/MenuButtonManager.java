@@ -62,6 +62,8 @@ public class MenuButtonManager {
     }
 
     public void queueUp(){
+        if(paginator.isPaginating())
+            return;
         game.getClient().sendQueueStart(paginator.getCurrentMatchType());
 
         rightButton.setDisabled(true);
