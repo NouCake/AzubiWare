@@ -8,6 +8,7 @@ import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Games.Pong.PongPlayerUpdatePacket;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.minigames.bases.MinigameBaseScreen;
+import de.united.azubiware.utility.topper.PlayerLabel;
 
 public class PongScreen extends MinigameBaseScreen {
 
@@ -17,8 +18,8 @@ public class PongScreen extends MinigameBaseScreen {
     private final PongField field;
     private long lastPlayerUpdate = System.currentTimeMillis();
 
-    public PongScreen(AzubiWareGame game, IUser... oponents) {
-        super(game, oponents);
+    public PongScreen(AzubiWareGame game, IUser oponent) {
+        super(game, oponent);
 
         field = new PongField(){
             @Override
@@ -28,6 +29,15 @@ public class PongScreen extends MinigameBaseScreen {
             }
         };
         initFieldPosition();
+
+        PlayerLabel label = new PlayerLabel(game.getUser().getName(), "user", game.getFont());
+        label.setPosition(0, getStage().getHeight(), Align.top | Align.left);
+        getStage().addActor(label);
+
+        label = new PlayerLabel(oponent.getName(), "enemy", game.getFont());
+        label.setPosition(getStage().getWidth(), getStage().getHeight(), Align.top | Align.right);
+        getStage().addActor(label);
+
         getStage().addActor(field);
         reorderOverlays();
     }

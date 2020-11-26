@@ -4,7 +4,6 @@ import de.united.azubiware.Packets.IPacket;
 
 public class TTTPacket implements IPacket {
 
-    public static final int type = 10;
 
     private final int fieldX;
     private final int fieldY;

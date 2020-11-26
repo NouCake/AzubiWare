@@ -23,7 +23,7 @@ public class PlayerLabel extends Group {
         this.playerName = playerName;
 
         background = createBackground(type);
-        setSize(background.getWidth(), background.getHeight());
+        setSize(background.getWidth() * topperScale, background.getHeight() * topperScale);
         label = createLabel(font);
 
         addActors();
@@ -55,9 +55,9 @@ public class PlayerLabel extends Group {
         Label label = new Label(playerName, createLabelStyle(font));
 
         label.setAlignment(Align.center);
-        label.setWidth(background.getWidth() * topperScale - 2 * padding);
+        label.setWidth(getWidth() - 2 * padding);
         label.setFontScale(1.25f);
-        label.setPosition(background.getX() + padding, background.getY() + background.getHeight()*0.5f*topperScale - label.getHeight()*0.5f*topperScale);
+        label.setPosition(padding, background.getY() + getHeight()*0.5f - label.getHeight()*0.5f*topperScale);
 
         return label;
     }
