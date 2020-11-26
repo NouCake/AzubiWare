@@ -3,6 +3,7 @@ package de.united.azubiware.Games.Pong;
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.dynamics.Settings;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
@@ -14,7 +15,7 @@ import org.dyn4j.world.listener.ContactListenerAdapter;
 public class Pong {
 
     public static final float updateTime = 0.016f;
-    private static final float stepTime = 0.016f;
+    private static final float stepTime = 0.004f;
 
     public static final int worldWidth = 150;
     public static final int worldHeight = 200;
@@ -47,6 +48,7 @@ public class Pong {
         this.listener = listener;
         world = new World<>();
         world.setGravity(0, 0);
+        world.getSettings().setMaximumTranslation(10);
 
         ball = new Body();
         ball.addFixture(Geometry.createCircle(5), BodyFixture.DEFAULT_DENSITY, 0, 1.0f);
