@@ -66,7 +66,16 @@ public class SSPMatch extends AMatch {
         int result = ssp.getRoundResult();
         for(IUser user : getUserList()){
             MatchUser matchUser = (MatchUser)user;
-            matchUser.send(new SSPRoundOverPacket(ssp.getPick(matchUser.getPlayerIndex()).ordinal(), result));
+            
+            int resultShow = result;
+            if(result != 0)
+                resultShow = result == matchUser.getPlayerIndex() ? 1 : -1;
+
+            if(matchUser.getPlayerIndex() == 1){
+                matchUser.send(new SSPRoundOverPacket(ssp.getPick(2).ordinal(), resultShow));
+            }else{
+                matchUser.send(new SSPRoundOverPacket(ssp.getPick(1).ordinal(), resultShow));
+            }
         }
         sspRoundTimer.startWaitTimer();
     }

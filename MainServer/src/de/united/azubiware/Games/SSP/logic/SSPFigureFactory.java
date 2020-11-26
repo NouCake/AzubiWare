@@ -10,6 +10,7 @@ public class SSPFigureFactory {
 
     public SSPFigureFactory(){
         figures = new HashMap<>();
+        figureID = new HashMap<>();
         initFigures();
     }
 
