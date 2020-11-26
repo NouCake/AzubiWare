@@ -45,13 +45,12 @@ public class SSPScreen extends RoundBasedMinigameScreen {
 
     private void createPlayerLabels(){
         final int padding = 10;
-        final float topperScale = 1.25f;
 
         userLabel = new PlayerLabel(getGame().getUser().getName(), "user", getGame().getFont());
-        userLabel.setPosition(padding, getStage().getHeight() - userLabel.getHeight() * topperScale - padding);
+        userLabel.setPosition(padding, getStage().getHeight() - userLabel.getHeight() - padding);
 
         opponentLabel = new PlayerLabel(getOpponents()[0].getName(), "enemy", getGame().getFont());
-        opponentLabel.setPosition(getStage().getWidth() - (padding + opponentLabel.getWidth() * 1.25f), getStage().getHeight() - opponentLabel.getHeight() * topperScale - padding);
+        opponentLabel.setPosition(getStage().getWidth() - (padding + opponentLabel.getWidth()), getStage().getHeight() - opponentLabel.getHeight() - padding);
 
         getStage().addActor(userLabel);
         getStage().addActor(opponentLabel);
@@ -65,8 +64,8 @@ public class SSPScreen extends RoundBasedMinigameScreen {
         Label turn = new Label(countdown + " seconds left", labelStyle);
         turn.setAlignment(Align.center);
         turn.setWidth(turn.getWidth() * 1.25f - 2 * 10);
-        turn.setFontScale(1.25f);
-        turn.setPosition(getStage().getWidth()/2 - (turn.getWidth()/2), userLabel.getY()-userLabel.getHeight()-10-turn.getHeight()/2);
+        turn.setFontScale(1.5f);
+        turn.setPosition(getStage().getWidth()/2 - (turn.getWidth()/2), userLabel.getY()-userLabel.getHeight()-5-turn.getHeight()/2);
 
         getStage().addActor(turn);
 
