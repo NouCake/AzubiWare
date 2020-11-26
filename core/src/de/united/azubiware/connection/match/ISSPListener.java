@@ -4,8 +4,6 @@ public interface ISSPListener extends IMatchListener{
 
     void onRoundStart(int round);
 
-    void onRoundOver();
-
-    void onRoundResult(int enemyPick, boolean won);
+    void onRoundResult(int enemyPick, int result);
 
 }

@@ -1,19 +1,20 @@
-package de.united.azubiware.Games.TTT;
+package de.united.azubiware.Games.SSP;
 
 import de.united.azubiware.Connection.IConnection;
+import de.united.azubiware.Games.SSP.Packets.SSPPacket;
 import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.Handler.APacketHandler;
 
-public class TTTPacketHandler extends APacketHandler {
+public class SSPPacketHandler extends APacketHandler {
 
-    private final TTTMatch match;
+    private SSPMatch match;
 
-    public TTTPacketHandler(TTTMatch match){
-        this.match = match;
+    public SSPPacketHandler(SSPMatch sspMatch){
+        this.match = sspMatch;
     }
 
-    public void onTTTPacket(IConnection connection, TTTPacket packet){
+    public void onSSPPacket(IConnection connection, SSPPacket packet){
         if(!match.isMatchStarted()){
             connection.send(new ErrorResponsePacket("Nicht so schnell mein junger Freund!"));
             return;
@@ -23,7 +24,7 @@ public class TTTPacketHandler extends APacketHandler {
             System.out.println("Received Packet from Invalid User");
             return;
         }
-        match.doPlayerTurn(user, packet.getFieldX(), packet.getFieldY());
+        match.doPlayerPick(user, packet.getPickType());
     }
 
 }

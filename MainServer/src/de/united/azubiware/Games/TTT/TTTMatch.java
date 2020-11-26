@@ -19,7 +19,6 @@ public class TTTMatch extends AMatch {
         tttGame = new TicTacToe();
     }
 
-
     @Override
     protected void onAllUserConnected() {
         matchStarted = true;

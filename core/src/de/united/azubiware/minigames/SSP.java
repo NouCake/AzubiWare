@@ -3,6 +3,7 @@ package de.united.azubiware.minigames;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.Games.SSP.SSPMatch;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.minigames.interfaces.IGame;
@@ -13,7 +14,7 @@ import de.united.azubiware.screens.minigames.ssp.SSPScreen;
 public class SSP implements IGame {
     @Override
     public int getMatchType() {
-        return -1;
+        return SSPMatch.MATCH_TYPE;
     }
 
     @Override

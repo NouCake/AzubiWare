@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import de.united.azubiware.AzubiWareGame;
+import de.united.azubiware.Games.SSP.Packets.SSPPacket;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.screens.minigames.bases.RoundBasedMinigameScreen;
 import de.united.azubiware.utility.topper.PlayerLabel;
@@ -93,21 +94,25 @@ public class SSPScreen extends RoundBasedMinigameScreen {
                 }
             }else{
                 countdownTime = -1;
-                // Send Pick to Server
+                getGame().getClient().sendMatchPacket(new SSPPacket(pickType));
                 chooseButtons.disableButtons();
             }
         }
     }
 
-    public void showRoundResult(int enemyPick, boolean won){
+    public void showRoundResult(int enemyPick, int result){
         chooseButtons.setVisible(false);
         resultImages.show(pickType, enemyPick);
         resultImages.setVisible(true);
 
-        if(won){
-            countdownLabel.setText("ROUND WON");
+        if(result != 0){
+            if(result == 1) {
+                countdownLabel.setText("ROUND WON");
+            }else{
+                countdownLabel.setText("ROUND LOST");
+            }
         }else{
-            countdownLabel.setText("ROUND LOST");
+            countdownLabel.setText("DRAW");
         }
     }
 

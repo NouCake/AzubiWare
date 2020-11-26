@@ -1,19 +1,13 @@
 package de.united.azubiware.screens.menu;
 
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import de.united.azubiware.AzubiWareGame;
-import de.united.azubiware.minigames.FourWins;
-import de.united.azubiware.minigames.GameManager;
 import de.united.azubiware.minigames.interfaces.IGame;
-import de.united.azubiware.minigames.SSP;
-import de.united.azubiware.minigames.TicTacToe;
 import de.united.azubiware.minigames.interfaces.IGameManager;
 
 import java.util.HashMap;
 
-public class MiniGamePaginator extends Group {
+public class MiniGamePaginator {
 
     private Stage stage;
 
@@ -57,30 +51,6 @@ public class MiniGamePaginator extends Group {
 
             counter++;
         }
-
-        /*
-        miniGame.put(0, new TicTacToe());
-        Image tttImage = new Image(miniGame.get(0).getSplash());
-        tttImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
-        tttImage.setPosition(stage.getWidth()/2f-tttImage.getWidth()/2, stage.getHeight()/2f-((tttImage.getHeight()/2)*0.4f));
-        gameImages.put(0, tttImage);
-
-        miniGame.put(-1, new Pong());
-        Image sspImage = new Image(miniGame.get(-1).getSplash());
-        sspImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
-        sspImage.setPosition(-(sspImage.getWidth()*1.5f), stage.getHeight()/2f-((sspImage.getHeight()/2)*0.4f));
-        gameImages.put(-1, sspImage);
-
-        miniGame.put(1,new FourWins());
-        Image vgImage = new Image(miniGame.get(1).getSplash());
-        vgImage.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
-        vgImage.setPosition(stage.getWidth() + vgImage.getWidth()/2, stage.getHeight()/2f-((vgImage.getHeight()/2)*0.4f));
-        gameImages.put(1, vgImage);
-
-        stage.addActor(tttImage);
-        stage.addActor(sspImage);
-        stage.addActor(vgImage);
-         */
     }
 
     public void paginate(){
@@ -182,4 +152,7 @@ public class MiniGamePaginator extends Group {
         return miniGame.containsKey(current) ? miniGame.get(current).getMatchType() : 0;
     }
 
+    public boolean isPaginating() {
+        return isPaginating;
+    }
 }
