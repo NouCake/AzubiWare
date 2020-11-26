@@ -11,6 +11,7 @@ public class SSPRoundTimer {
 
     public SSPRoundTimer(SSPMatch sspMatch){
         this.sspMatch = sspMatch;
+        init();
     }
 
     private void init(){
