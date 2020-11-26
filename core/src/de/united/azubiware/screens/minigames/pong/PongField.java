@@ -103,7 +103,6 @@ public class PongField extends Group {
         public void act(float delta){
             super.act(delta);
             long timeSinceLastUpdate = System.currentTimeMillis() - lastUpdate;
-            System.out.println(timeSinceLastUpdate + " | " + curDelay);
 
             float time = timeSinceLastUpdate / (float)curDelay;
             float x = ipo.apply(lastX, targetX, time);

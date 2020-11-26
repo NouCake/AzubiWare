@@ -22,8 +22,12 @@ public class Pong {
     private final static int playerBarWidth = 40;
     private final static int playerBarHeight = 5;
 
-    private final static float ballTargetVel = 100;
     private final static float ballVelEps = 1;
+
+    private final static float ballStartSpeed = 150;
+    private final static float ballContactSpeedUp = 25;
+
+    private float ballSpeed = ballStartSpeed;
 
     private final Body ball;
     private final Body bounds;
@@ -37,9 +41,10 @@ public class Pong {
     private int scoreP2 = 0;
 
     public World<Body> world;
+    private final IPongScoreListener listener;
 
-
-    public Pong(){
+    public Pong(IPongScoreListener listener){
+        this.listener = listener;
         world = new World<>();
         world.setGravity(0, 0);
 
@@ -47,7 +52,7 @@ public class Pong {
         ball.addFixture(Geometry.createCircle(5), BodyFixture.DEFAULT_DENSITY, 0, 1.0f);
         ball.setMass(MassType.NORMAL);
         ball.translate(worldWidth*0.5f, worldHeight*0.5f);
-        ball.setLinearVelocity(createRandomVector().multiply(ballTargetVel));
+        ball.setLinearVelocity(createRandomVector().multiply(ballSpeed));
 
         world.addBody(ball);
         bounds = createBorders();
@@ -67,9 +72,9 @@ public class Pong {
 
     public void step(){
         world.step((int)(updateTime/stepTime), stepTime);
-        float balVelDif = (float)ball.getLinearVelocity().getMagnitude() - ballTargetVel;
+        float balVelDif = (float)ball.getLinearVelocity().getMagnitude() - ballSpeed;
         if(balVelDif * balVelDif > ballVelEps){
-            ball.setLinearVelocity(ball.getLinearVelocity().getNormalized().multiply(ballTargetVel));
+            ball.setLinearVelocity(ball.getLinearVelocity().getNormalized().multiply(ballSpeed));
         }
     }
     public void updatePlayer1(float pos){
@@ -89,14 +94,21 @@ public class Pong {
         playerBar.getTransform().setTranslationX(newX);
     }
 
+    private void onScoreChanged(){
+        if(listener != null) listener.onScoreChanged(scoreP1, scoreP2);
+        ballSpeed = ballStartSpeed;
+    }
+
     private void onBallCollision(Body other, Fixture fixture){
         if(other == bounds){
             if(fixture == top){
                 scoreP1++;
-                System.out.println(scoreP1+":"+scoreP2);
+                onScoreChanged();
             } else if(fixture == bot){
                 scoreP2++;
-                System.out.println(scoreP1+":"+scoreP2);
+                onScoreChanged();
+            } else {
+                ballSpeed += ballContactSpeedUp;
             }
         }
     }
