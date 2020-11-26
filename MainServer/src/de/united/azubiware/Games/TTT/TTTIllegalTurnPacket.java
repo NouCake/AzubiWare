@@ -4,7 +4,6 @@ import de.united.azubiware.Packets.IPacket;
 
 public class TTTIllegalTurnPacket implements IPacket {
 
-    public static final int type = 15;
     private final String message;
 
     public TTTIllegalTurnPacket(String message) {

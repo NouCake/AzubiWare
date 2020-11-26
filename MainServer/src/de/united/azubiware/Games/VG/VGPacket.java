@@ -3,7 +3,6 @@ package de.united.azubiware.Games.VG;
 import de.united.azubiware.Packets.IPacket;
 
 public class VGPacket implements IPacket {
-    public static final int type = 17;
 
     private final int fieldX;
 
