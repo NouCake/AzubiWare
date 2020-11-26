@@ -56,9 +56,9 @@ public class SSP {
         return result;
     }
 
-    public void setPick(int player, SSPFigureType figureType) throws IllegalPickException {
+    public void setPick(int player, int pickType) throws IllegalPickException {
         if(player != 1 && player != 2) throw new IllegalPickException("Bad Player");
-        playerFigure.put(player, figureFactory.getFigure(figureType));
+        playerFigure.put(player, figureFactory.getFigureByID(pickType));
     }
 
     public SSPFigureType getPick(int player){

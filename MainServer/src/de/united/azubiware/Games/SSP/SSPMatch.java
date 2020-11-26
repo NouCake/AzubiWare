@@ -3,7 +3,6 @@ package de.united.azubiware.Games.SSP;
 import de.united.azubiware.Games.SSP.Packets.SSPRoundOverPacket;
 import de.united.azubiware.Games.SSP.Packets.SSPRoundStartPacket;
 import de.united.azubiware.Games.SSP.logic.SSP;
-import de.united.azubiware.Games.SSP.logic.SSPFigureType;
 import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.MatchOverPacket;
@@ -36,10 +35,8 @@ public class SSPMatch extends AMatch {
     }
 
     public void doPlayerPick(MatchUser matchUser, int pickType){
-        if(SSPFigureType.findByOrdinal(pickType) == null)
-            return;
         try {
-            ssp.setPick(matchUser.getPlayerIndex(), SSPFigureType.findByOrdinal(pickType));
+            ssp.setPick(matchUser.getPlayerIndex(), pickType);
         } catch (SSP.IllegalPickException e) {
             e.printStackTrace();
         }
