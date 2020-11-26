@@ -21,25 +21,28 @@ public class PongScreen extends MinigameBaseScreen {
     public PongScreen(AzubiWareGame game, IUser oponent) {
         super(game, oponent);
 
-        field = new PongField(){
+        field = new PongField(game.getFont()){
             @Override
             protected void onPlayerUpdated(float x) {
                 super.onPlayerUpdated(x);
                 PongScreen.this.onPlayerUpdated(x);
             }
         };
-        initFieldPosition();
 
-        PlayerLabel label = new PlayerLabel(game.getUser().getName(), "user", game.getFont());
+        initFieldPosition();
+        addPlayerLabels(game.getUser(), oponent);
+        getStage().addActor(field);
+        reorderOverlays();
+    }
+
+    private void addPlayerLabels(IUser player, IUser enemy){
+        PlayerLabel label = new PlayerLabel(player.getName(), "user", getGame().getFont());
         label.setPosition(0, getStage().getHeight(), Align.top | Align.left);
         getStage().addActor(label);
 
-        label = new PlayerLabel(oponent.getName(), "enemy", game.getFont());
+        label = new PlayerLabel(enemy.getName(), "enemy", getGame().getFont());
         label.setPosition(getStage().getWidth(), getStage().getHeight(), Align.top | Align.right);
         getStage().addActor(label);
-
-        getStage().addActor(field);
-        reorderOverlays();
     }
 
     public void updateBall(float rX, float rY){
@@ -59,7 +62,7 @@ public class PongScreen extends MinigameBaseScreen {
     }
 
     public void updateScore(int p1, int p2){
-        System.out.println("Score: " + p1 + ":" + p2);
+        field.updateScore(p1, p2);
     }
 
     private void initFieldPosition(){
@@ -68,6 +71,5 @@ public class PongScreen extends MinigameBaseScreen {
         field.setScale(fieldScale);
         field.setPosition(field.getX() - field.getWidth() * (fieldScale-1) * 0.5f, field.getY() - field.getHeight() * (fieldScale-1) * 0.5f);
     }
-
 
 }
