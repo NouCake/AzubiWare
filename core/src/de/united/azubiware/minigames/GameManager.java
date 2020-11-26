@@ -37,7 +37,7 @@ public class GameManager implements IGameManager {
 
         SSP ssp = new SSP();
         miniGamesById.put(-1, ssp);
-        miniGamesByMatchType.put(0, ssp);
+        miniGamesByMatchType.put(ssp.getMatchType(), ssp);
 
         Pong pong = new Pong();
         miniGamesById.put(2, pong);
