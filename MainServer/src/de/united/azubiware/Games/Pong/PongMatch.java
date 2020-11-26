@@ -1,11 +1,8 @@
 package de.united.azubiware.Games.Pong;
 
-import de.united.azubiware.Main;
 import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Packets.MatchOverPacket;
 import de.united.azubiware.User.IUser;
-
-import javax.swing.*;
 
 public class PongMatch extends AMatch implements IPongScoreListener{
 

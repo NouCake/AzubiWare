@@ -63,7 +63,8 @@ public class PongField extends Group {
     }
 
     public void updateBall(float relativeX, float relativeY){
-        ball.updatePosition(fieldWidth * relativeX, fieldHeight * relativeY);
+        //ball.updatePosition(fieldWidth * relativeX, fieldHeight * relativeY);
+        ball.setPosition(fieldWidth * relativeX, fieldHeight * relativeY, Align.center);
     }
     public void updateEnemy(float relativeX){
         updateBar(enemy, relativeX);
@@ -107,7 +108,7 @@ public class PongField extends Group {
             float time = timeSinceLastUpdate / (float)curDelay;
             float x = ipo.apply(lastX, targetX, time);
             float y = ipo.apply(lastY, targetY, time);
-            this.setPosition(x, y, alignment);
+            //this.setPosition(x, y, alignment);
         }
 
         public void updatePosition(float x, float y){

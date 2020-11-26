@@ -4,15 +4,13 @@ import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
 import de.united.azubiware.Games.Pong.PongMatch;
+import de.united.azubiware.Games.SSP.SSPMatch;
 import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.Packets.*;
 import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.WebSocketClient;
-import de.united.azubiware.connection.match.IMatchListener;
-import de.united.azubiware.connection.match.MatchClient;
-import de.united.azubiware.connection.match.TTTClient;
-import de.united.azubiware.connection.match.VGClient;
+import de.united.azubiware.connection.match.*;
 import de.united.azubiware.connection.match.pong.PongClient;
 
 import java.net.URI;
@@ -54,15 +52,17 @@ public class Client implements IClient {
         if(listener == null) return;
         listener.onWelcome(user);
     }
-    public void startMatch(int matchType, String adress, UUID matchToken, IUser[] opponents){
+    public void startMatch(int matchType, String address, UUID matchToken, IUser[] opponents){
         if(listener == null) return;
         if(matchType == TTTMatch.MATCH_TYPE){
-            currentMatchClient = new TTTClient(this, adress, matchToken);
+            currentMatchClient = new TTTClient(this, address, matchToken);
         } else if(matchType == VGMatch.MATCH_TYPE){
-            currentMatchClient = new VGClient(this, adress, matchToken);
+            currentMatchClient = new VGClient(this, address, matchToken);
         } else if(matchType == PongMatch.MATCH_TYPE){
-            currentMatchClient = new PongClient(this, adress, matchToken);
-        } else {
+            currentMatchClient = new PongClient(this, address, matchToken);
+        }  else if(matchType == SSPMatch.MATCH_TYPE){
+            currentMatchClient = new SSPClient(this, address, matchToken);
+        }else {
             System.err.println("No Client found for Match!!");
         }
 

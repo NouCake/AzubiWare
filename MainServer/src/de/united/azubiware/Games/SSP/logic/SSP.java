@@ -1,39 +1,37 @@
-package de.united.azubiware.Games.SSP;
-
-import de.united.azubiware.Games.TTT.TicTacToe;
+package de.united.azubiware.Games.SSP.logic;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class SSP {
 
     private HashMap<Integer, Integer> playerPoints;
     private HashMap<Integer, SSPFigure> playerFigure;
 
+    private final SSPFigureFactory figureFactory;
+
     public SSP(){
         playerPoints = new HashMap<>();
         playerFigure = new HashMap<>();
+
+        figureFactory = new SSPFigureFactory();
     }
 
     public int getRoundResult(){
         int result = 0; // => DRAW
 
-        SSPFigure playerOne = playerFigure.get(1);
-        SSPFigure playerTwo = playerFigure.get(2);
-/*
+        SSPFigure playerOne = playerFigure.getOrDefault(1, figureFactory.getFigure(SSPFigureType.SCISSORS));
+        SSPFigure playerTwo = playerFigure.getOrDefault(1, figureFactory.getFigure(SSPFigureType.SCISSORS));
+
         if(playerOne != playerTwo){
-            if(playerOne.win.contains(playerTwo)){
+            if(playerOne.getWin().contains(playerTwo)){
                 result = 1;
             }
-            if(playerTwo.win.contains(playerOne)) {
+            if(playerTwo.getWin().contains(playerOne)) {
                 result = 2;
             }
         }else{
             givePoint(1 | 2);
         }
-        */
 
         if(result != 0)
             givePoint(result);
@@ -57,9 +55,13 @@ public class SSP {
         return result;
     }
 
-    public void setPick(int player, SSPFigure sspFigure) throws IllegalPickException {
+    public void setPick(int player, SSPFigureType figureType) throws IllegalPickException {
         if(player != 1 && player != 2) throw new IllegalPickException("Bad Player");
-        playerFigure.put(player, sspFigure);
+        playerFigure.put(player, figureFactory.getFigure(figureType));
+    }
+
+    public SSPFigureType getPick(int player){
+        return playerFigure.getOrDefault(player, figureFactory.getFigure(SSPFigureType.SCISSORS)).getType();
     }
 
     private void givePoint(int player){

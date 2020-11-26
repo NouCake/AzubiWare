@@ -21,13 +21,9 @@ public class SSPMatchListener implements ISSPListener {
     }
 
     @Override
-    public void onRoundOver() {
-    }
-
-    @Override
-    public void onRoundResult(int enemyPick, boolean won) {
+    public void onRoundResult(int enemyPick, int result) {
         if(sspScreen != null)
-            sspScreen.showRoundResult(enemyPick, won);
+            sspScreen.showRoundResult(enemyPick, result);
     }
 
     @Override
