@@ -3,6 +3,7 @@ package de.united.azubiware.Connection.WebSocket;
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Connection.IConnectionListener;
 import de.united.azubiware.Connection.IConnectionManager;
+import de.united.azubiware.Main;
 import de.united.azubiware.Packets.ErrorResponsePacket;
 import de.united.azubiware.Packets.IPacket;
 import de.united.azubiware.Packets.Handler.PacketParser;
@@ -60,7 +61,7 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
     }
     @Override
     public String getConnectionAdress() {
-        return "ws://two.noucake.de:"+port;
+        return "ws://"+ Main.SERVER_DOMAIN+":"+port;
     }
 
     // WebSocketServer
@@ -72,7 +73,6 @@ public class WebSocketConnectionManager extends WebSocketServer implements IConn
         }
 
         if(listener != null) listener.onConnected(connection);
-//        System.out.println("Connected");
     }
     @Override
     public void onClose(WebSocket socket, int code, String reason, boolean remote) {

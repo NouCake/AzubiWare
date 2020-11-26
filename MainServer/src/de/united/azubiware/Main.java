@@ -20,6 +20,8 @@ import java.util.UUID;
 
 public class Main{
 
+    public static final String SERVER_DOMAIN = "two.noucake.de";
+
     public static void main(String[] args) {
         new LobbyServer();
     }
