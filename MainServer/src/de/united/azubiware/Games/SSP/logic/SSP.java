@@ -44,7 +44,7 @@ public class SSP {
         int result = 0;
 
         int playerOnePoints = playerPoints.getOrDefault(1, 0);
-        int playerTwoPoints = playerPoints.getOrDefault(1, 0);
+        int playerTwoPoints = playerPoints.getOrDefault(2, 0);
 
         if(playerOnePoints != playerTwoPoints){
             if(playerOnePoints > playerTwoPoints)
