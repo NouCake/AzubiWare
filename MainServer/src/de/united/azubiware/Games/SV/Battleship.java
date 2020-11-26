@@ -17,10 +17,19 @@ public class Battleship {
     private final Grid gridPlayer2;
 
     public Battleship() {
-        gridPlayer1 = new Grid();
-        gridPlayer2 = new Grid();
+        gridPlayer1 = new Grid(width, height);
+        gridPlayer2 = new Grid(width, height);
         setShips(gridPlayer1);
         setShips(gridPlayer2);
+        
+        draw();
+    }
+    
+    public boolean hitField(int player, int x, int y){
+        if(player == 1) return gridPlayer1.setHit(x, y);
+        if(player == 2) return gridPlayer2.setHit(x, y);
+        
+        return false;
     }
 
     private void draw() {
@@ -31,8 +40,10 @@ public class Battleship {
         gridPlayer2.draw();
     }
 
-    public void checkPlayerWin() {
-
+    public int checkPlayerWin() {
+        if(gridPlayer1.areAllShipsSunk()) return 1;
+        if(gridPlayer2.areAllShipsSunk()) return 2;
+        return 0;
     }
 
     private void setShips(Grid player) {
@@ -57,113 +68,6 @@ public class Battleship {
         return grid.setShip(randomX, randomY, length, randomBoolean);
     }
 
-    private class Cell{
-        private CellType type;
-        private boolean hit = false;
-
-        public boolean isShip() {
-            return type == CellType.SHIP;
-        }
-
-        public boolean isWater(){
-            return type == CellType.WATER;
-        }
-
-        public boolean isHit(){
-            return hit;
-        }
-
-        public void setHit(){
-            hit = true;
-        }
-
-        public void setType(CellType type){
-            this.type = type;
-        }
-    }
-
-    private class Grid {
-        private final Cell[][] cells = new Cell[width][height];
-
-        public boolean areAllShipsSunk(){
-            //TODO
-            return true;
-        }
-
-        public void draw() {
-            for (int x = 0; x < width; x++) {
-                String line = "";
-                for (int y = 0; y < height; y++) {
-                    line += getCell(x, y).isShip() ? "_" : "S";
-                }
-                System.out.println(line);
-            }
-        }
-
-        private Cell getNextCell(int x, int y, int stride, boolean horizontal) {
-            if (horizontal) {
-                return cells[x + stride][y];
-            } else {
-                return cells[x][y + stride];
-            }
-        }
-
-        private Cell getCell(int x, int y){
-            return cells[x][y];
-        }
-
-        private boolean isNextCellOutOfBounds(int x, int y, int stride, boolean hor) {
-            if (hor) {
-                return isCellOutOfBounds(x + stride, y);
-            } else {
-                return isCellOutOfBounds(x, y + stride);
-            }
-        }
-
-        public boolean setShip(int x, int y, int length, boolean horizontal) {
-            if  (isCellOutOfBounds(x, y)) return false;
-            if (getCell(x, y).isShip()) return false;
-
-            for (int i = 0; i < length; i++) {
-                if (isNextCellOutOfBounds(x, y, i, horizontal)) return false;
-                if (getNextCell(x, y, i, horizontal).isShip()) return false;
-                if (!isNextCellSurroundedByWater(x, y, i, horizontal)) return false;
-            }
-
-            for (int i = 0; i < length; i++) {
-                getNextCell(x, y, i, horizontal).setType(CellType.SHIP);
-            }
-
-            return true;
-        }
-
-        private boolean isNextCellSurroundedByWater(int x, int y, int stride, boolean hor) {
-            if (hor) {
-                return isSurroundedByWater(x + stride, y);
-            } else {
-                return isSurroundedByWater(x, y + stride);
-            }
-        }
-
-        private boolean isCellOutOfBounds(int x, int y) {
-            return x >= 0 && x < width && y >= 0 && y < height;
-        }
-
-        public boolean isSurroundedByWater(int x, int y) {
-
-            if (!isCellOutOfBounds(x + 1, y) && getCell(x + 1, y).isShip()) return false;
-            if (!isCellOutOfBounds(x - 1, y) && getCell(x - 1, y).isShip()) return false;
-            if (!isCellOutOfBounds(x, y + 1) && getCell(x, y + 1).isShip()) return false;
-            if (!isCellOutOfBounds(x, y - 1) && getCell(x, y - 1).isShip()) return false;
-
-            return true;
-        }
-
-    }
-
-    private enum CellType {
-        WATER,
-        SHIP
-    }
+    
 
 }
