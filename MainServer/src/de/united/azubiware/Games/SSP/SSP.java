@@ -1,16 +1,11 @@
 package de.united.azubiware.Games.SSP;
 
-import de.united.azubiware.Games.TTT.TicTacToe;
-
 import java.util.HashMap;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class SSP {
 
     private HashMap<Integer, Integer> playerPoints;
-    private HashMap<Integer, SSPFigure> playerFigure;
+    private HashMap<Integer, SSPFigureType> playerFigure;
 
     public SSP(){
         playerPoints = new HashMap<>();
@@ -20,8 +15,8 @@ public class SSP {
     public int getRoundResult(){
         int result = 0; // => DRAW
 
-        SSPFigure playerOne = playerFigure.get(1);
-        SSPFigure playerTwo = playerFigure.get(2);
+        SSPFigureType playerOne = playerFigure.get(1);
+        SSPFigureType playerTwo = playerFigure.get(2);
 
         if(playerOne != playerTwo){
             if(playerOne.win.contains(playerTwo)){
@@ -56,7 +51,7 @@ public class SSP {
         return result;
     }
 
-    public void setPick(int player, SSPFigure sspFigure) throws IllegalPickException {
+    public void setPick(int player, SSPFigureType sspFigure) throws IllegalPickException {
         if(player != 1 && player != 2) throw new IllegalPickException("Bad Player");
         playerFigure.put(player, sspFigure);
     }
