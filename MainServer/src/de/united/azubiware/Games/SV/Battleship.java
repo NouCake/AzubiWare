@@ -13,93 +13,150 @@ public class Battleship {
 
     private int lastPlayer = 0;
 
-    private final Grid grid;
+    private final Grid gridPlayer1;
+    private final Grid gridPlayer2;
 
     public Battleship() {
-        grid = new Grid();
-        draw();
+        gridPlayer1 = new Grid();
+        gridPlayer2 = new Grid();
+        setShips(gridPlayer1);
+        setShips(gridPlayer2);
     }
 
     private void draw() {
+        System.out.println("Player1");
+        gridPlayer1.draw();
+
+        System.out.println("Player2");
+        gridPlayer2.draw();
     }
 
     public void checkPlayerWin() {
 
     }
 
-    private void setShips() {
+    private void setShips(Grid player) {
         for (int i = 0; i < shipsLenOne; ) {
-            if (createRandomShip(1)) i++;
+            if (createRandomShip(player, 1)) i++;
         }
         for (int i = 0; i < shipsLenTwo; ) {
-            if (createRandomShip(2)) i++;
+            if (createRandomShip(player, 2)) i++;
         }
         for (int i = 0; i < shipsLenThree; ) {
-            if (createRandomShip(3)) i++;
+            if (createRandomShip(player, 3)) i++;
         }
         for (int i = 0; i < shipsLenFour; ) {
-            if (createRandomShip(4)) i++;
+            if (createRandomShip(player, 4)) i++;
         }
     }
 
-    private boolean createRandomShip(int length) {
+    private boolean createRandomShip(Grid grid, int length) {
         int randomX = (int) (Math.random() * width);
         int randomY = (int) (Math.random() * height);
         boolean randomBoolean = Math.random() >= 0.5f;
         return grid.setShip(randomX, randomY, length, randomBoolean);
     }
 
+    private class Cell{
+        private CellType type;
+        private boolean hit = false;
+
+        public boolean isShip() {
+            return type == CellType.SHIP;
+        }
+
+        public boolean isWater(){
+            return type == CellType.WATER;
+        }
+
+        public boolean isHit(){
+            return hit;
+        }
+
+        public void setHit(){
+            hit = true;
+        }
+
+        public void setType(CellType type){
+            this.type = type;
+        }
+    }
+
     private class Grid {
-        private final CellType[][] cells = new CellType[width][height];
+        private final Cell[][] cells = new Cell[width][height];
 
-        private boolean isShip(int x, int y) {
-            return cells[x][y] == CellType.SHIP;
+        public boolean areAllShipsSunk(){
+            //TODO
+            return true;
         }
 
-        private boolean isWater(int x, int y){
-            return !isShip(x, y);
-        }
-
-        private CellType getNextCell(int x, int y, int stride, boolean horizontal){
-            if(horizontal && !isCellOutOfBounds(x+stride, y)) {
-                return cells[x+stride][y];
-            }  else if(!isCellOutOfBounds(x, y+stride)){
-                return cells[x][y+stride];
+        public void draw() {
+            for (int x = 0; x < width; x++) {
+                String line = "";
+                for (int y = 0; y < height; y++) {
+                    line += getCell(x, y).isShip() ? "_" : "S";
+                }
+                System.out.println(line);
             }
-            return CellType.WATER;
         }
 
-        private boolean isNextCellShip(int x, int y, int stride, boolean hor){
-            return getNextCell(x, y, stride, hor) == CellType.SHIP;
+        private Cell getNextCell(int x, int y, int stride, boolean horizontal) {
+            if (horizontal) {
+                return cells[x + stride][y];
+            } else {
+                return cells[x][y + stride];
+            }
+        }
+
+        private Cell getCell(int x, int y){
+            return cells[x][y];
+        }
+
+        private boolean isNextCellOutOfBounds(int x, int y, int stride, boolean hor) {
+            if (hor) {
+                return isCellOutOfBounds(x + stride, y);
+            } else {
+                return isCellOutOfBounds(x, y + stride);
+            }
         }
 
         public boolean setShip(int x, int y, int length, boolean horizontal) {
-            if (isShip(x, y)) return false;
+            if  (isCellOutOfBounds(x, y)) return false;
+            if (getCell(x, y).isShip()) return false;
 
             for (int i = 0; i < length; i++) {
-                if(isNextCellShip(x, y, i, horizontal)) return false;
-                //TODO: return if a cell is not surrounded by water
+                if (isNextCellOutOfBounds(x, y, i, horizontal)) return false;
+                if (getNextCell(x, y, i, horizontal).isShip()) return false;
+                if (!isNextCellSurroundedByWater(x, y, i, horizontal)) return false;
             }
 
-            //TODO: Set cells to Type Ship
+            for (int i = 0; i < length; i++) {
+                getNextCell(x, y, i, horizontal).setType(CellType.SHIP);
+            }
 
             return true;
         }
 
-        private boolean isCellOutOfBounds(int x, int y){
-            //TODO
-            return false;
+        private boolean isNextCellSurroundedByWater(int x, int y, int stride, boolean hor) {
+            if (hor) {
+                return isSurroundedByWater(x + stride, y);
+            } else {
+                return isSurroundedByWater(x, y + stride);
+            }
+        }
+
+        private boolean isCellOutOfBounds(int x, int y) {
+            return x >= 0 && x < width && y >= 0 && y < height;
         }
 
         public boolean isSurroundedByWater(int x, int y) {
-            //TODO: check if Array out of bounds
 
-            if(isShip(x+1, y+1)
-            if (cells[x + 1][y + 1] == CellType.WATER ) {
+            if (!isCellOutOfBounds(x + 1, y) && getCell(x + 1, y).isShip()) return false;
+            if (!isCellOutOfBounds(x - 1, y) && getCell(x - 1, y).isShip()) return false;
+            if (!isCellOutOfBounds(x, y + 1) && getCell(x, y + 1).isShip()) return false;
+            if (!isCellOutOfBounds(x, y - 1) && getCell(x, y - 1).isShip()) return false;
 
-            }
-
-            return false;
+            return true;
         }
 
     }
