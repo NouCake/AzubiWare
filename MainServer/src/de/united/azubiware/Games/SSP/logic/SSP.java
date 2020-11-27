@@ -20,13 +20,13 @@ public class SSP {
         int result = 0; // => DRAW
 
         SSPFigure playerOne = playerFigure.getOrDefault(1, figureFactory.getFigure(SSPFigureType.SCISSORS));
-        SSPFigure playerTwo = playerFigure.getOrDefault(1, figureFactory.getFigure(SSPFigureType.SCISSORS));
+        SSPFigure playerTwo = playerFigure.getOrDefault(2, figureFactory.getFigure(SSPFigureType.SCISSORS));
 
-        if(playerOne != playerTwo){
-            if(playerOne.getWin().contains(playerTwo)){
+        if(playerOne.getType() != playerTwo.getType()){
+            if(playerOne.getWin().contains(playerTwo.getType())){
                 result = 1;
             }
-            if(playerTwo.getWin().contains(playerOne)) {
+            if(playerTwo.getWin().contains(playerOne.getType())) {
                 result = 2;
             }
         }else{
@@ -37,7 +37,7 @@ public class SSP {
         if(result != 0)
             givePoint(result);
 
-        return 0;
+        return result;
     }
 
     public int getMatchResult(){
@@ -56,9 +56,9 @@ public class SSP {
         return result;
     }
 
-    public void setPick(int player, SSPFigureType figureType) throws IllegalPickException {
+    public void setPick(int player, int pickType) throws IllegalPickException {
         if(player != 1 && player != 2) throw new IllegalPickException("Bad Player");
-        playerFigure.put(player, figureFactory.getFigure(figureType));
+        playerFigure.put(player, figureFactory.getFigureByID(pickType));
     }
 
     public SSPFigureType getPick(int player){

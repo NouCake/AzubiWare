@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import de.united.azubiware.Games.SSP.logic.SSPFigureType;
 
 public class SSPChooseButtons extends Group {
 
@@ -75,7 +76,7 @@ public class SSPChooseButtons extends Group {
                 if(!btn.isChecked() && !btn.isDisabled()){
                     rock.setChecked(false);
                     paper.setChecked(false);
-                    sspScreen.setPickType(0);
+                    sspScreen.setPickType(SSPFigureType.SCISSORS.ordinal());
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -98,7 +99,7 @@ public class SSPChooseButtons extends Group {
                 if(!btn.isChecked() && !btn.isDisabled()){
                     scissors.setChecked(false);
                     paper.setChecked(false);
-                    sspScreen.setPickType(1);
+                    sspScreen.setPickType(SSPFigureType.ROCK.ordinal());
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -122,7 +123,7 @@ public class SSPChooseButtons extends Group {
                 if(!btn.isChecked() && !btn.isDisabled()){
                     scissors.setChecked(false);
                     rock.setChecked(false);
-                    sspScreen.setPickType(2);
+                    sspScreen.setPickType(SSPFigureType.PAPER.ordinal());
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }

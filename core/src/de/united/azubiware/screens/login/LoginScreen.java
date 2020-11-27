@@ -1,7 +1,6 @@
 package de.united.azubiware.screens.login;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -27,7 +26,7 @@ public class LoginScreen extends ScreenAdapter {
 
     final AzubiWareGame game;
 
-    private int minUsernameLength = 3;
+    private int minUsernameLength = 5;
     private int maxUsernameLength = 15;
 
     TextField usernameField;
@@ -144,7 +143,7 @@ public class LoginScreen extends ScreenAdapter {
         stage.draw();
 
         if(triedLogin){
-            if(TimeUtils.millis() - loginTime >= 2000) {
+            if(TimeUtils.millis() - loginTime >= 750) {
                 dispose();
                 game.setScreen(new MainMenuScreen(game));
             }else if(!loginSuccess) {

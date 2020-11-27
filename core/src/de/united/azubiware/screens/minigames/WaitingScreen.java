@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.User.IUser;
@@ -42,26 +43,8 @@ public class WaitingScreen extends ScreenAdapter {
 
         Image image = new Image(iGame.getSplash());
         image.setSize(stage.getWidth()*0.5f, (stage.getWidth()*0.5f));
-        image.setPosition(stage.getWidth()/2-image.getWidth()/2, stage.getHeight()/2);
+        image.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
         stage.addActor(image);
-
-        if(opponents.length > 0) {
-            Label.LabelStyle labelStyle = new Label.LabelStyle();
-
-            labelStyle.font = game.getFont();
-            labelStyle.fontColor = Color.DARK_GRAY;
-
-            Label opponent = new Label("Opponents", labelStyle);
-            opponent.setPosition(stage.getWidth()/2-opponent.getWidth()/2, image.getY()-opponent.getHeight());
-            stage.addActor(opponent);
-            int amount = 1;
-            for (IUser user : opponents) {
-                Label userLabel = new Label(user.getName(), labelStyle);
-                userLabel.setPosition(stage.getWidth()/2-userLabel.getWidth()/2, opponent.getY()-opponent.getHeight()/2-(amount*userLabel.getHeight()/1.5f));
-                stage.addActor(userLabel);
-                amount++;
-            }
-        }
 
         popUp = new ClosePopUp(stage.getWidth(), stage.getHeight());
         stage.addActor(popUp);

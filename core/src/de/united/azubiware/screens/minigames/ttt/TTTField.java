@@ -95,8 +95,8 @@ public class TTTField extends Group {
             stage.getBatch().draw(texture, pos.x, pos.y, scale.x, scale.y);
         }
 
-        Texture cross = new Texture(Gdx.files.internal("games/ttt/blue_cross.png"));
-        Texture circle = new Texture(Gdx.files.internal("games/ttt/red_circle.png"));
+        Texture cross = new Texture(Gdx.files.internal("games/ttt/cross.png"));
+        Texture circle = new Texture(Gdx.files.internal("games/ttt/circle.png"));
         List<TTTTPosition> positionList = this.positionList.stream().filter(new Predicate<TTTTPosition>() {
             @Override
             public boolean test(TTTTPosition ticTacToeField) {

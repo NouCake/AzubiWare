@@ -1,6 +1,5 @@
 package de.united.azubiware;
 
-import de.united.azubiware.Games.SV.Grid;
 import de.united.azubiware.Lobby.LobbyServer;
 
 public class Main{
