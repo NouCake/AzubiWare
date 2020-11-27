@@ -1,6 +1,21 @@
 package de.united.azubiware.Games.SV;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Grid {
+
+    public static int[][] GetShipSetup(Grid grid){
+        List<int[]> shipCells = new LinkedList<>();
+        for (int x = 0; x < grid.width; x++) {
+            for (int y = 0; y < grid.height; y++) {
+                if(grid.getCell(x, y).isShip()){
+                    shipCells.add(new int[]{x, y});
+                }
+            }
+        }
+        return shipCells.toArray(new int[0][]);
+    }
 
     private enum CellType {
         WATER,
@@ -35,7 +50,6 @@ public class Grid {
     private final int width;
     private final int height;
     private final Cell[][] cells;
-
 
     public Grid(int width, int height) {
         this.width = width;

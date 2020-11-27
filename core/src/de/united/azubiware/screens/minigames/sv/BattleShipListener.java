@@ -10,6 +10,10 @@ public class BattleShipListener implements IBattleshipListener {
         this.screen = screen;
     }
 
+    @Override
+    public void onOwnturn(int cellX, int cellY, boolean hit) {
+        screen.onOwnTurn(cellX, cellY, hit);
+    }
 
     @Override
     public void onEnemyTurn(int cellX, int cellY, boolean hit) {

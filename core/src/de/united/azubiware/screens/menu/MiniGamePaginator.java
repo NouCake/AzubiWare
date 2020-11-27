@@ -12,7 +12,7 @@ public class MiniGamePaginator {
     private Stage stage;
 
     private int min = -1;
-    private int max = 2;
+    private int max = 3;
 
     private int current = 0;
     private int finish = 0;

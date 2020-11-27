@@ -19,7 +19,11 @@ public class BattleshipClientPacketHandler extends APacketHandler {
     }
 
     public void onEnemyTurn(IConnection c, BattleshipTurnPacket packet){
-        listener.onEnemyTurn(packet.getCellX(), packet.getCellY(), packet.isHit());
+        if(packet.isYou()){
+            listener.onOwnturn(packet.getCellX(), packet.getCellY(), packet.isHit());
+        } else {
+            listener.onEnemyTurn(packet.getCellX(), packet.getCellY(), packet.isHit());
+        }
     }
 
     public void onNextTurn(IConnection c, BattleshipNextTurnPacket packet){

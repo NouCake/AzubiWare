@@ -44,7 +44,15 @@ public class BattleshipScreen extends TurnBasedMinigameScreen {
         if(!isMyTurn()) return;
         //Send Server Shoot
         getGame().getClient().sendMatchPacket(new BattleshipTurnPacket(cellX, cellY, false, true));
+        setTurn(false);
+    }
 
+    public void onOwnTurn(int cellX, int cellY, boolean hit){
+        if(hit){
+            yourField.setFieldHit(cellX, cellY);
+        } else {
+            yourField.setFieldMiss(cellX, cellY);
+        }
     }
 
     public void enemyTurn(int cellX, int cellY, boolean hit){

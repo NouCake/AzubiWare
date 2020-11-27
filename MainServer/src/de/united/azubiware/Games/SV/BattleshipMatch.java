@@ -1,6 +1,5 @@
 package de.united.azubiware.Games.SV;
 
-import de.united.azubiware.Games.VG.VGNextTurnPacket;
 import de.united.azubiware.Matches.AMatch;
 import de.united.azubiware.Matches.MatchUser;
 import de.united.azubiware.Packets.MatchOverPacket;
@@ -8,7 +7,7 @@ import de.united.azubiware.User.IUser;
 
 public class BattleshipMatch extends AMatch {
 
-    private final static int MATCH_TYPE = 5;
+    public final static int MATCH_TYPE = 5;
     private Battleship game;
 
     public BattleshipMatch( int port, IUser... userlist) {
@@ -17,44 +16,50 @@ public class BattleshipMatch extends AMatch {
     }
 
     private void sendNextTurnPackets(){
-        //TODO: get nextPlayer
-        int nextPlayer = 1;
+        int nextPlayer = game.getNextPlayer();
         for(IUser u : getUserList()){
             MatchUser mu = (MatchUser)u;
             mu.send(new BattleshipNextTurnPacket(mu.getPlayerIndex() == nextPlayer));
         }
     }
 
-
-
     @Override
     protected void onAllUserConnected() {
+        getPlayerFromIndex(1).send(new ShipSetupPacket(game.getSetup(1)));
+        getPlayerFromIndex(2).send(new ShipSetupPacket(game.getSetup(2)));
         sendNextTurnPackets();
     }
 
     public void playerTurn(int playerIndex, int cellX, int cellY){
         MatchUser user = getPlayerFromIndex(playerIndex);
+        MatchUser otherPlayer = getOtherPlayer(playerIndex);
+        boolean hit;
         try {
-            boolean hit = game.hitField(playerIndex, cellX, cellY);
-            user.send(new BattleshipTurnPacket(cellX, cellY, hit, true));
-            getOtherPlayer(playerIndex).send(new BattleshipTurnPacket(cellX, cellY, hit, false));
-        } catch(Exception e){
+            hit = game.doPlayerTurn(playerIndex, cellX, cellY);
+        } catch (Battleship.IllegalTurnException e) {
             user.send(new BattleshipIllegalTurnPacket(e.getMessage()));
+            return;
         }
 
+        user.send(new BattleshipTurnPacket(cellX, cellY, hit, false));
+        otherPlayer.send(new BattleshipTurnPacket(cellX, cellY, hit, true));
+
+        startNextTurn();
     }
 
     private boolean checkWin(){
+        int playerWon = game.checkPlayerWin();
+        if(playerWon > 0) {
+            setPlayerWon(playerWon);
+            onMatchOver(MatchOverPacket.REASONS.GAME_DONE.ordinal());
+            return true;
+        }
         return false;
     }
 
     private void startNextTurn(){
-        //TODO: check win
-        if(checkWin()){
-            onMatchOver(MatchOverPacket.REASONS.GAME_DONE.ordinal());
-            return;
-        }
-        sendNextTurnPackets();
+        if(!checkWin())
+            sendNextTurnPackets();
     }
 
     private MatchUser getOtherPlayer(int playerIndex){

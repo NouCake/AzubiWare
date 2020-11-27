@@ -42,6 +42,10 @@ public class GameManager implements IGameManager {
         Pong pong = new Pong();
         miniGamesById.put(2, pong);
         miniGamesByMatchType.put(pong.getMatchType(), pong);
+
+        Battleship sv = new Battleship();
+        miniGamesById.put(3, sv);
+        miniGamesByMatchType.put(sv.getMatchType(), sv);
     }
 
     @Override

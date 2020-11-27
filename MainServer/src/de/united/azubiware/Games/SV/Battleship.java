@@ -10,7 +10,7 @@ public class Battleship {
     private final int height = 10;
     private final int width = 10;
 
-    private int lastPlayer = 0;
+    private int nextPlayer = 1;
 
     private final Grid gridPlayer1;
     private final Grid gridPlayer2;
@@ -30,12 +30,33 @@ public class Battleship {
 
         return grid.setHit(x, y);
     }
-    
-    public boolean hitField(int player, int x, int y) throws IllegalTurnException{
-        if(player == lastPlayer) throw new IllegalTurnException("Player cant hit twice");
-        lastPlayer = player;
-        if(player == 1) return hitField(gridPlayer1, x, y);
-        if(player == 2) return hitField(gridPlayer2, x, y);
+
+    /**
+     * @param player the player who is shooting
+     * @param x cellX
+     * @param y cellY
+     * @return returns true if a Ship is hit
+     * @throws IllegalTurnException Throws when the wrong player is making the turn, the cell is already hit or the given cell is out of bounds.
+     */
+    public boolean doPlayerTurn(int player, int x, int y) throws IllegalTurnException{
+        if(player != nextPlayer) throw new IllegalTurnException("Wrong Player Turn");
+
+        if(player == 1){
+            if(hitField(gridPlayer2, x, y)) {
+                return true;
+            } else {
+                nextPlayer = 2;
+                return false;
+            }
+        } else if(player == 2){
+            if(hitField(gridPlayer1, x, y)) {
+                return true;
+            } else {
+                nextPlayer = 1;
+                return false;
+            }
+        }
+
         throw new IllegalTurnException("Invalid Player!");
     }
 
@@ -48,8 +69,8 @@ public class Battleship {
     }
 
     public int checkPlayerWin() {
-        if(gridPlayer1.areAllShipsSunk()) return 1;
-        if(gridPlayer2.areAllShipsSunk()) return 2;
+        if(gridPlayer1.areAllShipsSunk()) return 2;
+        if(gridPlayer2.areAllShipsSunk()) return 1;
         return 0;
     }
 
@@ -75,18 +96,17 @@ public class Battleship {
         return grid.setShip(randomX, randomY, length, randomBoolean);
     }
 
-    /*public static void main(String[] args) {
-        System.out.println("pre");
-        Grid grid = new Grid(10, 10);
+    public int getNextPlayer() {
+        return nextPlayer;
+    }
 
-        grid.setShip(0, 0, 3, true);
-        grid.draw();
+    public int[][] getSetup(int player) {
+        if(player == 1) return Grid.GetShipSetup(gridPlayer1);
+        if(player == 2) return Grid.GetShipSetup(gridPlayer2);
+        return null;
+    }
 
-        Battleship bs = new Battleship();
-        System.out.println("post");
-    }*/
-
-    public class IllegalTurnException extends Exception {
+    public static class IllegalTurnException extends Exception {
         public IllegalTurnException(String message){
             super(message);
         }

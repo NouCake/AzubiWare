@@ -5,6 +5,7 @@ import de.united.azubiware.Connection.IConnectionManager;
 import de.united.azubiware.Connection.PacketListener;
 import de.united.azubiware.Games.Pong.PongMatch;
 import de.united.azubiware.Games.SSP.SSPMatch;
+import de.united.azubiware.Games.SV.BattleshipMatch;
 import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.Main;
@@ -13,6 +14,7 @@ import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.WebSocketClient;
 import de.united.azubiware.connection.match.*;
 import de.united.azubiware.connection.match.pong.PongClient;
+import de.united.azubiware.connection.match.sv.BattleShipClient;
 
 import java.net.URI;
 import java.util.UUID;
@@ -63,7 +65,9 @@ public class Client implements IClient {
             currentMatchClient = new PongClient(this, address, matchToken);
         }  else if(matchType == SSPMatch.MATCH_TYPE){
             currentMatchClient = new SSPClient(this, address, matchToken);
-        }else {
+        }  else if(matchType == BattleshipMatch.MATCH_TYPE){
+            currentMatchClient = new BattleShipClient(this, address, matchToken);
+        } else {
             System.err.println("No Client found for Match!!");
         }
 
