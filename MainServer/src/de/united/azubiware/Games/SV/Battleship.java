@@ -2,14 +2,13 @@ package de.united.azubiware.Games.SV;
 
 public class Battleship {
 
-    private final int shipsLenOne = 4;
-    private final int shipsLenTwo = 3;
-    private final int shipsLenThree = 2;
-    private final int shipsLenFour = 1;
+    private static final int shipsLenOne = 4;
+    private static final int shipsLenTwo = 3;
+    private static final int shipsLenThree = 2;
+    private static final int shipsLenFour = 1;
 
     private final int height = 10;
     private final int width = 10;
-    private int shipCount = 10;
 
     private int lastPlayer = 0;
 
@@ -24,12 +23,20 @@ public class Battleship {
         
         draw();
     }
+
+    private boolean hitField(Grid grid, int x, int y) throws IllegalTurnException{
+        if(grid.isCellOutOfBounds(x, y)) throw new IllegalTurnException("Cell is out of Bounds");
+        if(grid.isHit(x, y)) throw new IllegalTurnException("This field is already Hit");
+
+        return grid.setHit(x, y);
+    }
     
-    public boolean hitField(int player, int x, int y){
-        if(player == 1) return gridPlayer1.setHit(x, y);
-        if(player == 2) return gridPlayer2.setHit(x, y);
-        
-        return false;
+    public boolean hitField(int player, int x, int y) throws IllegalTurnException{
+        if(player == lastPlayer) throw new IllegalTurnException("Player cant hit twice");
+        lastPlayer = player;
+        if(player == 1) return hitField(gridPlayer1, x, y);
+        if(player == 2) return hitField(gridPlayer2, x, y);
+        throw new IllegalTurnException("Invalid Player!");
     }
 
     private void draw() {
@@ -68,6 +75,20 @@ public class Battleship {
         return grid.setShip(randomX, randomY, length, randomBoolean);
     }
 
-    
+    /*public static void main(String[] args) {
+        System.out.println("pre");
+        Grid grid = new Grid(10, 10);
 
+        grid.setShip(0, 0, 3, true);
+        grid.draw();
+
+        Battleship bs = new Battleship();
+        System.out.println("post");
+    }*/
+
+    public class IllegalTurnException extends Exception {
+        public IllegalTurnException(String message){
+            super(message);
+        }
+    }
 }
