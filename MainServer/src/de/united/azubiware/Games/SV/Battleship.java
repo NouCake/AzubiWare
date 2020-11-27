@@ -23,12 +23,20 @@ public class Battleship {
         
         draw();
     }
+
+    private boolean hitField(Grid grid, int x, int y) throws IllegalTurnException{
+        if(grid.isCellOutOfBounds(x, y)) throw new IllegalTurnException("Cell is out of Bounds");
+        if(grid.isHit(x, y)) throw new IllegalTurnException("This field is already Hit");
+
+        return grid.setHit(x, y);
+    }
     
-    public boolean hitField(int player, int x, int y){
-        if(player == 1) return gridPlayer1.setHit(x, y);
-        if(player == 2) return gridPlayer2.setHit(x, y);
-        
-        return false;
+    public boolean hitField(int player, int x, int y) throws IllegalTurnException{
+        if(player == lastPlayer) throw new IllegalTurnException("Player cant hit twice");
+        lastPlayer = player;
+        if(player == 1) return hitField(gridPlayer1, x, y);
+        if(player == 2) return hitField(gridPlayer2, x, y);
+        throw new IllegalTurnException("Invalid Player!");
     }
 
     private void draw() {
@@ -78,4 +86,9 @@ public class Battleship {
         System.out.println("post");
     }*/
 
+    public class IllegalTurnException extends Exception {
+        public IllegalTurnException(String message){
+            super(message);
+        }
+    }
 }
