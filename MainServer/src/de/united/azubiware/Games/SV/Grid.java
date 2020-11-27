@@ -7,7 +7,7 @@ public class Grid {
         SHIP
     }
 
-    private class Cell{
+    private class Cell {
         private CellType type;
         private boolean hit = false;
 
@@ -15,19 +15,19 @@ public class Grid {
             return type == CellType.SHIP;
         }
 
-        public boolean isWater(){
+        public boolean isWater() {
             return type == CellType.WATER;
         }
 
-        public boolean isHit(){
+        public boolean isHit() {
             return hit;
         }
 
-        public void setHit(){
+        public void setHit() {
             hit = true;
         }
 
-        public void setType(CellType type){
+        public void setType(CellType type) {
             this.type = type;
         }
     }
@@ -37,33 +37,39 @@ public class Grid {
     private final Cell[][] cells;
 
 
-    public Grid(int width, int height){
+    public Grid(int width, int height) {
         this.width = width;
         this.height = height;
         cells = new Cell[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                cells[x][y] = new Cell();
+                cells[x][y].setType(CellType.WATER);
+            }
+        }
     }
 
-    public boolean setHit(int x, int y){
-        if(isCellOutOfBounds(x, y)) return false;
-        boolean hit = getCell(x,y).isHit();
-        getCell(x,y).setHit();
+    public boolean setHit(int x, int y) {
+        if (isCellOutOfBounds(x, y)) return false;
+        boolean hit = getCell(x, y).isHit();
+        getCell(x, y).setHit();
         return hit;
     }
 
-    public boolean areAllShipsSunk(){
+    public boolean areAllShipsSunk() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-              if (getCell(i,j).isShip() && !getCell(i, j).isHit()) return false;
+                if (getCell(i, j).isShip() && !getCell(i, j).isHit()) return false;
             }
         }
         return true;
     }
 
     public void draw() {
-        for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
             String line = "";
-            for (int y = 0; y < height; y++) {
-                line += getCell(x, y).isShip() ? "_" : "S";
+            for (int x = 0; x < width; x++) {
+                line += getCell(x, y).isShip() ? "S" : "_";
             }
             System.out.println(line);
         }
@@ -77,7 +83,7 @@ public class Grid {
         }
     }
 
-    private Cell getCell(int x, int y){
+    private Cell getCell(int x, int y) {
         return cells[x][y];
     }
 
@@ -90,7 +96,7 @@ public class Grid {
     }
 
     public boolean setShip(int x, int y, int length, boolean horizontal) {
-        if  (isCellOutOfBounds(x, y)) return false;
+        if (isCellOutOfBounds(x, y)) return false;
         if (getCell(x, y).isShip()) return false;
 
         for (int i = 0; i < length; i++) {
@@ -114,8 +120,8 @@ public class Grid {
         }
     }
 
-    private boolean isCellOutOfBounds(int x, int y) {
-        return x >= 0 && x < width && y >= 0 && y < height;
+    public boolean isCellOutOfBounds(int x, int y) {
+        return x < 0 || x >= width || y < 0 || y >= height;
     }
 
     public boolean isSurroundedByWater(int x, int y) {
