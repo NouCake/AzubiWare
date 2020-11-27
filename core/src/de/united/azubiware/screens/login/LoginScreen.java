@@ -26,7 +26,7 @@ public class LoginScreen extends ScreenAdapter {
 
     final AzubiWareGame game;
 
-    private int minUsernameLength = 5;
+    private int minUsernameLength = 3;
     private int maxUsernameLength = 15;
 
     TextField usernameField;
