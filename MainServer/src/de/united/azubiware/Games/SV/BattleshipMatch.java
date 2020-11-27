@@ -13,6 +13,7 @@ public class BattleshipMatch extends AMatch {
     public BattleshipMatch( int port, IUser... userlist) {
         super(MATCH_TYPE, port, userlist);
         game = new Battleship();
+        addPacketHandler(new BattleshipPacketHandler(this));
     }
 
     private void sendNextTurnPackets(){

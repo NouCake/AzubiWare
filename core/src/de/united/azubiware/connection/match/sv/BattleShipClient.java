@@ -19,7 +19,7 @@ public class BattleShipClient extends MatchClient {
     @Override
     public void setMatchListener(IMatchListener matchListener) {
         super.setMatchListener(matchListener);
-        if(!(matchListener instanceof IPongListener)){
+        if(!(matchListener instanceof IBattleshipListener)){
             throw new RuntimeException("Your MatchListener is wrong :c");
         }
         this.listener = (IBattleshipListener)matchListener;

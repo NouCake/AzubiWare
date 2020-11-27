@@ -32,6 +32,8 @@ public class BattleshipScreen extends TurnBasedMinigameScreen {
 
         getStage().addActor(yourField);
         getStage().addActor(enemyField);
+
+        reorderOverlays();
     }
 
     public void setShips(int[][] ships){
