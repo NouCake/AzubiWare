@@ -51,9 +51,13 @@ public class Grid {
 
     public boolean setHit(int x, int y) {
         if (isCellOutOfBounds(x, y)) return false;
-        boolean hit = getCell(x, y).isHit();
+        boolean hit = getCell(x, y).isShip();
         getCell(x, y).setHit();
         return hit;
+    }
+    
+    public boolean isHit( int x, int y) {
+        return getCell(x, y).isHit();
     }
 
     public boolean areAllShipsSunk() {
@@ -87,7 +91,7 @@ public class Grid {
         return cells[x][y];
     }
 
-    private boolean isNextCellOutOfBounds(int x, int y, int stride, boolean hor) {
+    public boolean isNextCellOutOfBounds(int x, int y, int stride, boolean hor) {
         if (hor) {
             return isCellOutOfBounds(x + stride, y);
         } else {
