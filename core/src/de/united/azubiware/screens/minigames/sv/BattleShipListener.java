@@ -1,13 +1,16 @@
 package de.united.azubiware.screens.minigames.sv;
 
 import de.united.azubiware.connection.match.sv.IBattleshipListener;
+import de.united.azubiware.screens.minigames.WaitingScreen;
 
 public class BattleShipListener implements IBattleshipListener {
 
     private final BattleshipScreen screen;
+    private final WaitingScreen waitingScreen;
 
-    public BattleShipListener(BattleshipScreen screen) {
+    public BattleShipListener(BattleshipScreen screen, WaitingScreen waitingScreen) {
         this.screen = screen;
+        this.waitingScreen = waitingScreen;
     }
 
     @Override

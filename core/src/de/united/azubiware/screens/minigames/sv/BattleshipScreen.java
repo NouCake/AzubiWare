@@ -2,6 +2,7 @@ package de.united.azubiware.screens.minigames.sv;
 
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.Games.SV.BattleshipTurnPacket;
+import de.united.azubiware.User.IUser;
 import de.united.azubiware.User.SimpleUser;
 import de.united.azubiware.screens.minigames.bases.MinigameBaseScreen;
 import de.united.azubiware.screens.minigames.bases.TurnBasedMinigameScreen;
@@ -11,8 +12,8 @@ public class BattleshipScreen extends TurnBasedMinigameScreen {
     private final BattleShipField yourField;
     private final BattleShipField enemyField;
 
-    public BattleshipScreen(AzubiWareGame game) {
-        super(game, new SimpleUser(null, "User1"));
+    public BattleshipScreen(AzubiWareGame game, IUser opponent) {
+        super(game, opponent);
 
         final float padding = 25;
         yourField = new BattleShipField(this);

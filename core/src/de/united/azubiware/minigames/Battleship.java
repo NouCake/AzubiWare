@@ -8,8 +8,8 @@ import de.united.azubiware.User.IUser;
 import de.united.azubiware.connection.match.IMatchListener;
 import de.united.azubiware.minigames.interfaces.IGame;
 import de.united.azubiware.screens.minigames.WaitingScreen;
-import de.united.azubiware.screens.minigames.vg.FourWinsMatchListener;
-import de.united.azubiware.screens.minigames.vg.FourWinsScreen;
+import de.united.azubiware.screens.minigames.sv.BattleShipListener;
+import de.united.azubiware.screens.minigames.sv.BattleshipScreen;
 
 public class Battleship implements IGame {
     @Override
@@ -29,5 +29,6 @@ public class Battleship implements IGame {
 
     @Override
     public IMatchListener createMatchListener(WaitingScreen waitingScreen, AzubiWareGame game, IUser[] opponents) {
-        return new FourWinsMatchListener(new FourWinsScreen(game, opponents[0]), waitingScreen);
+        return new BattleShipListener(new BattleshipScreen(game, opponents[0]), waitingScreen);
     }
+}
