@@ -2,14 +2,13 @@ package de.united.azubiware.Games.SV;
 
 public class Battleship {
 
-    private final int shipsLenOne = 4;
-    private final int shipsLenTwo = 3;
-    private final int shipsLenThree = 2;
-    private final int shipsLenFour = 1;
+    private static final int shipsLenOne = 4;
+    private static final int shipsLenTwo = 3;
+    private static final int shipsLenThree = 2;
+    private static final int shipsLenFour = 1;
 
     private final int height = 10;
     private final int width = 10;
-    private int shipCount = 10;
 
     private int lastPlayer = 0;
 
@@ -68,6 +67,15 @@ public class Battleship {
         return grid.setShip(randomX, randomY, length, randomBoolean);
     }
 
-    
+    /*public static void main(String[] args) {
+        System.out.println("pre");
+        Grid grid = new Grid(10, 10);
+
+        grid.setShip(0, 0, 3, true);
+        grid.draw();
+
+        Battleship bs = new Battleship();
+        System.out.println("post");
+    }*/
 
 }
