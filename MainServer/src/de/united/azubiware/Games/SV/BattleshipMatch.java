@@ -9,10 +9,11 @@ import de.united.azubiware.User.IUser;
 public class BattleshipMatch extends AMatch {
 
     private final static int MATCH_TYPE = 5;
-
+    private Battleship game;
 
     public BattleshipMatch( int port, IUser... userlist) {
         super(MATCH_TYPE, port, userlist);
+        game = new Battleship();
     }
 
     private void sendNextTurnPackets(){
@@ -32,11 +33,15 @@ public class BattleshipMatch extends AMatch {
     }
 
     public void playerTurn(int playerIndex, int cellX, int cellY){
-        //TODO: check if Turn is valid;
-        boolean hit = false;
-        //TODO: check is Hit;
+        MatchUser user = getPlayerFromIndex(playerIndex);
+        try {
+            boolean hit = game.hitField(playerIndex, cellX, cellY);
+            user.send(new BattleshipTurnPacket(cellX, cellY, hit, true));
+            getOtherPlayer(playerIndex).send(new BattleshipTurnPacket(cellX, cellY, hit, false));
+        } catch(Exception e){
+            user.send(new BattleshipIllegalTurnPacket(e.getMessage()));
+        }
 
-        getOtherPlayer(playerIndex).send(new BattleshipTurnPacket(cellX, cellY, hit));
     }
 
     private boolean checkWin(){
