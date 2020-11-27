@@ -1,6 +1,8 @@
 package de.united.azubiware.Games.SV;
 
-public class BattleshipNextTurnPacket {
+import de.united.azubiware.Packets.IPacket;
+
+public class BattleshipNextTurnPacket implements IPacket {
 
     private final boolean yourTurn;
 
