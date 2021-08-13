@@ -12,14 +12,14 @@ buildscript {
     dependencies {
         classpath 'org.wisepersist:gwt-gradle-plugin:1.0.13'
         classpath 'org.gretty:gretty:3.0.2'
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.2.0'
     }
 }
 
 allprojects {
     apply plugin: "eclipse"
 
-    version = '1.0'
+    version = '1.2'
     ext {
         appName = "AzubiWare"
         gdxVersion = '1.9.12'
@@ -85,31 +85,6 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-android-gpgs:$gamesvcsVersion"
-    }
-}
-
-project(":html") {
-    apply plugin: "java-library"
-    apply plugin: "gwt"
-    apply plugin: "war"
-    apply plugin: "org.gretty"
-
-
-    dependencies {
-        implementation(project(":core")){
-            exclude group: 'com.badlogicgames.gdx', module: 'gdx-freetype-platform'
-        }
-        implementation project(":MainServer")
-
-        api "com.github.intrigus.gdx-freetype-gwt:gdx-freetype-gwt:1.9.11-SNAPSHOT"
-        api "com.github.intrigus.gdx-freetype-gwt:gdx-freetype-gwt:1.9.11-SNAPSHOT:sources"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-html-gpgs:$gamesvcsVersion"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-html-gpgs:$gamesvcsVersion:sources"
-        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:1.0.2:sources"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core-gamejolt:1.0.2:sources"
     }
 }
 

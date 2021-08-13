@@ -26,6 +26,7 @@ public class Client implements IClient {
     private MatchClient currentMatchClient;
 
     public Client(){
+        System.out.println(Main.SERVER_DOMAIN);
         client = new WebSocketClient(URI.create("ws://"+ Main.SERVER_DOMAIN+":12000"));
         client.setConnectionListener(new PacketListener(new ClientPacketHandler(this)){
             @Override

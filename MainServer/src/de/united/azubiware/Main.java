@@ -4,7 +4,7 @@ import de.united.azubiware.Lobby.LobbyServer;
 
 public class Main{
 
-    public static final String SERVER_DOMAIN = "two.noucake.de";
+    public static final String SERVER_DOMAIN = "reaved.net";
 
     public static void main(String[] args) {
         new LobbyServer();
