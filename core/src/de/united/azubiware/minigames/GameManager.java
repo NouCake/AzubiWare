@@ -2,6 +2,7 @@ package de.united.azubiware.minigames;
 
 import de.united.azubiware.Games.Pong.PongMatch;
 import de.united.azubiware.Games.SSP.SSPMatch;
+import de.united.azubiware.Games.SV.BattleshipMatch;
 import de.united.azubiware.Games.TTT.TTTMatch;
 import de.united.azubiware.Games.VG.VGMatch;
 import de.united.azubiware.minigames.interfaces.IGame;
@@ -17,7 +18,7 @@ public class GameManager implements IGameManager {
     private HashMap<Integer, IGame> miniGamesById;
     private HashMap<Integer, IGame> miniGamesByMatchType;
 
-    private List<Integer> matchTypes = Arrays.asList(TTTMatch.MATCH_TYPE, VGMatch.MATCH_TYPE, PongMatch.MATCH_TYPE, SSPMatch.MATCH_TYPE);
+    private List<Integer> matchTypes = Arrays.asList(TTTMatch.MATCH_TYPE, VGMatch.MATCH_TYPE, PongMatch.MATCH_TYPE, SSPMatch.MATCH_TYPE, BattleshipMatch.MATCH_TYPE);
 
     public GameManager(){
         miniGamesById = new HashMap<>();
@@ -42,6 +43,10 @@ public class GameManager implements IGameManager {
         Pong pong = new Pong();
         miniGamesById.put(2, pong);
         miniGamesByMatchType.put(pong.getMatchType(), pong);
+
+        Battleship sv = new Battleship();
+        miniGamesById.put(3, sv);
+        miniGamesByMatchType.put(sv.getMatchType(), sv);
     }
 
     @Override

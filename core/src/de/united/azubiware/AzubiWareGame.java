@@ -12,6 +12,7 @@ import de.united.azubiware.login.ActionResolver;
 import de.united.azubiware.minigames.GameManager;
 import de.united.azubiware.screens.menu.MainMenuScreen;
 import de.united.azubiware.screens.minigames.ssp.SSPScreen;
+import de.united.azubiware.screens.minigames.sv.BattleshipScreen;
 import de.united.azubiware.screens.splash.SplashScreen;
 import de.united.azubiware.utility.FontLoader;
 import de.united.azubiware.utility.GpgpClientListener;
@@ -47,6 +48,7 @@ public class AzubiWareGame extends Game {
 
 		font = new FontLoader().loadFont("fonts/8-bitArcadeIn.ttf");
 
+		setUser(new SimpleUser(null, "User2"));
 		this.setScreen(new SplashScreen(this));
 	}
 

@@ -6,6 +6,7 @@ import de.united.azubiware.Connection.WebSocket.IUserListener;
 import de.united.azubiware.Connection.WebSocket.WebSocketConnectionManager;
 import de.united.azubiware.Games.Pong.PongLobbyGame;
 import de.united.azubiware.Games.SSP.SSPLobbyGame;
+import de.united.azubiware.Games.SV.BattleShipLobbyGame;
 import de.united.azubiware.Games.TTT.TTTLobbyGame;
 import de.united.azubiware.Games.VG.VGLobbyGame;
 import de.united.azubiware.ILobbyGame;
@@ -38,6 +39,7 @@ public class LobbyServer implements ILobby, IUserListener {
         games.add(new VGLobbyGame());
         games.add(new PongLobbyGame());
         games.add(new SSPLobbyGame());
+        games.add(new BattleShipLobbyGame());
 
         userDB = new SimpleUserDatabase();
         UserConnectionManager connectionListener = new UserConnectionManager(this, userDB);
