@@ -1,3 +1,7 @@
+plugins {
+    id 'java-library'
+}
+
 sourceCompatibility = 11
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../android/assets"]
@@ -7,4 +11,15 @@ task run(dependsOn: classes, type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     ignoreExitValue = true
+}
+
+task dist(type: Jar) {
+    manifest {
+        attributes 'Main-Class': "de.united.azubiware.Main"
+    }
+    dependsOn sourceSets.main.runtimeClasspath
+    from {
+        sourceSets.main.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
 }
