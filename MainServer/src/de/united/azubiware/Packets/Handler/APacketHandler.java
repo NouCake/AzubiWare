@@ -1,6 +1,5 @@
 package de.united.azubiware.Packets.Handler;
 
-
 import de.united.azubiware.Connection.IConnection;
 import de.united.azubiware.Packets.IPacket;
 
@@ -43,19 +42,16 @@ public abstract class APacketHandler implements IMessageHandler {
     public void onMessage(IConnection user, String message) {
         IPacket packet = parser.createPacketFromJson(message);
         if(packet == null) {
-            //System.out.println(getClass().getSimpleName() + ": Couldn't parse message to Packet!");
             return;
         };
 
         String packetType = packet.getClass().getSimpleName();
 
         if(!packetHandleMethods.containsKey(packetType)) {
-            //System.out.println("No Handler defined in " + getClass().getSimpleName() + " for Packet " + packet.getClass().getSimpleName());
             return;
         }
         Method handler = packetHandleMethods.get(packetType);
         try {
-            //System.out.println("Invoking Method: " + handler.getName());
             handler.invoke(this, user, packet);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
