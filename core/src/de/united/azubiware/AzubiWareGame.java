@@ -46,9 +46,9 @@ public class AzubiWareGame extends Game {
 
 		client.start();
 
-		font = new FontLoader().loadFont("fonts/8-bitArcadeIn.ttf");
+		font = new FontLoader().loadFont("fonts/Kenney-Pixel.ttf");
 
-		setUser(new SimpleUser(null, "User2"));
+		setUser(new SimpleUser(null, "User"));
 		this.setScreen(new SplashScreen(this));
 	}
 
@@ -75,6 +75,11 @@ public class AzubiWareGame extends Game {
 	public void initiateSignIn(){
 		initiatedSignIn = true;
 		resolver.signIn();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
 	}
 
 	public boolean isInitiatedSignIn() {

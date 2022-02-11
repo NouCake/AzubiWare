@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -26,11 +27,11 @@ public class LoginScreen extends ScreenAdapter {
 
     final AzubiWareGame game;
 
-    private int minUsernameLength = 3;
-    private int maxUsernameLength = 15;
+    private final int minUsernameLength = 3;
+    private final int maxUsernameLength = 15;
 
     TextField usernameField;
-    Button playButton;
+    TextButton loginButton;
     Label label;
 
     Sprite backgroundSprite;
@@ -49,22 +50,24 @@ public class LoginScreen extends ScreenAdapter {
 
         game.getClient().setClientLister(new LoginScreenPacketListener(this));
 
-        backgroundSprite = new Sprite(new Texture(Gdx.files.internal("backgrounds/backgroundForest.png")));
+        Texture texture = new Texture(Gdx.files.internal("backgrounds/backgroundForest.png"));
+        texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
+        backgroundSprite = new Sprite(texture);
 
         createUsernameField();
         createLoginButton();
         createStateLabel();
 
-        playButton.addListener(new ClickListener(){
+        loginButton.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(playButton.isVisible() && !playButton.isDisabled()) {
+                if(loginButton.isVisible() && !loginButton.isDisabled()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/click2.ogg"));
                     sound.play();
                     if(usernameField.getText().length() >= minUsernameLength && usernameField.getText().length() < usernameField.getMaxLength()){
                         game.getClient().sendLogin(usernameField.getText());
                         usernameField.setDisabled(true);
-                        playButton.setDisabled(true);
+                        loginButton.setDisabled(true);
 
                         loginTime = TimeUtils.millis();
                         triedLogin = true;
@@ -76,7 +79,7 @@ public class LoginScreen extends ScreenAdapter {
 
         });
 
-        stage.addActor(playButton);
+        stage.addActor(loginButton);
         stage.addActor(usernameField);
         stage.addActor(label);
     }
@@ -100,19 +103,23 @@ public class LoginScreen extends ScreenAdapter {
     }
 
     public void createLoginButton(){
-        Texture playTexture = new Texture(Gdx.files.internal("buttons/login/button_login.png"));
-        Texture playTextureDown = new Texture(Gdx.files.internal("buttons/login/button_login_down.png"));
+        Texture playTexture = new Texture(Gdx.files.internal("buttons/orange/orange_up.png"));
+        Texture playTextureDown = new Texture(Gdx.files.internal("buttons/orange/orange_down.png"));
         Drawable playDrawable = new TextureRegionDrawable(new TextureRegion(playTexture));
         Drawable playDrawableDown = new TextureRegionDrawable(new TextureRegion(playTextureDown));
 
-        Button.ButtonStyle testStyle = new Button.ButtonStyle();
+        TextButton.TextButtonStyle testStyle = new TextButton.TextButtonStyle();
         testStyle.up = playDrawable;
         testStyle.down = playDrawableDown;
         testStyle.over = playDrawableDown;
 
-        playButton = new Button(testStyle);
+        testStyle.fontColor = Color.WHITE;
+        testStyle.font = game.getFont();
 
-        playButton.setPosition(stage.getWidth()/2f-playButton.getWidth()/2, usernameField.getY()-usernameField.getHeight()/1.5f-playButton.getHeight()/2);
+        loginButton = new TextButton("LOGIN", testStyle);
+
+        loginButton.align(Align.center);
+        loginButton.setPosition(stage.getWidth()/2f-loginButton.getWidth()/2, usernameField.getY()-usernameField.getHeight()/1.5f-loginButton.getHeight()/2);
     }
 
     public void createStateLabel(){
@@ -124,12 +131,12 @@ public class LoginScreen extends ScreenAdapter {
         label.setAlignment(Align.center);
         label.setWidth(300);
         label.setHeight(40);
-        label.setPosition(stage.getWidth()/2f-label.getWidth()/2, playButton.getY() - label.getHeight()*1.5f);
+        label.setPosition(stage.getWidth()/2f-label.getWidth()/2, loginButton.getY() - label.getHeight()*1.5f);
     }
 
     public void drawBackground(){
         stage.getBatch().begin();
-        stage.getBatch().draw(backgroundSprite, 0, 0, stage.getWidth(), stage.getHeight());
+        stage.getBatch().draw(backgroundSprite, 0, 0, 0, 0, stage.getWidth(), stage.getHeight());
         stage.getBatch().end();
     }
 
@@ -150,6 +157,13 @@ public class LoginScreen extends ScreenAdapter {
                 loginTime = TimeUtils.millis();;
             }
         }
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height);
+        stage.getCamera().update();
+        super.resize(width, height);
     }
 
     @Override

@@ -23,17 +23,16 @@ public class AndroidLauncher extends AndroidApplication {
 
 		AzubiWareGame game = new AzubiWareGame(actionResolverAndroid);
 
-		//gpgsClient = new GpgsClient().initialize(this, false);
-		//game.gsClient = gpgsClient;
+		gpgsClient = new GpgsClient().initialize(this, false);
+		game.gsClient = gpgsClient;
 
 		initialize(game, config);
 	}
 
-	/*
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (gpgsClient != null)
 			gpgsClient.onGpgsActivityResult(requestCode, resultCode, data);
 	}
-	 */
+
 }

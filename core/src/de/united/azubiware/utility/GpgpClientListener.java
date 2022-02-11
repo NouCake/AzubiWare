@@ -7,12 +7,12 @@ public class GpgpClientListener implements IGameServiceListener {
 
     @Override
     public void gsOnSessionActive() {
-
+        System.out.println("[GS] Session active");
     }
 
     @Override
     public void gsOnSessionInactive() {
-
+        System.out.println("[GS] Session inactive");
     }
 
     @Override

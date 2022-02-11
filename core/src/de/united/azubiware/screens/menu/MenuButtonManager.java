@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import de.united.azubiware.AzubiWareGame;
 import de.united.azubiware.screens.menu.buttonlistener.LeftButtonListener;
 import de.united.azubiware.screens.menu.buttonlistener.PlayButtonListener;
@@ -16,7 +17,7 @@ public class MenuButtonManager {
     private MenuButtonStyler buttonStyler;
     private MiniGamePaginator paginator;
 
-    private Button playButton;
+    private TextButton playButton;
 
     private Button rightButton;
     private Button leftButton;
@@ -32,7 +33,8 @@ public class MenuButtonManager {
     }
 
     public void createPlayButton(){
-        playButton = new Button(buttonStyler.createPlayButtonStyle());
+        playButton = new TextButton("JOIN QUEUE", buttonStyler.createPlayButtonStyle(game));
+        //playButton = new Button(buttonStyler.createPlayButtonStyle());
 
         playButton.setPosition((stage.getWidth()/2f)-playButton.getWidth()/2, stage.getHeight()/4.5f);
         playButton.addListener(new PlayButtonListener(this, playButton));
@@ -42,12 +44,12 @@ public class MenuButtonManager {
 
     public void createPaginationButtons(){
         leftButton = new Button(buttonStyler.createArrowStyle("Left"));
-        leftButton.setPosition(playButton.getX()-(playButton.getWidth()/2), playButton.getY());
+        leftButton.setPosition((playButton.getX() - (leftButton.getWidth() * 2)), playButton.getY() + (leftButton.getHeight()/3f));
         leftButton.addListener(new LeftButtonListener(this, leftButton));
         stage.addActor(leftButton);
 
         rightButton = new Button(buttonStyler.createArrowStyle("Right"));
-        rightButton.setPosition(playButton.getX()+(playButton.getWidth()/2)+rightButton.getWidth()*2, playButton.getY());
+        rightButton.setPosition((playButton.getX() + playButton.getWidth()) + rightButton.getWidth(), playButton.getY() + (rightButton.getHeight()/3f));
         rightButton.addListener(new RightButtonListener(this, rightButton));
         stage.addActor(rightButton);
     }

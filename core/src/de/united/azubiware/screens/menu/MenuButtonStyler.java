@@ -1,35 +1,40 @@
 package de.united.azubiware.screens.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import de.united.azubiware.AzubiWareGame;
 
 public class MenuButtonStyler {
 
-    public Button.ButtonStyle createPlayButtonStyle(){
-        Button.ButtonStyle playStyle = new Button.ButtonStyle();
+    public TextButton.TextButtonStyle createPlayButtonStyle(AzubiWareGame game){
+        TextButton.TextButtonStyle playStyle = new TextButton.TextButtonStyle();
 
-        Texture playTextureUp = new Texture(Gdx.files.internal("buttons/play/button_play.png"));
+        Texture playTextureUp = new Texture(Gdx.files.internal("buttons/blue/blue_up.png"));
         playStyle.up = new TextureRegionDrawable(new TextureRegion(playTextureUp));
 
-        Texture playTextureDown = new Texture(Gdx.files.internal("buttons/play/button_play_down.png"));
+        Texture playTextureDown = new Texture(Gdx.files.internal("buttons/blue/blue_up.png"));
         Drawable playDrawableDown = new TextureRegionDrawable(new TextureRegion(playTextureDown));
 
         playStyle.down = playDrawableDown;
         playStyle.over = playDrawableDown;
 
-        Texture quitTextureUp = new Texture(Gdx.files.internal("buttons/quit/button_quit.png"));
+        Texture quitTextureUp = new Texture(Gdx.files.internal("buttons/yellow/yellow_up.png"));
         playStyle.checked = new TextureRegionDrawable(new TextureRegion(quitTextureUp));
 
-        Texture quitTextureDown = new Texture(Gdx.files.internal("buttons/quit/button_quit_down.png"));
+        Texture quitTextureDown = new Texture(Gdx.files.internal("buttons/yellow/yellow_down.png"));
         Drawable quitDrawableDown = new TextureRegionDrawable(new TextureRegion(quitTextureDown));
 
         playStyle.checkedDown = quitDrawableDown;
         playStyle.checkedOver = quitDrawableDown;
 
+        playStyle.font = game.getFont();
+        playStyle.fontColor = Color.WHITE;
 
         return playStyle;
     }
