@@ -1,0 +1,21 @@
+group 'de.az.ware'
+version '1.0-SNAPSHOT'
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+project(":connection") {
+    apply plugin: "java-library"
+}
+
+project(":lobby") {
+    apply plugin: "java"
+
+    dependencies {
+        implementation project(":connection")
+    }
+
+}
