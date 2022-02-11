@@ -11,7 +11,7 @@ project(":connection") {
     apply plugin: "java-library"
 }
 
-project(":lobby") {
+project(":match") {
     apply plugin: "java"
 
     dependencies {

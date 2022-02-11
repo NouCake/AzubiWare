@@ -1,5 +1,11 @@
 package connection.packet;
 
-public interface PacketHandler {
+import connection.Connection;
+import connection.ConnectionListener;
+
+public interface PacketHandler extends ConnectionListener {
+
+    @Override
+    default void onMessage(Connection connection, String message) { }
 
 }

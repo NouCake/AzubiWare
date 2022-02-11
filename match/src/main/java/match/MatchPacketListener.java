@@ -6,6 +6,6 @@ import connection.packet.Packet;
 public interface MatchPacketListener {
 
     void onPacket(MatchPlayer player, Packet packet);
-    void onDisconnected(MatchPlayer connection);
+    void onDisconnected(MatchPlayer player);
 
 }

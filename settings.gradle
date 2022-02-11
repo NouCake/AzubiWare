@@ -1,4 +1,5 @@
-rootProject.name = 'server'
-include 'lobby'
+rootProject.name = 'azware'
+
+include 'match'
 include 'connection'
 

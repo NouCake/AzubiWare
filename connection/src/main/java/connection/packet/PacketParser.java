@@ -20,7 +20,8 @@ public class PacketParser {
         String packetType = c.getSimpleName();
 
         if(packetClasses.containsKey(packetType)){
-            throw new IllegalArgumentException("Packet with same name already registered: " + packetType);
+            System.err.println("PacketType already registered: " + packetType);
+            return;
         }
 
         packetClasses.put(packetType, c);

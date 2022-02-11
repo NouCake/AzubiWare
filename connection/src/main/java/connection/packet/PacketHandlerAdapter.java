@@ -5,37 +5,47 @@ import connection.ConnectionListener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PacketHandlerAdapter implements ConnectionListener {
 
-    private final PacketParser parser;
-    private final PacketHandler handler;
-    private HashMap<String, Method> packetHandleMethods;
-    private Method defaultHandler;
-
-    public PacketHandlerAdapter(PacketHandler handler) {
-        if(handler == null) throw new IllegalArgumentException("PacketHandler cannot be null, listener will be useless");
-        this.handler = handler;
-
-        packetHandleMethods = new HashMap<>();
-        parser = new PacketParser();
-        initPacketHandlers(handler);
-    }
-
-    public PacketParser getParser() {
-        return parser;
-    }
-
-    private void initPacketHandlers(PacketHandler handler){
-        Method[] methods = handler.getClass().getDeclaredMethods();
-        for(Method m : methods){
+    private static Method[] getHandlerMethods(Class<? extends PacketHandler> handlerClass){
+        ArrayList<Method> handlers = new ArrayList<>();
+        for(Method m : handlerClass.getDeclaredMethods()){
             if(m.getParameterCount() != 2) continue;
 
             Class<?> connectionClass = m.getParameterTypes()[0];
             Class<?> packetClass = m.getParameterTypes()[1];
             if(!Connection.class.isAssignableFrom(connectionClass)) continue;
             if(!Packet.class.isAssignableFrom(packetClass)) continue;
+
+            handlers.add(m);
+        }
+        return handlers.toArray(new Method[0]);
+    }
+
+    private final PacketParser parser;
+    private final PacketHandler handler;
+
+    private final HashMap<String, Method> packetHandleMethods;
+    private Method defaultHandler;
+
+    public PacketHandlerAdapter(PacketHandler handler, PacketParser parser) {
+        if(handler == null) throw new IllegalArgumentException("PacketHandler cannot be null.");
+        if(parser == null) throw new IllegalArgumentException("PacketParser cannot be null.");
+        this.handler = handler;
+        this.parser = parser;
+
+        packetHandleMethods = new HashMap<>();
+        initPacketHandlers();
+    }
+
+    private void initPacketHandlers(){
+        for(Method m : getHandlerMethods(handler.getClass())){
+            Class<?> packetClass = m.getParameterTypes()[1];
+
             if(packetClass == Packet.class) {
                 defaultHandler = m;
                 continue;
@@ -63,14 +73,18 @@ public class PacketHandlerAdapter implements ConnectionListener {
         try {
             handlerMethod.invoke(handler, connection, packet);
         } catch (InvocationTargetException | IllegalAccessException e) {
-            new RuntimeException("Could not invoke PacketHandler", e).printStackTrace();
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void onConnected(Connection connection) {}
+    public void onConnected(Connection connection) {
+        handler.onConnected(connection);
+    }
 
     @Override
-    public void onDisconnected(Connection connection) {}
+    public void onDisconnected(Connection connection) {
+        handler.onDisconnected(connection);
+    }
 
 }
