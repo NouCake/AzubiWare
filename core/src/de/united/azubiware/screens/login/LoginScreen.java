@@ -51,8 +51,11 @@ public class LoginScreen extends ScreenAdapter {
         game.getClient().setClientLister(new LoginScreenPacketListener(this));
 
         Texture texture = new Texture(Gdx.files.internal("backgrounds/backgroundForest.png"));
-        texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
+        texture.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
         backgroundSprite = new Sprite(texture);
+
+        backgroundSprite.setCenter(stage.getWidth() / 2, stage.getHeight() / 2);
+        backgroundSprite.setScale(2);
 
         createUsernameField();
         createLoginButton();
