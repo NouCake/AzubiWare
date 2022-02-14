@@ -8,6 +8,9 @@ import ttt.TTTMatch;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Responsible for authenticating Player and creating/starting the corresponding Match when all Players are gathered.
+ */
 public class MatchLobby {
 
     private final String matchType;

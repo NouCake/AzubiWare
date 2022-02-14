@@ -6,6 +6,9 @@ import connection.packet.Packet;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Bridges between Connections and MatchPlayer.
+ */
 public class MatchConnectionAdapter {
 
     private final Map<Connection, MatchPlayer> connectionToPlayer;
@@ -33,7 +36,7 @@ public class MatchConnectionAdapter {
 
     public void onPacket(Connection connection, Packet packet) {
         if(listener == null) {
-            System.err.println("MatchPacketListenerAdapter is not ready");
+            System.err.println("MatchPacketListenerAdapter is not ready. Register Listener first.");
             return;
         }
 

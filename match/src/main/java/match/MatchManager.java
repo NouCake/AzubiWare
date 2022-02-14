@@ -1,8 +1,11 @@
 package match;
 
 import connection.Connection;
+import connection.ConnectionProvider;
 import connection.packet.Packet;
 import connection.packet.PacketHandler;
+import connection.packet.PacketHandlerAdapter;
+import connection.packet.PacketParser;
 import match.lobby.MatchLobby;
 import match.lobby.MatchLobbyListener;
 import match.packet.MatchCreationPacket;
@@ -13,7 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MatchServer implements PacketHandler, MatchLobbyListener, MatchListener {
+/**
+ * Listens to Connections and authenticates them.
+ * Creates and manages Matches and delegates Connection/Packets to the right Match.
+ */
+public class MatchManager implements PacketHandler, MatchLobbyListener, MatchListener {
 
     private final Map<MatchLobby, List<Connection>> lobbyConnections;
     private final Map<Match, List<Connection>> matchConnections;
@@ -21,21 +28,24 @@ public class MatchServer implements PacketHandler, MatchLobbyListener, MatchList
 
     private final MatchRegistry registry;
 
-    public MatchServer(MatchRegistry registry) {
+    public MatchManager(ConnectionProvider provider, MatchRegistry registry, PacketParser parser) {
         this.registry = registry;
         lobbyConnections = new HashMap<>();
         matchConnections = new HashMap<>();
         matchAdapters = new HashMap<>();
+
+        provider.setConnectionListener(new PacketHandlerAdapter(this, parser){
+            @Override
+            public void onDisconnected(Connection connection) {
+                MatchManager.this.onDisconnected(connection);
+            }
+        });
     }
 
     public void on(Connection connection, MatchCreationPacket packet){
         //TODO: Verify that this can only come from Master Server
         MatchLobby lobby = new MatchLobby(packet, this, registry);
         lobbyConnections.put(lobby, new ArrayList<>());
-    }
-
-    public void on(Connection connection, test.DebugPacket packet){
-        System.out.println("Debug");
     }
 
     public void on(Connection connection, MatchLoginPacket packet){
@@ -55,12 +65,6 @@ public class MatchServer implements PacketHandler, MatchLobbyListener, MatchList
         if(adapter != null) adapter.onPacket(connection, packet);
     }
 
-    @Override
-    public void onConnected(Connection connection) {
-
-    }
-
-    @Override
     public void onDisconnected(Connection connection) {
         MatchConnectionAdapter adapter = matchAdapters.get(connection);
         if(adapter != null) adapter.onDisonnect(connection);
@@ -96,4 +100,5 @@ public class MatchServer implements PacketHandler, MatchLobbyListener, MatchList
         connections.forEach(matchAdapters::remove);
         matchConnections.remove(match);
     }
+
 }

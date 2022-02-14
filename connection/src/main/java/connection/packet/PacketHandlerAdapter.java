@@ -7,8 +7,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
+/**
+ * Parses the String of ConnectionListener.onMessage to a Packet with the provided PacketParser and delegates the call
+ * to the right Handler Method of the provided PacketHandler.
+ * If a Handler Method for the base Packet Class is provided it will be used as a default Handler for all received Packets without a Handler
+ */
 public class PacketHandlerAdapter implements ConnectionListener {
 
     private static Method[] getHandlerMethods(Class<? extends PacketHandler> handlerClass){
@@ -79,12 +83,10 @@ public class PacketHandlerAdapter implements ConnectionListener {
 
     @Override
     public void onConnected(Connection connection) {
-        handler.onConnected(connection);
     }
 
     @Override
     public void onDisconnected(Connection connection) {
-        handler.onDisconnected(connection);
     }
 
 }

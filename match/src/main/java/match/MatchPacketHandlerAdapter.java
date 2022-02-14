@@ -1,8 +1,6 @@
 package match;
 
-import connection.Connection;
 import connection.packet.Packet;
-import connection.packet.PacketHandler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Finds the Handler Methods of a given MatchPacketHandler is capable of calling the corresponding Handler Method for a given Packet.
+ */
 public class MatchPacketHandlerAdapter implements MatchPacketListener{
 
     public static Method[] getHandlerMethods(Class<? extends MatchPacketHandler> handlerClass){

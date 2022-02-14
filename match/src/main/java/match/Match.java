@@ -1,10 +1,10 @@
 package match;
 
 import com.google.gson.Gson;
-import connection.Connection;
 import connection.packet.Packet;
 
 import java.util.Arrays;
+
 
 public abstract class Match {
 

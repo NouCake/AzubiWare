@@ -9,10 +9,14 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Keeps track of existing Match types.
+ * Can create a Match with a given Match Type.
+ * Finds all necessary Packet Classes for a given Match Class and registers them to the provided PacketParser
+ */
 public class MatchRegistry {
 
     private final PacketParser parser;
-
     private final Map<String, Constructor<Match>> matchClasses;
 
     public MatchRegistry(PacketParser parser) {

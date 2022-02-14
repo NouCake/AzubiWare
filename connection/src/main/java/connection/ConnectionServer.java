@@ -1,8 +1,7 @@
 package connection;
 
-public interface ConnectionServer {
+public interface ConnectionServer extends ConnectionProvider {
 
-    void setConnectionListener(ConnectionListener listener);
     //void sendMessage(Connection connection, String message);
     void start();
     void stop();

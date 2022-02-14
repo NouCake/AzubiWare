@@ -5,6 +5,9 @@ import com.google.gson.JsonElement;
 
 import java.util.HashMap;
 
+/**
+ * Parses a String to a Packet. Packets need to be registered.
+ */
 public class PacketParser {
 
     private final HashMap<String, Class<?>> packetClasses;
@@ -14,7 +17,6 @@ public class PacketParser {
         packetClasses = new HashMap<>();
         gson = new Gson();
     }
-
     public void registerPacketClass(Class<? extends Packet> c){
         System.out.println("Calling Consumer with: " + c);
         String packetType = c.getSimpleName();
