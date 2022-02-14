@@ -1,7 +1,10 @@
 package match;
 
 import com.google.gson.Gson;
+import connection.packet.DelegatedPacketListener;
+import connection.packet.GenericConnectionAdapter;
 import connection.packet.Packet;
+import connection.packet.PacketHandler;
 
 import java.util.Arrays;
 
@@ -11,14 +14,14 @@ public abstract class Match {
     private final static Gson gson = new Gson();
     protected final MatchPlayer[] players;
 
-    private final MatchConnectionAdapter adapter;
+    private final GenericConnectionAdapter<MatchPlayer> adapter;
     private MatchListener listener;
 
-    public Match(MatchConnectionAdapter adapter, MatchPlayer[] players){
+    public Match(GenericConnectionAdapter<MatchPlayer> adapter, MatchPlayer[] players){
         this.players = players;
         this.adapter = adapter;
 
-        adapter.setListener(new MatchPacketHandlerAdapter(getPacketHandler()));
+        adapter.setListener(new DelegatedPacketListener(MatchPlayer.class, getPacketHandler()));
     }
 
     public void onPlayerDisconnect(MatchPlayer player){
@@ -43,9 +46,9 @@ public abstract class Match {
         if(listener != null) listener.onMatchOver(this);
     }
 
-    public MatchPacketHandler getPacketHandler(){
-        if(this instanceof MatchPacketHandler) {
-            return (MatchPacketHandler) this;
+    public PacketHandler getPacketHandler(){
+        if(this instanceof PacketHandler) {
+            return (PacketHandler) this;
         }
         return null;
     }

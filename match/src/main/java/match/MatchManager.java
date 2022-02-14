@@ -2,10 +2,7 @@ package match;
 
 import connection.Connection;
 import connection.ConnectionProvider;
-import connection.packet.Packet;
-import connection.packet.PacketHandler;
-import connection.packet.PacketHandlerAdapter;
-import connection.packet.PacketParser;
+import connection.packet.*;
 import match.lobby.MatchLobby;
 import match.lobby.MatchLobbyListener;
 import match.packet.MatchCreationPacket;
@@ -34,12 +31,12 @@ public class MatchManager implements PacketHandler, MatchLobbyListener, MatchLis
         matchConnections = new HashMap<>();
         matchAdapters = new HashMap<>();
 
-        provider.setConnectionListener(new PacketHandlerAdapter(this, parser){
+        provider.setConnectionListener(new ConnectionPacketListenerAdapter(parser, new DelegatedPacketListener<>(Connection.class, parser, this){
             @Override
             public void onDisconnected(Connection connection) {
                 MatchManager.this.onDisconnected(connection);
             }
-        });
+        }));
     }
 
     public void on(Connection connection, MatchCreationPacket packet){

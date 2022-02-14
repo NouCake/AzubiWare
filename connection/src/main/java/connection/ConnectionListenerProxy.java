@@ -1,4 +1,4 @@
-package connection.packet;
+package connection;
 
 import connection.Connection;
 import connection.ConnectionListener;
@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * Collects all listened events and fires to a specified listener on call.
  * This Class is thread safe and can be used to ensure that all listener methods are called on the same thread.
 */
-public class PacketProviderProxy implements ConnectionListener {
+public class ConnectionListenerProxy implements ConnectionListener {
 
     private static <T> void callWithSyncedCopyAndClear(List<T> list, Consumer<T> consumer){
         List<T> copy;
@@ -27,7 +27,7 @@ public class PacketProviderProxy implements ConnectionListener {
     private final List<Connection> disconnected;
     private final List<Map.Entry<Connection, String>> messages;
 
-    public PacketProviderProxy() {
+    public ConnectionListenerProxy() {
         connected = new LinkedList<>();
         disconnected = new LinkedList<>();
         messages = new LinkedList<>();

@@ -1,11 +1,11 @@
 package ttt;
 
+import connection.packet.PacketHandler;
 import match.Match;
 import match.MatchConnectionAdapter;
-import match.MatchPacketHandler;
 import match.MatchPlayer;
 
-public class TTTMatch extends Match implements MatchPacketHandler {
+public class TTTMatch extends Match implements PacketHandler {
 
     private TicTacToe tttGame;
 

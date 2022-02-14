@@ -3,7 +3,6 @@ package match.lobby;
 import match.*;
 import match.packet.MatchCreationPacket;
 import match.packet.MatchLoginPacket;
-import ttt.TTTMatch;
 
 import java.util.ArrayList;
 import java.util.List;

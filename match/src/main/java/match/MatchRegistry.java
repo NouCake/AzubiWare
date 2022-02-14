@@ -1,6 +1,8 @@
 package match;
 
 import connection.packet.Packet;
+import connection.packet.PacketDelegator;
+import connection.packet.PacketHandler;
 import connection.packet.PacketParser;
 
 import java.lang.reflect.Constructor;
@@ -12,6 +14,8 @@ import java.util.Map;
 /**
  * Keeps track of existing Match types.
  * Can create a Match with a given Match Type.
+ *
+ * If a packet parser is provided:
  * Finds all necessary Packet Classes for a given Match Class and registers them to the provided PacketParser
  */
 public class MatchRegistry {
@@ -24,9 +28,15 @@ public class MatchRegistry {
         matchClasses = new HashMap<>();
     }
 
-    public void registerMatch(String matchType, Class<? extends Match> matchClass, Class<? extends MatchPacketHandler> packetHandlerClass){
+    public MatchRegistry() {
+        this(null);
+    }
+
+    public void registerMatch(String matchType, Class<? extends Match> matchClass, Class<? extends PacketHandler> packetHandlerClass){
         matchClasses.put(matchType, getConstructor(matchClass));
-        Method[] packetHandlers = MatchPacketHandlerAdapter.getHandlerMethods(packetHandlerClass);
+        if(parser == null) return;
+
+        Method[] packetHandlers = PacketDelegator.getHandlerMethods(packetHandlerClass, MatchPlayer.class);
         for(Method m : packetHandlers) {
             Class<?> packetClass = m.getParameterTypes()[1];
             parser.registerPacketClass((Class<? extends Packet>) packetClass);
