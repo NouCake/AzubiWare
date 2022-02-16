@@ -1,5 +1,4 @@
 group 'de.az.ware'
-version '1.0-SNAPSHOT'
 
 allprojects {
     repositories {
@@ -11,11 +10,29 @@ project(":connection") {
     apply plugin: "java-library"
 }
 
+project(":common") {
+    apply plugin: "java-library"
+
+    dependencies {
+        api project(":connection")
+    }
+}
+
+project(":lobby") {
+    apply plugin: "java"
+
+    dependencies {
+        implementation project(":connection")
+        implementation project(":common")
+    }
+}
+
 project(":match") {
     apply plugin: "java"
 
     dependencies {
         implementation project(":connection")
+        implementation project(":common")
     }
 
 }
