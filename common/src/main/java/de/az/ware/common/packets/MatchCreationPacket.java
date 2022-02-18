@@ -2,22 +2,24 @@ package de.az.ware.common.packets;
 
 import de.az.ware.connection.packet.Packet;
 
-public class MatchCreationPacket implements Packet {
+public class MatchCreationPacket {
 
-    private final String matchType;
-    private final String[] playerMatchTokens;
+    public static class Request implements Packet {
+        private final String matchType;
+        private final String[] playerMatchTokens;
 
-    public MatchCreationPacket(String matchType, String[] playerMatchTokens) {
-        this.matchType = matchType;
-        this.playerMatchTokens = playerMatchTokens;
-    }
+        public Request(String matchType, String[] playerMatchTokens) {
+            this.matchType = matchType;
+            this.playerMatchTokens = playerMatchTokens;
+        }
 
-    public String getMatchType() {
-        return matchType;
-    }
+        public String getMatchType() {
+            return matchType;
+        }
 
-    public String[] getPlayerMatchTokens() {
-        return playerMatchTokens;
+        public String[] getPlayerMatchTokens() {
+            return playerMatchTokens;
+        }
     }
 
 }

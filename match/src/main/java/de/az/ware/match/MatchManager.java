@@ -39,13 +39,13 @@ public class MatchManager implements PacketHandler, MatchLobbyListener, MatchLis
         }));
     }
 
-    public void on(Connection connection, MatchCreationPacket packet){
+    public void on(Connection connection, MatchCreationPacket.Request packet){
         //TODO: Verify that this can only come from Master Server
         MatchLobby lobby = new MatchLobby(packet, this, registry);
         lobbyConnections.put(lobby, new ArrayList<>());
     }
 
-    public void on(Connection connection, MatchLoginPacket packet){
+    public void on(Connection connection, MatchLoginPacket.Request packet){
         for(MatchLobby lobby : lobbyConnections.keySet()) {
             MatchPlayer player = lobby.tryLogin(packet);
             if(player != null) {

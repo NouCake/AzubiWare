@@ -24,7 +24,7 @@ public class MatchLobby {
     private final MatchLobbyListener listener;
     private final MatchRegistry registry;
 
-    public MatchLobby(MatchCreationPacket packet, MatchLobbyListener listener, MatchRegistry registry) {
+    public MatchLobby(MatchCreationPacket.Request packet, MatchLobbyListener listener, MatchRegistry registry) {
         if(packet.getPlayerMatchTokens() == null || packet.getPlayerMatchTokens().length == 0) {
             throw new IllegalArgumentException("No/not enough players for match");
         }
@@ -50,7 +50,7 @@ public class MatchLobby {
         return matchAdapter;
     }
 
-    public MatchPlayer tryLogin(MatchLoginPacket packet){
+    public MatchPlayer tryLogin(MatchLoginPacket.Request packet){
         if(!playerMatchToken.contains(packet.getMatchtoken())) return null;
 
         MatchPlayer player = new MatchPlayer(connectedPlayers.size());
