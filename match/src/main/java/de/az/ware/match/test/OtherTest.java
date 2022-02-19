@@ -3,6 +3,10 @@ package de.az.ware.match.test;
 import de.az.ware.connection.Connection;
 import de.az.ware.connection.packet.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class OtherTest {
 
     private static class Player {
@@ -34,23 +38,16 @@ public class OtherTest {
     }
 
     public static void main(String[] args) {
-        /*
+
 
         List<String> list = new ArrayList<>();
         list.add("one");
         list.add("two");
         list.add("three");
 
-        while(it.hasNext()){
-            String s = it.next();
-            if(s.equals("three")) it.remove();
-            System.out.println(s);
-        }
+        list.forEach(l -> {
+            if(l.equals("one")) list.remove(l);
+        });
 
-        for (Iterator<String> iter = list.iterator(); iter.hasNext(); ) {
-            String s = iter.next();
-        }
-
-*/
     }
 }

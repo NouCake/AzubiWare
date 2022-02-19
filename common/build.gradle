@@ -5,5 +5,7 @@ plugins {
 version '1.0-SNAPSHOT'
 
 dependencies {
-
+    implementation 'javax.persistence:javax.persistence-api:2.2'
+    implementation 'org.hibernate:hibernate-annotations:3.5.6-Final'
+    implementation 'org.hibernate:hibernate-validator:7.0.1.Final'
 }

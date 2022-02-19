@@ -5,8 +5,8 @@ import de.az.ware.connection.ConnectionProvider;
 import de.az.ware.connection.packet.*;
 import de.az.ware.match.lobby.MatchLobby;
 import de.az.ware.match.lobby.MatchLobbyListener;
-import de.az.ware.common.packets.MatchCreationPacket;
-import de.az.ware.common.packets.MatchLoginPacket;
+import de.az.ware.common.packets.MatchCreation;
+import de.az.ware.common.packets.MatchLogin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,13 +39,13 @@ public class MatchManager implements PacketHandler, MatchLobbyListener, MatchLis
         }));
     }
 
-    public void on(Connection connection, MatchCreationPacket.Request packet){
+    public void on(Connection connection, MatchCreation.Request packet){
         //TODO: Verify that this can only come from Master Server
         MatchLobby lobby = new MatchLobby(packet, this, registry);
         lobbyConnections.put(lobby, new ArrayList<>());
     }
 
-    public void on(Connection connection, MatchLoginPacket.Request packet){
+    public void on(Connection connection, MatchLogin.Request packet){
         for(MatchLobby lobby : lobbyConnections.keySet()) {
             MatchPlayer player = lobby.tryLogin(packet);
             if(player != null) {

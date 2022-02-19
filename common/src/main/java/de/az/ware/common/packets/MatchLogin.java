@@ -2,19 +2,19 @@ package de.az.ware.common.packets;
 
 import de.az.ware.connection.packet.Packet;
 
-public class MatchLoginPacket  {
+public class MatchLogin {
 
     public static class Request implements Packet{
 
-        private final String matchtoken;
+        public String matchtoken;
 
         public Request(String matchtoken) {
             this.matchtoken = matchtoken;
         }
 
-        public String getMatchtoken() {
-            return matchtoken;
+        public Request() {
         }
+
     }
 
 

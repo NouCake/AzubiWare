@@ -4,8 +4,8 @@ import de.az.ware.match.Match;
 import de.az.ware.match.MatchConnectionAdapter;
 import de.az.ware.match.MatchPlayer;
 import de.az.ware.match.MatchRegistry;
-import de.az.ware.common.packets.MatchCreationPacket;
-import de.az.ware.common.packets.MatchLoginPacket;
+import de.az.ware.common.packets.MatchCreation;
+import de.az.ware.common.packets.MatchLogin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ public class MatchLobby {
     private final MatchLobbyListener listener;
     private final MatchRegistry registry;
 
-    public MatchLobby(MatchCreationPacket.Request packet, MatchLobbyListener listener, MatchRegistry registry) {
-        if(packet.getPlayerMatchTokens() == null || packet.getPlayerMatchTokens().length == 0) {
+    public MatchLobby(MatchCreation.Request packet, MatchLobbyListener listener, MatchRegistry registry) {
+        if(packet.playerMatchTokens == null || packet.playerMatchTokens.length == 0) {
             throw new IllegalArgumentException("No/not enough players for match");
         }
         if(listener == null){
@@ -33,9 +33,9 @@ public class MatchLobby {
         }
         this.registry = registry;
         this.listener = listener;
-        this.matchType = packet.getMatchType();
+        this.matchType = packet.matchType;
         this.playerMatchToken = new ArrayList<>();
-        playerMatchToken.addAll(List.of(packet.getPlayerMatchTokens()));
+        playerMatchToken.addAll(List.of(packet.playerMatchTokens));
 
         connectedPlayers = new ArrayList<>(playerMatchToken.size());
         matchAdapter = new MatchConnectionAdapter();
@@ -50,13 +50,13 @@ public class MatchLobby {
         return matchAdapter;
     }
 
-    public MatchPlayer tryLogin(MatchLoginPacket.Request packet){
-        if(!playerMatchToken.contains(packet.getMatchtoken())) return null;
+    public MatchPlayer tryLogin(MatchLogin.Request packet){
+        if(!playerMatchToken.contains(packet.matchtoken)) return null;
 
         MatchPlayer player = new MatchPlayer(connectedPlayers.size());
         connectedPlayers.add(player);
 
-        playerMatchToken.remove(packet.getMatchtoken());
+        playerMatchToken.remove(packet.matchtoken);
 
         return player;
     }
