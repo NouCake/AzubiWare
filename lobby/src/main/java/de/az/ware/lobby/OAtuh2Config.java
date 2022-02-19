@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
+@Configuration
 public class OAtuh2Config {
 
     @Value("${GOOGLE_SECRET}")
@@ -19,7 +20,7 @@ public class OAtuh2Config {
                 ClientRegistration.withRegistrationId("bebb")
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                         .clientId("406396251393-lfdqrnlb75jkhankt9jtugeeih08ie3d.apps.googleusercontent.com")
-                        .clientSecret("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")
+                        .clientSecret(GOOGLE_SECRET)
                         .issuerUri("https://accounts.google.com")
                         .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
                         .scope("openid", "profile")
