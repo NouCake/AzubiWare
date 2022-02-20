@@ -1,74 +1,69 @@
 package de.az.ware.lobby.controller;
 
+import de.az.ware.common.model.LobbyUser;
 import de.az.ware.common.model.MatchType;
 import de.az.ware.common.packets.LobbyQueue;
 import de.az.ware.common.packets.LobbyQueuePoll;
-import de.az.ware.lobby.model.LobbyUserSession;
+import de.az.ware.lobby.controller.service.LobbyQueueService;
+import de.az.ware.lobby.model.LobbySession;
+import de.az.ware.lobby.model.exception.LobbyFullException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/lobby")
 public class LobbyController {
 
-    private final static int MAX_QUEUE_TIME = 5000; //in millis
+    public final static int MAX_QUEUE_TIME = 5000; //in millis
 
-    @Autowired private LobbyUserSession session;
+    @Autowired private LobbySession session;
+    @Autowired private LobbyQueueService service;
 
-    private final Map<MatchType, MatchQueue> queues;
-    private final Map<MatchType, Integer> inQueue;
+    private Map<MatchType, Integer> queueLengths;
 
-    public LobbyController() {
-        queues = new HashMap<>();
-        inQueue = new HashMap<>();
-        Arrays.stream(MatchType.values()).forEach(type -> queues.put(type, new MatchQueue(type)));
-    }
-
-    @GetMapping("/poll")
+    @GetMapping("/queue/poll")
     public LobbyQueuePoll.Response poll(){
-        return new LobbyQueuePoll.Response(inQueue);
+        return new LobbyQueuePoll.Response(queueLengths);
     }
 
     @PostMapping("/queue")
-    public void queue(@RequestBody @Valid LobbyQueue.Request request) {
-        if(request.queue == session.getCurrentQueue()) return;
-
-        if(session.getCurrentQueue() != null) {
-            MatchQueue queue = queues.get(session.getCurrentQueue());
-            synchronized (queue) {
-                queue.dequeue(session);
-                inQueue.put(queue.getType(), queue.getInQueue());
+    public LobbyQueue.Response queue(@RequestBody @Valid LobbyQueue.Request request) {
+        LobbyUser user = session.getUser();
+        if(service.isInQueue(user, request.getQueue())) {
+            service.updateLastQueueTime(user);
+            if(false) {
+                // TODO matchmaking result
+                return new LobbyQueue.Response(LobbyQueue.Status.MATCH_FOUND);
             }
+
+            return new LobbyQueue.Response(LobbyQueue.Status.OK);
         }
 
-        session.setCurrentQueue(request.queue);
-        MatchQueue queue = queues.get(request.queue);
-        synchronized (queue) {
-            queue.enqueue(session, request.queue);
-            inQueue.put(queue.getType(), queue.getInQueue());
+        try {
+            service.addToQueue(user, request.getQueue());
+        } catch (LobbyFullException e) {
+            return new LobbyQueue.Response(LobbyQueue.Status.QUEUE_IS_FULL);
         }
+
+        return new LobbyQueue.Response(LobbyQueue.Status.OK);
     }
 
+    @PostMapping("/unqueue")
+    public void unqueue(){
+        LobbyUser user = session.getUser();
+        service.removeFromQueue(user);
+    }
+
+
+    @Scheduled(fixedRate = 1000)
     private void check(){
-        queues.values().stream().parallel().forEach(q -> {
-            var users = q.getUsers();
-            synchronized (users){
-                users.stream().filter(this::checkUserQueuedTooLong).forEach(u -> {
-                    users.remove(u);
-                    synchronized (u) {
-                        u.setCurrentQueue(null);
-                    }
-                });
-            }
-        });
-    }
-
-    private boolean checkUserQueuedTooLong(LobbyUserSession u) {
-        return System.currentTimeMillis() - u.getLastQueuePacket() > MAX_QUEUE_TIME;
+        service.removeOldUsersInQueue();
+        queueLengths = service.calculateAllQueueLengths();
+        //TODO: try matchmaking
     }
 
 }

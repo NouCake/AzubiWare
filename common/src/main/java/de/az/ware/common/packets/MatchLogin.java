@@ -6,7 +6,7 @@ public class MatchLogin {
 
     public static class Request implements Packet{
 
-        public String matchtoken;
+        private String matchtoken;
 
         public Request(String matchtoken) {
             this.matchtoken = matchtoken;
@@ -15,6 +15,13 @@ public class MatchLogin {
         public Request() {
         }
 
+        public String getMatchtoken() {
+            return matchtoken;
+        }
+
+        public void setMatchtoken(String matchtoken) {
+            this.matchtoken = matchtoken;
+        }
     }
 
 

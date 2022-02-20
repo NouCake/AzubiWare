@@ -12,7 +12,7 @@ public class LobbyQueuePoll {
 
     public static class Response {
 
-        public Map<MatchType, Integer> queueLengths;
+        private Map<MatchType, Integer> queueLengths;
 
         public Response(Map<MatchType, Integer> queueLengths) {
             this.queueLengths = queueLengths;
@@ -21,6 +21,13 @@ public class LobbyQueuePoll {
         public Response() {
         }
 
+        public Map<MatchType, Integer> getQueueLengths() {
+            return queueLengths;
+        }
+
+        public void setQueueLengths(Map<MatchType, Integer> queueLengths) {
+            this.queueLengths = queueLengths;
+        }
     }
 
 }

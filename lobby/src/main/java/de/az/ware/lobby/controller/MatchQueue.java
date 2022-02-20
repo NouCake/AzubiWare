@@ -1,8 +1,7 @@
 package de.az.ware.lobby.controller;
 
-import de.az.ware.common.model.LobbyUser;
 import de.az.ware.common.model.MatchType;
-import de.az.ware.lobby.model.LobbyUserSession;
+import de.az.ware.lobby.model.LobbySession;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +9,7 @@ import java.util.Set;
 public class MatchQueue {
 
     private final MatchType type;
-    private final Set<LobbyUserSession> users;
+    private final Set<LobbySession> users;
 
     public MatchQueue(MatchType type) {
         this.type = type;
@@ -21,7 +20,7 @@ public class MatchQueue {
         return type;
     }
 
-    public Set<LobbyUserSession> getUsers() {
+    public Set<LobbySession> getUsers() {
         return users;
     }
 
@@ -29,12 +28,16 @@ public class MatchQueue {
         return users.size();
     }
 
-    public void enqueue(LobbyUserSession user, MatchType type) {
-
+    public void enqueue(LobbySession user) {
+        synchronized (users){
+            users.add(user);
+        }
     }
 
-    public void dequeue(LobbyUserSession user) {
-
+    public void dequeue(LobbySession user) {
+        synchronized (users){
+            users.remove(user);
+        }
     }
 
 }

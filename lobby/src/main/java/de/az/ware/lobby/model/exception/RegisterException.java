@@ -1,4 +1,4 @@
-package de.az.ware.lobby.model;
+package de.az.ware.lobby.model.exception;
 
 import de.az.ware.common.packets.LobbyRegister;
 

@@ -1,8 +1,8 @@
 package de.az.ware.lobby.controller;
 
 import de.az.ware.lobby.model.GoogleOAuth2User;
-import de.az.ware.lobby.model.LobbyUserSession;
-import de.az.ware.lobby.view.LobbyUserService;
+import de.az.ware.lobby.model.LobbySession;
+import de.az.ware.lobby.controller.service.LobbyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/lobby")
 public class DebugController {
 
-    @Autowired private LobbyUserSession session;
+    @Autowired private LobbySession session;
     @Autowired private LobbyUserService service;
 
     @GetMapping("/clear")

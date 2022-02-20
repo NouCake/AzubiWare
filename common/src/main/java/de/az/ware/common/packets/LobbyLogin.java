@@ -14,8 +14,8 @@ public class LobbyLogin {
     }
 
     public static class Response {
-        public Status status;
-        public LobbyUser user;
+        private Status status;
+        private LobbyUser user;
 
         public Response(Status status, LobbyUser user) {
             this.status = status;
@@ -23,6 +23,22 @@ public class LobbyLogin {
         }
 
         public Response() {
+        }
+
+        public Status getStatus() {
+            return status;
+        }
+
+        public void setStatus(Status status) {
+            this.status = status;
+        }
+
+        public LobbyUser getUser() {
+            return user;
+        }
+
+        public void setUser(LobbyUser user) {
+            this.user = user;
         }
     }
 

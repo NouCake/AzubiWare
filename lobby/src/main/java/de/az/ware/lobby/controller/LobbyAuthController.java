@@ -3,11 +3,10 @@ package de.az.ware.lobby.controller;
 import de.az.ware.common.model.LobbyUser;
 import de.az.ware.common.packets.LobbyLogin;
 import de.az.ware.common.packets.LobbyRegister;
-import de.az.ware.lobby.TestReq;
 import de.az.ware.lobby.model.GoogleOAuth2User;
-import de.az.ware.lobby.model.LobbyUserSession;
-import de.az.ware.lobby.model.RegisterException;
-import de.az.ware.lobby.view.LobbyUserService;
+import de.az.ware.lobby.model.LobbySession;
+import de.az.ware.lobby.model.exception.RegisterException;
+import de.az.ware.lobby.controller.service.LobbyUserService;
 import de.az.ware.lobby.spring.OAtuh2Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +20,7 @@ import javax.validation.Valid;
 public class LobbyAuthController {
 
     @Autowired private LobbyUserService userService;
-    @Autowired private LobbyUserSession session;
+    @Autowired private LobbySession session;
 
     @GetMapping("/login")
     public LobbyLogin.Response login(LobbyLogin.Request request){
@@ -39,7 +38,7 @@ public class LobbyAuthController {
     }
 
     @PostMapping("/register")
-    public LobbyRegister.Response register(@Valid @RequestBody TestReq request){
+    public LobbyRegister.Response register(@Valid @RequestBody LobbyRegister.Request request){
         LobbyUser user;
         if((user = session.getUser()) != null || (user = getUserFromService()) != null){
             if(session.getUser() == null) session.setUser(user);
@@ -56,7 +55,7 @@ public class LobbyAuthController {
         return new LobbyRegister.Response(LobbyRegister.Status.OK, user);
     }
 
-    private LobbyUser createUser(TestReq request) {
+    private LobbyUser createUser(LobbyRegister.Request request) {
         OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
         if(!authentication.isAuthenticated()) throw new RuntimeException("Session is not authenticated. Should not be happening!");
 
